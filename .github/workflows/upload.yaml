@@ -24,7 +24,7 @@ jobs:
       run: curl -L https://github.com/Michael-F-Bryan/mdbook-linkcheck/releases/download/v0.7.6/mdbook-linkcheck.x86_64-unknown-linux-gnu.zip > ./linkcheck.zip
 
     - name: tar mdbook
-      run: tar -zxvf ./mdbook.tar.gz && unzip -n ./linkcheck.zip
+      run: tar -zxvf ./mdbook.tar.gz && unzip -n ./linkcheck.zip && chmod +x mdbook-linkcheck
 
     - name: trick path
       run: echo "::add-path::$GITHUB_WORKSPACE/"
@@ -41,7 +41,7 @@ jobs:
         flags: '-avzr --progress'
         options: ''
         ssh_options: ''
-        src: 'book/*'
+        src: 'book/html/*'
         dest: 'rsync-user@tiye.me:/web-assets/repo/${{ github.repository }}'
 
     - name: Display status from deploy
