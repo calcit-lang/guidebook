@@ -1,0 +1,8 @@
+
+[book]
+title = "Calcit Guide"
+authors = [ "Jon" ]
+
+[output.html]
+
+[output.linkcheck]
