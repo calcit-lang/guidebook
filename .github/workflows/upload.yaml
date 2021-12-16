@@ -41,7 +41,7 @@ jobs:
         flags: '-avzr --progress'
         options: ''
         ssh_options: ''
-        src: 'book/html/*'
+        src: 'book/*'
         dest: 'rsync-user@tiye.me:/web-assets/repo/${{ github.repository }}'
 
     - name: Display status from deploy
