@@ -8,4 +8,6 @@
 - [Run Calcit](run.md)
    - [Run in Eval mode](run/eval.md)
    - [CLI Options](run/cli-options.md)
+- [Data](data.md)
+   - [Persistent Data](data/persistent-data.md)
 - [Ecosystem](ecosystem.md)
