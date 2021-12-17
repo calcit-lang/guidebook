@@ -1,8 +1,11 @@
 # Calcit Guide
 
 - [Introduction](intro.md)
+   - [Features](intro/features.md)
 - [Installation](installation.md)
    - [Modules directory](installation/modules.md)
    - [Rust bindings](installation/bindings.md)
 - [Run Calcit](run.md)
    - [Run in Eval mode](run/eval.md)
+   - [CLI Options](run/cli-options.md)
+- [Ecosystem](ecosystem.md)
