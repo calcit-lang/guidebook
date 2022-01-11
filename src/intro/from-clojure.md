@@ -25,6 +25,8 @@ Also there are some differences:
 | operand order     | at first                                         | at last                                      |
 | Polymorphism      | at runtime, slow `.map ([] 1 2 3) f`             | at compile time, also supports multi-arities |
 | REPL              | only at command line: `cr --eval "+ 1 2"`        | a real REPL                                  |
+| `[]` syntax       | `[]` is a built-in function                      | builtin syntax                               |
+| `{}` syntax       | `{} (:a b)` is macro, expands to `&{} :a :b`     | builtin syntax                               |
 
 also Calcit is a one-person language, it has too few features compared to Clojure.
 
