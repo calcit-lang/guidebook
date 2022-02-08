@@ -6,3 +6,6 @@ authors = [ "Jon" ]
 [output.html]
 
 [output.linkcheck]
+
+[build]
+create-missing = false
