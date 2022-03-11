@@ -14,4 +14,6 @@
   - [Persistent Data](data/persistent-data.md)
   - [Run in Eval mode](run/eval.md)
   - [CLI Options](run/cli-options.md)
+- [Features](features.md)
+  - [Macros](features/macros.md)
 - [Ecosystem](ecosystem.md)
