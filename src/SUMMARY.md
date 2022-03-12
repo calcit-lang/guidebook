@@ -1,11 +1,12 @@
 # Calcit Guide
 
 - [Introduction](intro.md)
-  - [Features](intro/features.md)
+  - [Overview](intro/overview.md)
   - [From Clojure](intro/from-clojure.md)
+  - [Indentation Syntax](intro/indentation-syntax.md)
 - [Installation](installation.md)
   - [Modules directory](installation/modules.md)
-  - [Rust bindings](installation/bindings.md)
+  - [Rust bindings](installation/ffi-bindings.md)
 - [Run Calcit](run.md)
   - [Run in Eval mode](run/eval.md)
   - [CLI Options](run/cli-options.md)
@@ -21,4 +22,4 @@
   - [Macros](features/macros.md)
   - [js Interop](features/js-interop.md)
   - [Polymorphism](features/polymorphism.md)
-- ## [Ecosystem](ecosystem.md)
+- [Ecosystem](ecosystem.md)

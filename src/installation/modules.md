@@ -9,7 +9,7 @@ Configurations inside `calcit.cirru` and `compact.cirru`:
   :modules $ [] |memof/compact.cirru |lilac/
 ```
 
-Paths defined in :modules field are just loaded as files from `~/.config/calcit/modules/`, i.e. `~/.config/calcit/modules/memof/compact.cirru`.
+Paths defined in `:modules` field are just loaded as files from `~/.config/calcit/modules/`, i.e. `~/.config/calcit/modules/memof/compact.cirru`.
 
 Modules that ends with `/`s are automatically suffixed compact.cirru since it's the default filename.
 
