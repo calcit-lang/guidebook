@@ -2,7 +2,7 @@
 
 A demo project can be found at https://github.com/calcit-lang/dylib-workflow
 
-Currently two APIs are supported, based on Cirru EDN data.s
+Currently two APIs are supported, based on Cirru EDN data.
 
 First one is a synchronous [Edn](https://github.com/Cirru/cirru-edn.rs) API with type signature:
 
@@ -32,7 +32,6 @@ Process need to keep running when there are tasks running.
 
 Asynchronous tasks are based on threads, which is currently decoupled from core features of Calcit. We may need techniques like `tokio` for better performance in the future, but current solution is quite naive yet.
 
-
 Also to declare the ABI version, we need another function with specific name so that Calcit could check before actually calling it,
 
 ```rust
@@ -43,3 +42,23 @@ pub fn abi_version() -> String {
 ```
 
 (This feature is not stable enough yet.)
+
+### Call in Calcit
+
+Rust code is compiled into dylibs, and then Calcit could call with:
+
+```
+&call-dylib-edn (get-dylib-path "\"/dylibs/libcalcit_std") "\"read_file" name
+```
+
+first argument is the file path to that dylib. And multiple arguments are supported:
+
+```
+&call-dylib-edn (get-dylib-path "\"/dylibs/libcalcit_std") "\"add_duration" (nth date 1) n k
+```
+
+calling a function is special, we need another function, with last argument being the callback function:
+
+```
+&call-dylib-edn-fn (get-dylib-path "\"/dylibs/libcalcit_std") "\"set_timeout" t cb
+```
