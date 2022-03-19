@@ -18,6 +18,8 @@ To call a method of an object, slightly different from Clojure:
 .!setItem js/localStorage |key |value
 ```
 
+> To be noticed: `(.m a p1 p2)` is calling an internal implementation of polymorphism in Calcit.
+
 To construct an array:
 
 ```
@@ -35,7 +37,7 @@ js-object
   :b 2
 ```
 
-To create new instance from an object:
+To create new instance from a constructor:
 
 ```
 new js/Date
