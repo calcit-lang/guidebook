@@ -1,6 +1,6 @@
 # Rust bindings
 
-A demo project can be found at https://github.com/calcit-lang/dylib-workflow
+Rust supports extending with dynamic libraries. A demo project can be found at https://github.com/calcit-lang/dylib-workflow
 
 Currently two APIs are supported, based on Cirru EDN data.
 
@@ -62,3 +62,14 @@ calling a function is special, we need another function, with last argument bein
 ```
 &call-dylib-edn-fn (get-dylib-path "\"/dylibs/libcalcit_std") "\"set_timeout" t cb
 ```
+
+### Extensions
+
+Currently there are some early extensions:
+
+- [Std](https://github.com/calcit-lang/calcit.std) - some collections of util functions
+- [WebSocket server binding](https://github.com/calcit-lang/calcit-wss)
+- [HTTP client binding](https://github.com/calcit-lang/calcit-fetch)
+- [HTTP server binding](https://github.com/calcit-lang/calcit-http)
+- [Wasmtime binding](https://github.com/calcit-lang/calcit_wasmtime)
+- [Canvas demo](https://github.com/calcit-lang/calcit-paint)
