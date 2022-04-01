@@ -2,19 +2,19 @@
 
 To access JavaScript global value:
 
-```
-js/window.innerWidth
+```cirru
+do js/window.innerWidth
 ```
 
 To access property of an object:
 
-```
+```cirru
 .-name obj
 ```
 
 To call a method of an object, slightly different from Clojure:
 
-```
+```cirru
 .!setItem js/localStorage |key |value
 ```
 
@@ -22,7 +22,7 @@ To call a method of an object, slightly different from Clojure:
 
 To construct an array:
 
-```
+```cirru
 let
     a $ js-array 1 2
   .!push a 3 4
@@ -31,7 +31,7 @@ let
 
 To construct an object:
 
-```
+```cirru
 js-object
   :a 1
   :b 2
@@ -39,6 +39,6 @@ js-object
 
 To create new instance from a constructor:
 
-```
+```cirru
 new js/Date
 ```

@@ -10,13 +10,13 @@ But overall, it's slower since it's always immutable at API level.
 
 Build a list:
 
-```
+```cirru
 [] 1 2 3
 ```
 
 consume a list:
 
-```
+```cirru
 let
     xs $ [] 1 2 3 4
     xs2 $ append xs 5
@@ -38,7 +38,7 @@ let
 
 thread macros are often used in transforming lists:
 
-```
+```cirru
 -> (range 10)
   filter $ fn (x) $ > x 5
   map $ fn (x) $ pow x 2

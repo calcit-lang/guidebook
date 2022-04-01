@@ -2,7 +2,7 @@
 
 Like Clojure, Calcit uses macros to support new syntax. And macros ared evaluated during building to expand syntax tree. A `defmacro` block returns list and symbols, as well as literals:
 
-```
+```cirru
 defmacro noted (x0 & xs)
   if (empty? xs) x0
     last xs
@@ -10,14 +10,14 @@ defmacro noted (x0 & xs)
 
 A normal way to use macro is to use `quasiquote` paired with `~x` and `~@xs` to insert one or a span of items. Also notice that `~x` is internally expanded to `(~ x)`, so you can also use `(~ x)` and `(~@ xs)` as well:
 
-```
+```cirru
 defmacro if-not (condition true-branch ? false-branch)
   quasiquote $ if ~condition ~false-branch ~true-branch
 ```
 
 To create new variables inside macro definitions, use `(gensym)` or `(gensym |name)`:
 
-```
+```cirru
 defmacro case (item default & patterns)
   &let
     v (gensym |v)
