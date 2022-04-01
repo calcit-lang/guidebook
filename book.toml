@@ -2,6 +2,7 @@
 [book]
 title = "Calcit Guide"
 authors = [ "Jon" ]
+src = "docs"
 
 [output.html]
 
