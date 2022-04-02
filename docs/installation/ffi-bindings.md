@@ -47,19 +47,19 @@ pub fn abi_version() -> String {
 
 Rust code is compiled into dylibs, and then Calcit could call with:
 
-```
+```cirru
 &call-dylib-edn (get-dylib-path "\"/dylibs/libcalcit_std") "\"read_file" name
 ```
 
 first argument is the file path to that dylib. And multiple arguments are supported:
 
-```
+```cirru
 &call-dylib-edn (get-dylib-path "\"/dylibs/libcalcit_std") "\"add_duration" (nth date 1) n k
 ```
 
 calling a function is special, we need another function, with last argument being the callback function:
 
-```
+```cirru
 &call-dylib-edn-fn (get-dylib-path "\"/dylibs/libcalcit_std") "\"set_timeout" t cb
 ```
 

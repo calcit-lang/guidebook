@@ -2,7 +2,7 @@
 
 Calcit loads namespaces from `compact.cirru` and modules from `~/.config/calcit/modules/`. It's using 2 rules:
 
-```
+```cirru
 ns app.demo
   :require
     app.lib :as lib
@@ -15,7 +15,7 @@ By using `:as`, it's loading a namespace as `lib`, then access a definition like
 
 Imports for JavaScript is similar,
 
-```
+```cirru
 ns app.demo
   :require
     app.lib :as lib
@@ -32,7 +32,7 @@ import { f1, f2 } from "app.lib";
 
 There's an extra `:default` rule for loading `Module.default`.
 
-```
+```cirru
 ns app.demo
   :require
     app.lib :as lib

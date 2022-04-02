@@ -6,7 +6,7 @@ In Rust it's using [rpds::HashTrieMap](https://docs.rs/rpds/0.10.0/rpds/#hashtri
 
 `{}` is a macro, you can quickly write in pairs:
 
-```
+```cirru
 {}
   :a 1
   :b 2
@@ -14,11 +14,11 @@ In Rust it's using [rpds::HashTrieMap](https://docs.rs/rpds/0.10.0/rpds/#hashtri
 
 internally it's turned into a native function calling arguments:
 
-```
+```cirru
 &{} :a 1 :b 2
 ```
 
-```
+```cirru
 let
     dict $ {}
       :a 1

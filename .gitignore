@@ -1,2 +1,9 @@
 
-book
+.compact-inc.cirru
+.calcit-error.cirru
+
+js-out/
+node_modules/
+dist/
+
+book/

@@ -14,8 +14,6 @@
   - [Bundle Mode](run/bundle-mode.md)
 - [Data](data.md)
   - [Persistent Data](data/persistent-data.md)
-  - [Run in Eval mode](run/eval.md)
-  - [CLI Options](run/cli-options.md)
 - [Features](features.md)
   - [List](features/list.md)
   - [HashMap](features/hashmap.md)
