@@ -91,9 +91,7 @@
           app.config :as config
           "\"./calcit.build-errors" :default build-errors
           "\"bottom-tip" :default hud!
-          "\"highlight.js" :default hljs
-          "\"highlight.js/lib/languages/bash" :default bash-lang
-          "\"highlight.js/lib/languages/clojure" :default clojure-lang
+          docs-workflow.config :refer $ register-languages!
       :defs $ {}
         |render-app! $ quote
           defn render-app! () $ render! mount-target (comp-container @*reel schema/docs) dispatch!
@@ -106,7 +104,7 @@
         |*reel $ quote
           defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
         |main! $ quote
-          defn main! () (.!registerLanguage hljs "\"clojure" clojure-lang) (.!registerLanguage hljs "\"bash" bash-lang)
+          defn main! () (register-languages!)
             println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
             if config/dev? $ load-console-formatter!
             render-app!
