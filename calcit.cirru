@@ -313,6 +313,24 @@
                                         :data $ {}
                                           |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1648806658267) (:text |load-doc)
                                           |b $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1648806781747) (:text "|\"data/persistent-data.md")
+                              |h $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1648806658267)
+                                :data $ {}
+                                  |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1648806658267) (:text |{})
+                                  |b $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1648806658267)
+                                    :data $ {}
+                                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1648806658267) (:text |:title)
+                                      |b $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1650021751576) (:text "|\"EDN")
+                                  |h $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1648806658267)
+                                    :data $ {}
+                                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1648806658267) (:text |:key)
+                                      |b $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1650021753773) (:text |:edn)
+                                  |l $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1648806658267)
+                                    :data $ {}
+                                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1648806658267) (:text |:content)
+                                      |b $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1648806658267)
+                                        :data $ {}
+                                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1648806658267) (:text |load-doc)
+                                          |b $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1650021758520) (:text "|\"data/edn.md")
                   |n $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1648705062222)
                     :data $ {}
                       |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1648705062222) (:text |{})

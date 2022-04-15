@@ -46,6 +46,8 @@
               :children $ []
                 {} (:title "\"Persistent Data") (:key :persistent-data)
                   :content $ load-doc "\"data/persistent-data.md"
+                {} (:title "\"EDN") (:key :edn)
+                  :content $ load-doc "\"data/edn.md"
             {} (:title "\"Features") (:key :features)
               :content $ load-doc "\"features.md"
               :children $ []
