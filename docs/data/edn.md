@@ -112,8 +112,9 @@ quote $ def a 1
 
 at runtime, it's represented with tuples:
 
-````cirru
+```cirru
 :: 'quote $ [] |def |a |1
+```
 
 which means you can eval:
 
@@ -123,7 +124,7 @@ $ cr -e "println $ format-cirru-edn $ :: 'quote $ [] |def |a |1"
 quote $ def a 1
 
 took 0.027ms: nil
-````
+```
 
 and also:
 
