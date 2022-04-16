@@ -9,10 +9,10 @@
   dependencies:
     "@calcit/procs" "^0.5.31"
 
-"@calcit/procs@^0.5.31":
-  version "0.5.31"
-  resolved "https://registry.yarnpkg.com/@calcit/procs/-/procs-0.5.31.tgz#d7ee5f1add98fe9d7247bcef531fd56db2607fa4"
-  integrity sha512-FT+8xxhr9dpF4+82jfaDkisM0IXq5vsYM+lBMdbCCNqRCllBeZ//xAEMuvFd6p7g88UNarJRdxl+cWux7e5VZA==
+"@calcit/procs@^0.5.31", "@calcit/procs@^0.5.33":
+  version "0.5.33"
+  resolved "https://registry.yarnpkg.com/@calcit/procs/-/procs-0.5.33.tgz#188bc8c2fd659aebc2cb369b1884c027bf83016d"
+  integrity sha512-+zKvE/y+8mv/gA9/UR26ekEMQnpt2tbN3LmZA9QrOpxHUZWgr8wA9t/Mw8GAHTP1CzSOKSg0kdpDT6rohBpBwQ==
   dependencies:
     "@calcit/ternary-tree" "0.0.19"
     "@cirru/parser.ts" "^0.0.5"

@@ -148,3 +148,21 @@ which corresponds to:
 ```cirru
 &buffer 0x03 0x55 0x77 0xff 0x00
 ```
+
+### Comments
+
+Comment expressions are started with `;`. They are evaluated into nothing, but not available anywhere, at least not available at head or inside a pair.
+
+Some usages:
+
+```cirru
+[] 1 2 3 (; comment) 4 (; comment)
+```
+
+```cirru
+{}
+  ; comment
+  :a 1
+```
+
+Also notice that comments should also obey Cirru syntax. It's comments inside the syntax tree, rather than in parser.
