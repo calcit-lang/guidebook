@@ -14,6 +14,7 @@
   - [Bundle Mode](run/bundle-mode.md)
 - [Data](data.md)
   - [Persistent Data](data/persistent-data.md)
+  - [EDN](data/edn.md)
 - [Features](features.md)
   - [List](features/list.md)
   - [HashMap](features/hashmap.md)
