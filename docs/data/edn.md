@@ -143,4 +143,8 @@ there's a special syntax for representing buffers in EDN using pairs of Hex digi
 buf 03 55 77 ff 00
 ```
 
-> No corresponding function in Calcit itself though.
+which corresponds to:
+
+```cirru
+&buffer 0x03 0x55 0x77 0xff 0x00
+```
