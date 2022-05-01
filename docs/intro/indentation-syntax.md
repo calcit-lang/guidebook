@@ -44,3 +44,9 @@ Inside `compact.cirru`, code is like quoted data inside `(quote ...)` blocks:
 ```
 
 Notice that in Cirru `|s` prepresents a string `"s"`, it's always trying to use prefixed syntax. `"\"s"` also means `|s`, and double quote marks existed for providing context of "character escaping".
+
+### More about Cirru
+
+A review of Cirru in Chinese:
+
+<iframe width="720" height="405" frameborder="0" src="https://www.ixigua.com/iframe/7092697111279763975?autoplay=0" referrerpolicy="unsafe-url" allowfullscreen></iframe>
