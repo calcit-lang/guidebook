@@ -10,7 +10,7 @@
     "github-markdown-css": "^5.1.0",
     "highlight.js": "^11.5.1",
     "remarkable": "^2.0.1",
-    "vite": "^2.9.6"
+    "vite": "^2.9.7"
   },
   "version": "0.0.1"
 }
