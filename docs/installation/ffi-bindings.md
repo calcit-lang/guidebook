@@ -72,4 +72,5 @@ Currently there are some early extensions:
 - [HTTP client binding](https://github.com/calcit-lang/calcit-fetch)
 - [HTTP server binding](https://github.com/calcit-lang/calcit-http)
 - [Wasmtime binding](https://github.com/calcit-lang/calcit_wasmtime)
+- [fswatch](https://github.com/calcit-lang/calcit-fswatch)
 - [Canvas demo](https://github.com/calcit-lang/calcit-paint)
