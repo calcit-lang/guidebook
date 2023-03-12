@@ -3,7 +3,7 @@
   :configs $ {} (:init-fn |app.main/main!) (:port 6001) (:reload-fn |app.main/reload!) (:storage-key |calcit.cirru) (:version |0.0.1)
     :modules $ [] |respo.calcit/ |lilac/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |respo-router.calcit/ |alerts.calcit/ |docs-workflow/
   :entries $ {}
-  :ir $ {} (:package |docs-workflow)
+  :ir $ {} (:package |app)
     :files $ {}
       |app.config $ {}
         :defs $ {}
