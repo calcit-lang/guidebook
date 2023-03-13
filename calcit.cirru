@@ -3,7 +3,7 @@
   :configs $ {} (:init-fn |app.main/main!) (:port 6001) (:reload-fn |app.main/reload!) (:storage-key |calcit.cirru) (:version |0.0.1)
     :modules $ [] |respo.calcit/ |lilac/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |respo-router.calcit/ |alerts.calcit/ |docs-workflow/
   :entries $ {}
-  :ir $ {} (:package |docs-workflow)
+  :ir $ {} (:package |app)
     :files $ {}
       |app.config $ {}
         :defs $ {}
@@ -589,6 +589,24 @@
                                         :data $ {}
                                           |T $ {} (:at 1648806658267) (:by |rJG4IHzWf) (:text |load-doc) (:type :leaf)
                                           |b $ {} (:at 1648806698095) (:by |rJG4IHzWf) (:text "|\"run/cli-options.md") (:type :leaf)
+                              |j $ {} (:at 1648806658267) (:by |rJG4IHzWf) (:type :expr)
+                                :data $ {}
+                                  |T $ {} (:at 1648806658267) (:by |rJG4IHzWf) (:text |{}) (:type :leaf)
+                                  |b $ {} (:at 1648806658267) (:by |rJG4IHzWf) (:type :expr)
+                                    :data $ {}
+                                      |T $ {} (:at 1648806658267) (:by |rJG4IHzWf) (:text |:title) (:type :leaf)
+                                      |b $ {} (:at 1678484622533) (:by |rJG4IHzWf) (:text "|\"Load Deps") (:type :leaf)
+                                  |h $ {} (:at 1648806658267) (:by |rJG4IHzWf) (:type :expr)
+                                    :data $ {}
+                                      |T $ {} (:at 1648806658267) (:by |rJG4IHzWf) (:text |:key) (:type :leaf)
+                                      |b $ {} (:at 1678484626899) (:by |rJG4IHzWf) (:text |:load-deps) (:type :leaf)
+                                  |l $ {} (:at 1648806658267) (:by |rJG4IHzWf) (:type :expr)
+                                    :data $ {}
+                                      |T $ {} (:at 1648806658267) (:by |rJG4IHzWf) (:text |:content) (:type :leaf)
+                                      |b $ {} (:at 1648806658267) (:by |rJG4IHzWf) (:type :expr)
+                                        :data $ {}
+                                          |T $ {} (:at 1648806658267) (:by |rJG4IHzWf) (:text |load-doc) (:type :leaf)
+                                          |b $ {} (:at 1678484633344) (:by |rJG4IHzWf) (:text "|\"run/load-deps.md") (:type :leaf)
                               |l $ {} (:at 1648806658267) (:by |rJG4IHzWf) (:type :expr)
                                 :data $ {}
                                   |T $ {} (:at 1648806658267) (:by |rJG4IHzWf) (:text |{}) (:type :leaf)

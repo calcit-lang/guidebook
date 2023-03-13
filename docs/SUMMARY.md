@@ -10,6 +10,7 @@
 - [Run Calcit](run.md)
   - [Run in Eval mode](run/eval.md)
   - [CLI Options](run/cli-options.md)
+  - [Load Deps](run/load-deps.md)
   - [Hot Swapping](run/hot-swapping.md)
   - [Bundle Mode](run/bundle-mode.md)
 - [Data](data.md)

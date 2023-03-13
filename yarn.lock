@@ -18,10 +18,10 @@
     "@cirru/parser.ts" "^0.0.5"
     "@cirru/writer.ts" "^0.1.3"
 
-"@calcit/procs@^0.6.23":
-  version "0.6.23"
-  resolved "https://registry.yarnpkg.com/@calcit/procs/-/procs-0.6.23.tgz#1568826e2275dd1a895bab19465514e7146f893f"
-  integrity sha512-qsNFmxZPsaa+D+p+oQhzRy8UOtpwQNpQF2wbCWgaxHKfvmvzt2fLFmZkSSUmY8ksmFb1rdK9zSbXK7U4/MO+uw==
+"@calcit/procs@^0.6.24":
+  version "0.6.24"
+  resolved "https://registry.yarnpkg.com/@calcit/procs/-/procs-0.6.24.tgz#2cfa35bb0e333da1f8036afe6d59e0774d4d10c8"
+  integrity sha512-cOXZXG/RtupozDGD0TdjAF7ELCR1p1Z7P0SA2DM58njHd01ezsy1XlaIopt5Mc0daOxrkvzixzmDgc8BLsab8g==
   dependencies:
     "@calcit/ternary-tree" "0.0.19"
     "@cirru/parser.ts" "^0.0.6"
@@ -604,9 +604,9 @@ rimraf@^3.0.0:
     glob "^7.1.3"
 
 rollup@^3.10.0:
-  version "3.19.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.19.0.tgz#cc580f8e0c1dc89f3888f5943f9542cb136fa40f"
-  integrity sha512-xZzJZlH9Ca6cosfdNGPwl2z7Pby8dTi9TrYLPeg6/j7aUoDOhBd706tCUFvbiBj45h/cS7z/a4gS8xd5Yg0jBw==
+  version "3.19.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.19.1.tgz#2b3a31ac1ff9f3afab2e523fa687fef5b0ee20fc"
+  integrity sha512-lAbrdN7neYCg/8WaoWn/ckzCtz+jr70GFfYdlf50OF7387HTg+wiuiqJRFYawwSPpqfqDNYqK7smY/ks2iAudg==
   optionalDependencies:
     fsevents "~2.3.2"
 

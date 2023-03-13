@@ -90,6 +90,8 @@
                   :content $ load-doc "\"run/eval.md"
                 {} (:title "\"CLI Options") (:key :cli-options)
                   :content $ load-doc "\"run/cli-options.md"
+                {} (:title "\"Load Deps") (:key :load-deps)
+                  :content $ load-doc "\"run/load-deps.md"
                 {} (:title "\"Hot Swapping") (:key :hot-swapping)
                   :content $ load-doc "\"run/hot-swapping.md"
                 {} (:title "\"Bundle Mode") (:key :bundle-mode)
