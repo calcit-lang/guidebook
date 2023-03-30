@@ -1,5 +1,5 @@
 
-{} (:package |docs-workflow)
+{} (:package |app)
   :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!) (:version |0.0.1)
     :modules $ [] |respo.calcit/ |lilac/ |memof/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |respo-router.calcit/ |alerts.calcit/ |docs-workflow/
   :entries $ {}
@@ -96,6 +96,8 @@
                   :content $ load-doc "\"run/hot-swapping.md"
                 {} (:title "\"Bundle Mode") (:key :bundle-mode)
                   :content $ load-doc "\"run/bundle-mode.md"
+                {} (:title "\"Entries") (:key :entries)
+                  :content $ load-doc "\"run/entries.md"
             {} (:title "\"Data") (:key :data)
               :content $ load-doc "\"data.md"
               :children $ []

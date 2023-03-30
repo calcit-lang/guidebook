@@ -13,6 +13,7 @@
   - [Load Deps](run/load-deps.md)
   - [Hot Swapping](run/hot-swapping.md)
   - [Bundle Mode](run/bundle-mode.md)
+  - [Entries](run/entries.md)
 - [Data](data.md)
   - [Persistent Data](data/persistent-data.md)
   - [EDN](data/edn.md)
