@@ -6,9 +6,9 @@ Core idea is inspired by JavaScript and also [borrowed from a trick of Haskell](
 
 ### Terms
 
-- "Tuple", the data structure of 2 items, written like `(:: a b)`. It's more "tagged union" in the case of Calcit.
+- "Tuple", the data structure of 2 or more items, written like `(:: a b)`. It's more "tagged union" in the case of Calcit.
 - "class", it's a concept between "JavaScript class" and "JavaScript prototype", it's using a record containing functions to represent the prototype of objects.
-- "objects", Calcit has no "OOP Objects", it's only tuples that simulating objects to support polymorphism.
+- "object", Calcit has no "OOP Objects", it's only tuples that simulating objects to support polymorphism. It's based on immutable data.
 
 which makes "tuple" a really special data type Calcit.
 
