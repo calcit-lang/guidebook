@@ -12,6 +12,22 @@ Core idea is inspired by JavaScript and also [borrowed from a trick of Haskell](
 
 which makes "tuple" a really special data type Calcit.
 
+Tuple has a structure of three parts:
+
+```cirru
+%:: %class :tag p1 p2 p3
+```
+
+- `%class` defines the class, which is a hidden property, not counted in index
+- `:tag` is a tag to identify the tuple by convention, index is `0`.
+- parameters, can be 0 or many arguments, index starts with `1`. for example `(:: :none)` is an example of a tuple with 0 arguments, index `0` gets `:none`.
+
+There was another shorthand for defining tuples, which internall uses an empty class:
+
+```cirru
+:: :tag p1 p2 p3
+```
+
 ### Usage
 
 Define a class:
@@ -24,13 +40,13 @@ defrecord! MyNum
     str $ &tuple:nth self 1
 ```
 
-notice that `self` in this context is `(:: MyNum 1)` rather than a bare liternal.
+notice that `self` in this context is `(%:: MyNum :my-num 1)` rather than a bare liternal.
 
 get an obejct and call method:
 
 ```cirru
 let
-    a $ :: MyNum 1
+    a $ %:: MyNum :my-num 1
   println $ .show a
 ```
 
@@ -39,7 +55,7 @@ let
 Use it with chaining:
 
 ```cirru
--> (:: MyNum 1)
+-> (%:: MyNum :my-num 1)
   .update
   .show
   println

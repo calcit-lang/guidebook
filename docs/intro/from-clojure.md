@@ -8,7 +8,7 @@ There are some significant features Calcit is learning from Clojure,
 - Namespaces
 - Hygienic macros(although less powerful)
 - Higher order functions
-- Keywords
+- Keywords, although Calcit changed the name to "tag" since `0.7`
 - Compiles to JavaScript, interops
 - Hot code swapping while code modified, and trigger an `on-reload` function
 - HUD for JavaScript errors

@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@calcit/docs-workflow": "^0.0.7",
-    "@calcit/procs": "^0.6.29",
+    "@calcit/procs": "^0.7.0-a3",
     "@memkits/azure-speech-util": "^0.0.5"
   },
   "devDependencies": {
@@ -10,7 +10,7 @@
     "github-markdown-css": "^5.2.0",
     "highlight.js": "^11.8.0",
     "remarkable": "^2.0.1",
-    "vite": "^4.3.8"
+    "vite": "^4.3.9"
   },
   "version": "0.0.1"
 }

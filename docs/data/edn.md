@@ -29,7 +29,7 @@ for a symbol:
 do 's
 ```
 
-there's also keyword:
+there's also "keyword", which is called "tag" since Calcit `0.7`:
 
 ```cirru
 do :k
