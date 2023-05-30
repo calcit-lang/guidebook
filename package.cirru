@@ -1,12 +1,12 @@
 
 {}
   :dependencies $ {}
-    |calcit-lang/lilac |main
+    |calcit-lang/lilac |0.3.0-a1
     |calcit-lang/memof |main
     |calcit-lang/docs-workflow |main
-    |Respo/respo.calcit |main
+    |Respo/respo.calcit |0.14.46
     |Respo/reel.calcit |main
     |Respo/respo-markdown.calcit |main
     |Respo/respo-ui.calcit |main
     |Respo/respo-router.calcit |main
-    |Respo/alerts.calcit |main
+    |Respo/alerts.calcit |0.8.16
