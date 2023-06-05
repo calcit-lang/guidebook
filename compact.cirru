@@ -83,6 +83,8 @@
                   :content $ load-doc "\"installation/modules.md"
                 {} (:title "\"Rust bindings") (:key :ffi-bindings)
                   :content $ load-doc "\"installation/ffi-bindings.md"
+                {} (:title "\"GitHub Actions") (:key :github-actions)
+                  :content $ load-doc "\"installation/github-actions.md"
             {} (:title "\"Run Calcit") (:key :run)
               :content $ load-doc "\"run.md"
               :children $ []

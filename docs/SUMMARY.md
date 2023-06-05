@@ -7,6 +7,7 @@
 - [Installation](installation.md)
   - [Modules directory](installation/modules.md)
   - [Rust bindings](installation/ffi-bindings.md)
+  - [GitHub Actions](installation/github-actions.md)
 - [Run Calcit](run.md)
   - [Run in Eval mode](run/eval.md)
   - [CLI Options](run/cli-options.md)
