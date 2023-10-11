@@ -2,7 +2,7 @@
 
 ```bash
 $ cr --help
-Calcit Runner 0.5.14
+Calcit Runner 0.8.6
 Jon. <jiyinyiyong@gmail.com>
 Calcit Runner
 
