@@ -25,4 +25,5 @@
   - [js Interop](features/js-interop.md)
   - [Imports](features/imports.md)
   - [Polymorphism](features/polymorphism.md)
+- [Structural Editor](structural-editor.md)
 - [Ecosystem](ecosystem.md)
