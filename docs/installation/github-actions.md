@@ -10,15 +10,15 @@ Calcit does not provide an action for Calcit, but the binaries can be installed 
 
 - uses: supplypike/setup-bin@v3
   with:
-    uri: "https://github.com/calcit-lang/calcit/releases/download/0.8.6/cr"
+    uri: "https://github.com/calcit-lang/calcit/releases/download/0.8.14/cr"
     name: "cr"
-    version: "0.8.6"
+    version: "0.8.14"
 
 - uses: supplypike/setup-bin@v3
   with:
-    uri: "https://github.com/calcit-lang/calcit/releases/download/0.8.6/caps"
+    uri: "https://github.com/calcit-lang/calcit/releases/download/0.8.14/caps"
     name: "caps"
-    version: "0.8.6"
+    version: "0.8.14"
 ```
 
 Then to load packages defined in `package.cirru` with `caps`:
@@ -30,7 +30,7 @@ caps --ci
 The JavaScript dependency lives in `package.json`:
 
 ```js
-"@calcit/procs": "^0.8.6"
+"@calcit/procs": "^0.8.14"
 ```
 
 Up to date example can be found on https://github.com/calcit-lang/respo-calcit-workflow/blob/main/.github/workflows/upload.yaml#L11 .
