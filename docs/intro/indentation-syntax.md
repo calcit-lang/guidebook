@@ -33,14 +33,15 @@ Inside `compact.cirru`, code is like quoted data inside `(quote ...)` blocks:
 
   :files $ {}
     |app.main $ {}
-      :ns $ quote
-        ns app.main $ :require
+      :ns $ %{} :CodeEntry (:doc |)
+        :code $ quote
+          ns app.main $ :require
       :defs $ {}
-        |fibo $ quote
-          defn fibo (x)
-            if (< x 2) (, 1)
-              + (fibo $ - x 1) (fibo $ - x 2)
-
+        |fibo $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            defn fibo (x)
+              if (< x 2) (, 1)
+                + (fibo $ - x 1) (fibo $ - x 2)
 ```
 
 Notice that in Cirru `|s` prepresents a string `"s"`, it's always trying to use prefixed syntax. `"\"s"` also means `|s`, and double quote marks existed for providing context of "character escaping".

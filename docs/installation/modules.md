@@ -1,6 +1,6 @@
 # Modules directory
 
-No package manager yet, need to manage modules with git tags.
+Packages are managed with `caps` command, which wraps `git clone` and `git pull` to manage modules.
 
 Configurations inside `calcit.cirru` and `compact.cirru`:
 
@@ -13,4 +13,4 @@ Paths defined in `:modules` field are just loaded as files from `~/.config/calci
 
 Modules that ends with `/`s are automatically suffixed compact.cirru since it's the default filename.
 
-To load modules in CI environments, make use of `git clone`.
+To load modules in CI environments, make use of `caps --ci`.
