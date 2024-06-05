@@ -3,7 +3,7 @@
   :dependencies $ {}
     |calcit-lang/lilac |main
     |calcit-lang/memof |main
-    |calcit-lang/docs-workflow |0.0.20
+    |calcit-lang/docs-workflow |main
     |Respo/respo.calcit |main
     |Respo/reel.calcit |main
     |Respo/respo-markdown.calcit |main

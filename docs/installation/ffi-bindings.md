@@ -1,5 +1,7 @@
 # Rust bindings
 
+> API status: unstable.
+
 Rust supports extending with dynamic libraries. A demo project can be found at https://github.com/calcit-lang/dylib-workflow
 
 Currently two APIs are supported, based on Cirru EDN data.
@@ -37,11 +39,9 @@ Also to declare the ABI version, we need another function with specific name so 
 ```rust
 #[no_mangle]
 pub fn abi_version() -> String {
-  String::from("0.0.1")
+  String::from("0.0.9")
 }
 ```
-
-(This feature is not stable enough yet.)
 
 ### Call in Calcit
 
@@ -63,14 +63,16 @@ calling a function is special, we need another function, with last argument bein
 &call-dylib-edn-fn (get-dylib-path "\"/dylibs/libcalcit_std") "\"set_timeout" t cb
 ```
 
+Notice that both functions call dylibs and then library instances are cached, for better consistency and performance, with some cost in memory occupation. Linux and MacOS has different strategies loading dylibs while loaded repeatedly, so Calcit just cached them and only load once.
+
 ### Extensions
 
 Currently there are some early extensions:
 
 - [Std](https://github.com/calcit-lang/calcit.std) - some collections of util functions
 - [WebSocket server binding](https://github.com/calcit-lang/calcit-wss)
+- [Regex](https://github.com/calcit-lang/calcit-regex/)
 - [HTTP client binding](https://github.com/calcit-lang/calcit-fetch)
 - [HTTP server binding](https://github.com/calcit-lang/calcit-http)
 - [Wasmtime binding](https://github.com/calcit-lang/calcit_wasmtime)
 - [fswatch](https://github.com/calcit-lang/calcit-fswatch)
-- [Canvas demo](https://github.com/calcit-lang/calcit-paint)
