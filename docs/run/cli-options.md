@@ -1,31 +1,28 @@
 # CLI Options
 
 ```bash
-$ cr --help
-Calcit Runner 0.8.6
-Jon. <jiyinyiyong@gmail.com>
-Calcit Runner
+Usage: cr [<input>] [-1] [--disable-stack] [--skip-arity-check] [--emit-path <emit-path>] [--init-fn <init-fn>] [--reload-fn <reload-fn>] [--entry <entry>] [--reload-libs] [--watch-dir <watch-dir>] [<command>] [<args>]
 
-USAGE:
-    cr [FLAGS] [OPTIONS] [--] [input]
+Top-level command.
 
-FLAGS:
-        --emit-ir        emit EDN representation of program to program-ir.cirru
-        --emit-js        emit js rather than interpreting
-    -h, --help           Prints help information
-    -1, --once           disable watching mode
-        --reload-libs    reload libs data during code reload
-    -V, --version        Prints version information
+Positional Arguments:
+  input             input source file, defaults to "compact.cirru"
 
-OPTIONS:
-    -d, --dep <dep>...             add dependency
-        --emit-path <emit-path>    emit directory for js, defaults to `js-out/`
-        --entry <entry>            overwrite with config entry
-    -e, --eval <eval>              eval a snippet
-        --init-fn <init-fn>        overwrite `init_fn`
-        --reload-fn <reload-fn>    overwrite `reload_fn`
-        --watch-dir <watch-dir>    a folder of assets that also being watched
+Options:
+  -1, --once        skip watching mode, just run once
+  --disable-stack   disable stack trace for errors
+  --skip-arity-check
+                    skip arity check in js codegen
+  --emit-path       entry file path, defaults to "js-out/"
+  --init-fn         specify `init_fn` which is main function
+  --reload-fn       specify `reload_fn` which is called after hot reload
+  --entry           specify with config entry
+  --reload-libs     force reloading libs data during code reload
+  --watch-dir       specify a path to watch assets changes
+  --help            display usage information
 
-ARGS:
-    <input>    entry file path, defaults to compact.cirru [default: compact.cirru]
+Commands:
+  js                emit JavaScript rather than interpreting
+  ir                emit Cirru EDN representation of program to program-ir.cirru
+  eval              run program
 ```

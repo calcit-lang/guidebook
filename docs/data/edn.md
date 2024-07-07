@@ -119,7 +119,7 @@ at runtime, it's represented with tuples:
 which means you can eval:
 
 ```bash
-$ cr -e "println $ format-cirru-edn $ :: 'quote $ [] |def |a |1"
+$ cr eval "println $ format-cirru-edn $ :: 'quote $ [] |def |a |1"
 
 quote $ def a 1
 
@@ -129,7 +129,7 @@ took 0.027ms: nil
 and also:
 
 ```bash
-$ cr -e 'parse-cirru-edn "|quote $ def a 1"'
+$ cr eval 'parse-cirru-edn "|quote $ def a 1"'
 took 0.011ms: (:: 'quote ([] |def |a |1))
 ```
 
