@@ -1,4 +1,3 @@
-
 # Run Calcit
 
 There are several modes to run Calcit.
@@ -6,13 +5,13 @@ There are several modes to run Calcit.
 ### Eval
 
 ```bash
-cr -e 'println "Hello world"'
+cr eval 'println "Hello world"'
 ```
 
 which is actually:
 
 ```bash
-cr --eval 'println "Hello world"'
+cr eval 'println "Hello world"'
 ```
 
 ### Run program
@@ -32,11 +31,11 @@ cr -1
 ### Generating JavaScript
 
 ```cr
-cr --emit-js
+cr js
 ```
 
 ### Generating IR
 
 ```bash
-cr --emit-ir
+cr ir
 ```

@@ -11,5 +11,5 @@ cargo install calcit
 then Calcit is available as a Rust command line:
 
 ```bash
-cr -e "echo |done"
+cr eval "echo |done"
 ```

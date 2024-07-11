@@ -33,7 +33,7 @@ Calcit was not designed to be identical to Clojure, so there are many details he
 use `macroexpand-all` for debugging:
 
 ```
-$ cr -e 'println $ format-to-cirru $ macroexpand-all $ quote $ let ((a 1) (b 2)) (+ a b)'
+$ cr eval 'println $ format-to-cirru $ macroexpand-all $ quote $ let ((a 1) (b 2)) (+ a b)'
 
 &let (a 1)
   &let (b 2)
@@ -44,7 +44,7 @@ $ cr -e 'println $ format-to-cirru $ macroexpand-all $ quote $ let ((a 1) (b 2))
 `format-to-cirru` and `format-to-lisp` are 2 custom code formatters:
 
 ```
-$ cr -e 'println $ format-to-lisp $ macroexpand-all $ quote $ let ((a 1) (b 2)) (+ a b)'
+$ cr eval 'println $ format-to-lisp $ macroexpand-all $ quote $ let ((a 1) (b 2)) (+ a b)'
 
 (&let (a 1) (&let (b 2) (+ a b)))
 ```
@@ -52,7 +52,7 @@ $ cr -e 'println $ format-to-lisp $ macroexpand-all $ quote $ let ((a 1) (b 2)) 
 The syntax `macroexpand` only expand syntax tree once:
 
 ```
-$ cr -e 'println $ format-to-cirru $ macroexpand $ quote $ let ((a 1) (b 2)) (+ a b)'
+$ cr eval 'println $ format-to-cirru $ macroexpand $ quote $ let ((a 1) (b 2)) (+ a b)'
 
 &let (a 1)
   let
