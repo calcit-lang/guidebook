@@ -1,5 +1,6 @@
 
 {}
+  :calcit-deps |0.9.5
   :dependencies $ {}
     |calcit-lang/lilac |main
     |calcit-lang/memof |main
