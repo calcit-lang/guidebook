@@ -24,27 +24,35 @@ Paths defined in `:modules` field are just loaded as files from `~/.config/calci
 
 Modules that ends with `/`s are automatically suffixed `compact.cirru` since it's the default filename.
 
+### Outdated
+
+To check outdated modules, run:
+
+```bash
+caps outdated
+```
+
 ### CLI Options
 
 ```
-=>> caps --help
-Calcit Deps 0.6.23
-Jon. <jiyinyiyong@gmail.com>
-Calcit Deps
+caps --help
+Usage: caps [<input>] [-v] [--pull-branch] [--ci] [--local-debug] [<command>] [<args>]
 
-USAGE:
-    caps [OPTIONS] [input]
+Top-level command.
 
-ARGS:
-    <input>    entry file path [default: package.cirru]
+Positional Arguments:
+  input             input file
 
-OPTIONS:
-        --ci             CI mode loads shallow repo via HTTPS
-    -h, --help           Print help information
-        --local-debug    Debug mode, clone to test-modules/
-        --pull-branch    pull branch in the repo
-    -v, --verbose        verbose mode
-    -V, --version        Print version information
+Options:
+  -v, --verbose     verbose mode
+  --pull-branch     pull branch in the repo
+  --ci              CI mode loads shallow repo via HTTPS
+  --local-debug     debug mode, clone to test-modules/
+  --help, help      display usage information
+
+Commands:
+  outdated          show outdated versions
+  download          download named packages with org/repo@branch
 ```
 
 - "pull branch" to fetch update if only branch name is specified like `main`.
