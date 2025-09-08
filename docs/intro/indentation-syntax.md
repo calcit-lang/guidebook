@@ -6,7 +6,7 @@ For Cirru Syntax, read <http://text.cirru.org/>, and you may find a live demo at
 
 ```cirru
 defn fibo (x)
-  if (< x 2) (, 1)
+  if (< x 2) 1
     + (fibo $ - x 1) (fibo $ - x 2)
 ```
 

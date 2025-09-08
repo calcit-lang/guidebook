@@ -16,6 +16,7 @@
   - [Bundle Mode](run/bundle-mode.md)
   - [Entries](run/entries.md)
 - [Data](data.md)
+  - [String](data/string.md)
   - [Persistent Data](data/persistent-data.md)
   - [EDN](data/edn.md)
 - [Features](features.md)

@@ -1,6 +1,6 @@
 # HashMap
 
-In Rust it's using [rpds::HashTrieMap](https://docs.rs/rpds/0.10.0/rpds/#hashtriemap). And in JavaScript, it's built on top of [ternary-tree](https://github.com/calcit-lang/ternary-tree.ts) with some tricks for very small dicts.
+In Rust implementation of Calcit it's using [rpds::HashTrieMap](https://docs.rs/rpds/0.10.0/rpds/#hashtriemap). And in JavaScript, it's built on top of [ternary-tree](https://github.com/calcit-lang/ternary-tree.ts) with some tricks for very small dicts.
 
 ### Usage
 
