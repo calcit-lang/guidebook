@@ -27,4 +27,5 @@
   - [Imports](features/imports.md)
   - [Polymorphism](features/polymorphism.md)
 - [Structural Editor](structural-editor.md)
+- [MCP Tools](mcp-tools.md)
 - [Ecosystem](ecosystem.md)

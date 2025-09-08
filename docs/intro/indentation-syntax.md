@@ -46,6 +46,12 @@ Inside `compact.cirru`, code is like quoted data inside `(quote ...)` blocks:
 
 Notice that in Cirru `|s` prepresents a string `"s"`, it's always trying to use prefixed syntax. `"\"s"` also means `|s`, and double quote marks existed for providing context of "character escaping".
 
+### MCP Tool
+
+The tool `parse_cirru_to_json` can be used to parse Cirru syntax into JSON format, which is useful for understanding how Cirru syntax is structured.
+
+You can generate Cirru from JSON using `format_json_to_cirru` vice versa.
+
 ### More about Cirru
 
 A review of Cirru in Chinese:
