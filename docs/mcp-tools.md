@@ -2,7 +2,7 @@
 
 Webpage-based structural editor does not fit AI agents, so `cr-mcp` command is provided to serve MCP (Model Context Protocol) for Calcit compact files.
 
-Currently it provides 27 tools, including reading/writing definitions, namespaces, modules, fetching Calcit libraries, formatting JSON to Cirru, etc.
+Currently it provides 27 tools, including reading/writing definitions, namespaces, modules, fetching Calcit libraries, formatting JSON to Cirru, etc. For an overview of how the MCP server exposes files as keys and values, see [MCP Overview](mcp-overview.md). Each documentation file can be accessed directly by its filename as a key.
 
 ```
   🟢 calcit - Ready (27 tools)

@@ -1,11 +1,12 @@
 # Load Dependencies
 
-`caps` command is used for downloading dependencies declared in `package.cirru`. The name "caps" stands for "Calcit Dependencies".
+`caps` command is used for downloading dependencies declared in `deps.cirru`. The name "caps" stands for "Calcit Dependencies".
 
-`package.cirru` declares dependencies, which correspond to repositories on GitHub. Specify a branch or a tag:
+`deps.cirru` declares dependencies, which correspond to repositories on GitHub. Specify a branch or a tag:
 
 ```cirru
 {}
+  :calcit-version |0.9.18
   :dependencies $ {}
     |calcit-lang/memof |0.0.11
     |calcit-lang/lilac |main

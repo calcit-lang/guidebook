@@ -1,16 +1,32 @@
 # Introduction
 
-Calcit scripting language.
+Calcit is a scripting language that combines the power of Clojure-like functional programming with modern tooling and hot code swapping.
 
-> an interpreter for calcit snapshot, and hot code swapping friendly.
+> An interpreter for Calcit snapshots with hot code swapping support.
 
-Calcit is an interpreter built with Rust, and also a JavaScript code emitter. It's inspired mostly by ClojureScript. Calcit-js emits JavaScript in ES Modules syntax.
+Calcit is built with Rust and can also emit JavaScript in ES Modules syntax. It's inspired primarily by ClojureScript and designed for interactive development.
 
-You can [try Calcit WASM build online](http://repo.calcit-lang.org/calcit-wasm-play/) for simple snippets.
+## Key Features
 
-There are several interesting ideas experimenting in Calcit:
+- **Immutable persistent data structures** by default
+- **Structural editing** with the Calcit Editor
+- **Hot code swapping** for rapid development
+- **JavaScript interop** with ES Modules support
+- **Indentation-based syntax** alternative to parentheses
+- **MCP (Model Context Protocol)** server for tool integration
 
-- Calcit code is stored in a data snapshot file, pairs with Calcit Editor, you may perform structural editing.
-- while Calcit is dynamically typed, pattern matching of tagged unions is experimented.
+## Quick Start
 
-Other features of Calcit are mostly inherited from ClojureScript. I use Calcit-js mostly for web development with [Respo](https://respo-mvc.org/), the virtual DOM library migrated from ClojureScript version.
+You can [try Calcit WASM build online](http://repo.calcit-lang.org/calcit-wasm-play/) for simple snippets, or see the [Quick Reference](quick-reference.md) for common commands and syntax.
+
+## Design Philosophy
+
+Calcit experiments with several interesting ideas:
+
+- Code is stored in data snapshot files, enabling structural editing
+- Pattern matching of tagged unions (experimental)
+- File-as-key/value model for MCP server integration, use Markdown docs
+
+Most other features are inherited from ClojureScript. Calcit-js is commonly used for web development with [Respo](https://respo-mvc.org/), a virtual DOM library migrated from ClojureScript.
+
+For more details, see [Overview](intro/overview.md) and [From Clojure](intro/from-clojure.md).
