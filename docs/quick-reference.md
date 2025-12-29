@@ -64,4 +64,4 @@ let
 - `deps.cirru` - Dependencies
 - `.compact-inc.cirru` - Hot reload trigger, including incremental changes
 
-For detailed information, see the specific documentation files linked in [SUMMARY.md](SUMMARY.md).
+For detailed information, see the specific documentation files in the table of contents.

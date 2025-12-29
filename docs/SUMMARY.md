@@ -4,7 +4,7 @@
   - [Overview](intro/overview.md)
   - [From Clojure](intro/from-clojure.md)
   - [Indentation Syntax](intro/indentation-syntax.md)
-  - [Cirru Syntax](intro/cirru-syntax.md)
+  - [Cirru Syntax](cirru-syntax.md)
 - [Quick Reference](quick-reference.md)
 - [Installation](installation.md)
   - [Modules directory](installation/modules.md)
