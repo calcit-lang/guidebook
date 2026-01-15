@@ -1,40 +1,52 @@
-# Run Calcit
+# Running Calcit
 
-There are several modes to run Calcit.
+Calcit can be run in several different modes.
 
-### Eval
+### Running a Program
 
-```bash
-cr eval 'println "Hello world"'
-```
-
-which is actually:
-
-```bash
-cr eval 'println "Hello world"'
-```
-
-### Run program
-
-For a local `compact.cirru` file, run:
+To run a local `compact.cirru` file, simply use:
 
 ```bash
 cr
 ```
 
-by default, Calcit has watcher launched. If you want to run without a watcher, use:
+This is equivalent to:
+
+```bash
+cr compact.cirru
+```
+
+By default, Calcit launches a watcher. If you want to run without the watcher, use:
 
 ```bash
 cr -1
 ```
 
+### Eval Mode
+
+To quickly evaluate a snippet of code:
+
+```bash
+cr eval 'println "|Hello world"'
+```
+
 ### Generating JavaScript
 
-```cr
+To generate JavaScript code:
+
+```bash
 cr js
 ```
 
+To generate JavaScript only once (without the watcher):
+
+```bash
+cr js -1
+```
+
 ### Generating IR
+
+To generate IR (Intermediate Representation):
 
 ```bash
 cr ir

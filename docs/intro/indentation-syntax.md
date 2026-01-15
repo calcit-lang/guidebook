@@ -1,3 +1,7 @@
+## Indentation Syntax in the MCP Server
+
+When using the MCP (Model Context Protocol) server, each documentation or code file is exposed as a key (the filename) with its content as the value. This means you can programmatically fetch, update, or analyze any file as a single value, making it easy for tools and agents to process Calcit code and documentation. Indentation-based syntax is preserved in the file content, so structure and meaning are maintained when accessed through the MCP server.
+
 # Indentation-based Syntax
 
 Calcit was designed based on tools from [Cirru Project](http://cirru.org/), which means, it's suggested to be programming with [Calcit Editor](https://github.com/calcit-lang/editor/). It will emit a file `compact.cirru` containing data of the code. And the data is still written in [Cirru EDN](https://github.com/Cirru/cirru-edn#syntax), Clojure EDN but based on Cirru Syntax.
@@ -6,7 +10,7 @@ For Cirru Syntax, read <http://text.cirru.org/>, and you may find a live demo at
 
 ```cirru
 defn fibo (x)
-  if (< x 2) (, 1)
+  if (< x 2) 1
     + (fibo $ - x 1) (fibo $ - x 2)
 ```
 
@@ -45,6 +49,12 @@ Inside `compact.cirru`, code is like quoted data inside `(quote ...)` blocks:
 ```
 
 Notice that in Cirru `|s` prepresents a string `"s"`, it's always trying to use prefixed syntax. `"\"s"` also means `|s`, and double quote marks existed for providing context of "character escaping".
+
+### MCP Tool
+
+The tool `parse_cirru_to_json` can be used to parse Cirru syntax into JSON format, which is useful for understanding how Cirru syntax is structured.
+
+You can generate Cirru from JSON using `format_json_to_cirru` vice versa.
 
 ### More about Cirru
 

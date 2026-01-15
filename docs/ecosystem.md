@@ -2,13 +2,7 @@
 
 ### Libraries:
 
-- [Calcit Std Libraries](https://github.com/calcit-lang/calcit.std)
-- [Memof: memoization library with caching](https://github.com/calcit-lang/memof)
-- [Lilac: validation library](https://github.com/calcit-lang/lilac)
-- [Recollect: Diff/patch library designed for Cumulo project](https://github.com/calcit-lang/recollect)
-- [Calcit WebSocket server binding](https://github.com/calcit-lang/calcit-wss)
-- [Calcit Test](https://github.com/calcit-lang/calcit-test), testing tool
-- [Bisection Key](https://github.com/calcit-lang/bisection-key), ...
+Useful libraries are maintained at <https://libs.calcit-lang.org/base.cirru>.
 
 ### Frameworks:
 

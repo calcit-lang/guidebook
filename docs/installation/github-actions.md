@@ -10,7 +10,7 @@ To load Calcit `0.9.18` in a Ubuntu container:
 
 Latest release could be found on https://github.com/calcit-lang/setup-cr/releases/ .
 
-Then to load packages defined in `package.cirru` with `caps`:
+Then to load packages defined in `deps.cirru` with `caps`:
 
 ```bash
 caps --ci
