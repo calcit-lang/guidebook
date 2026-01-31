@@ -34,20 +34,64 @@ Define a class:
 
 ```cirru
 defrecord! MyNum
-  :inc $ fn (self)
-    update self 1 inc
-  :show $ fn (self)
-    str $ &tuple:nth self 1
+  (:inc $ fn (self)
+    update self 1 inc)
+  (:show $ fn (self)
+    str $ &tuple:nth self 1)
 ```
 
-notice that `self` in this context is `(%:: MyNum :my-num 1)` rather than a bare liternal.
+Notice that `self` in this context is `(%:: MyNum :my-num 1)` rather than a bare literal.
 
-get an obejct and call method:
+Get an object and call method:
 
 ```cirru
 let
     a $ %:: MyNum :my-num 1
   println $ .show a
+```
+
+### Type Annotations for Methods
+
+You can add type annotations to method definitions:
+
+```cirru
+defrecord! Counter
+  (:value $ fn (self)
+    hint-fn $ return-type :number
+    &tuple:nth self 1)
+  (:inc $ fn (self)
+    hint-fn $ return-type $ :: :tuple Counter
+    update self 1 inc)
+  (:add $ fn (self n)
+    hint-fn $ return-type $ :: :tuple Counter
+    assert-type n :number
+    update self 1 $ fn (x) (+ x n))
+```
+
+Method calls are validated at compile-time:
+
+```cirru
+; Valid method call
+let
+    c $ %:: Counter :counter 10
+  .inc c  ; OK
+
+; Invalid method name caught at compile-time
+; .increment c  ; Error: method 'increment' not found in Counter
+```
+
+### Type Checking with Tuples
+
+Tuples can be type-annotated with `(:tuple ClassName)`:
+
+```cirru
+defn process-counter (c)
+  hint-fn $ return-type :number
+  assert-type c $ :: :tuple Counter
+  .value c
+
+; Type mismatch detected
+; process-counter (:: :not-counter)  ; Error: expected (:tuple Counter)
 ```
 
 > Not to be confused with JavaScript native method function which uses `.!method`.

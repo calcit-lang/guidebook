@@ -26,3 +26,103 @@ Commands:
   ir                emit Cirru EDN representation of program to program-ir.cirru
   eval              run program
 ```
+
+## Detailed Option Descriptions
+
+### Input File
+
+```bash
+# Run default compact.cirru
+cr
+
+# Run specific file
+cr demos/compact.cirru
+```
+
+### Run Once (--once / -1)
+
+By default, `cr` watches for file changes and hot-reloads. Use `--once` to run once and exit:
+
+```bash
+cr --once
+cr -1  # shorthand
+```
+
+### Error Stack Trace (--disable-stack)
+
+Disables detailed stack traces in error messages, useful for cleaner output:
+
+```bash
+cr --disable-stack
+```
+
+### JS Codegen Options
+
+**--skip-arity-check**: When generating JavaScript, skip arity checking (use cautiously):
+
+```bash
+cr js --skip-arity-check
+```
+
+**--emit-path**: Specify output directory for generated JavaScript:
+
+```bash
+cr js --emit-path dist/
+```
+
+### Hot Reloading Configuration
+
+**--init-fn**: Override the main entry function:
+
+```bash
+cr --init-fn app.main/start!
+```
+
+**--reload-fn**: Specify function called after code reload:
+
+```bash
+cr --reload-fn app.main/on-reload!
+```
+
+**--reload-libs**: Force reload library data during hot reload (normally cached):
+
+```bash
+cr --reload-libs
+```
+
+### Config Entry (--entry)
+
+Use specific config entry from `compact.cirru`:
+
+```bash
+cr --entry test
+cr --entry production
+```
+
+### Asset Watching (--watch-dir)
+
+Watch additional directories for changes (e.g., assets, styles):
+
+```bash
+cr --watch-dir assets/
+cr --watch-dir styles/ --watch-dir images/
+```
+
+## Common Usage Patterns
+
+```bash
+# Development with hot reload
+cr --reload-fn app.main/reload!
+
+# Production build
+cr js --once --emit-path dist/
+
+# Testing without file watching
+cr --once --init-fn app.test/run-tests!
+
+# Debug mode with full stack traces
+cr --reload-libs
+
+# CI/CD environment
+cr --once --disable-stack
+```

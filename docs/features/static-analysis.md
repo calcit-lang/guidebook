@@ -15,25 +15,23 @@ The static analysis system provides:
 
 ### Function Parameter Types
 
-Annotate function parameters using `hint-fn`:
+Annotate function parameters using `assert-type`:
 
 ```cirru
 defn calculate-total (items)
-  hint-fn $ items :list
-  reduce
+  assert-type items :list
+  reduce items 0
     fn (acc item) (+ acc item)
-    0
-    items
 ```
 
 ### Return Type Annotations
 
-Specify return types with `return-type`:
+Specify return types with `hint-fn`:
 
 ```cirru
 defn get-name (user)
   hint-fn $ return-type :string
-  .-name user
+  println "|demo code"
 ```
 
 ### Multiple Annotations
@@ -42,9 +40,9 @@ Combine parameter and return type annotations:
 
 ```cirru
 defn add (a b)
-  hint-fn $ a :number
-  hint-fn $ b :number
   hint-fn $ return-type :number
+  assert-type a :number
+  assert-type b :number
   + a b
 ```
 
@@ -56,10 +54,10 @@ The system validates that function calls have the correct number of arguments:
 
 ```cirru
 defn greet (name age)
-  str |Hello  name |, you are  age
+  str "|Hello " name "|, you are " age
 
 ; Error: expects 2 args but got 1
-greet |Alice
+; greet |Alice
 ```
 
 ### Record Field Access
@@ -70,8 +68,9 @@ Validates that record fields exist:
 defrecord User :name :age
 
 defn get-user-email (user)
-  .-email user  ; Warning: field 'email' not found in record User
-                ; Available fields: name, age
+  .-email user
+  ; Warning: field 'email' not found in record User
+  ; Available fields: name, age
 ```
 
 ### Tuple Index Bounds
@@ -90,11 +89,11 @@ Validates enum construction and pattern matching:
 
 ```cirru
 defenum Result
-  :Ok :value
-  :Error :message
+  (:Ok :any)
+  (:Error :string)
 
 ; Warning: variant 'Failure' not found in enum Result
-%:: Result :Failure |something went wrong
+%:: Result :Failure "|something went wrong"
 ; Available variants: Ok, Error
 
 ; Warning: variant 'Ok' expects 1 payload but got 2
@@ -107,8 +106,10 @@ Checks that methods exist for the receiver type:
 
 ```cirru
 defn process-list (xs)
-  .unknown-method xs  ; Warning: unknown method .unknown-method for :list
-                      ; Available methods: .map, .filter, .count, ...
+  ; .unknown-method xs
+  println "|demo code"
+  ; "Warning: unknown method .unknown-method for :list"
+  ; Available methods: .map, .filter, .count, ...
 ```
 
 ### Recur Arity Checking
@@ -117,12 +118,14 @@ Validates that `recur` calls have the correct number of arguments:
 
 ```cirru
 defn factorial (n acc)
-  if (<= n 1)
-    acc
-    recur (dec n) (* n acc) 999  ; Warning: recur expects 2 args but got 3
+  if (<= n 1) acc
+    recur (dec n) (* n acc)
+  ; Warning: recur expects 2 args but got 3
+  ; recur (dec n) (* n acc) 999
 ```
 
 **Note**: Recur arity checking automatically skips:
+
 - Functions with variadic parameters (`&` rest args)
 - Functions with optional parameters (`?` markers)
 - Macro-generated functions (e.g., from `loop` macro)
@@ -140,7 +143,7 @@ let
     y |hello      ; inferred as :string
     z true        ; inferred as :bool
     w nil         ; inferred as :nil
-  ...
+  println "|demo code"
 ```
 
 ### Function Return Types
@@ -149,7 +152,7 @@ let
 let
     numbers (range 10)  ; inferred as :list
     first-num (&list:first numbers)  ; inferred as :number
-  ...
+  println "|demo code"
 ```
 
 ### Record and Struct Types
@@ -159,8 +162,8 @@ defstruct Point :x :y
 
 let
     p (%:: Point :x 10 :y 20)  ; inferred as Point record
-    x-val (.-x p)              ; inferred from field type
-  ...
+    x-val (.:x p)              ; inferred from field type
+  println "|demo code"
 ```
 
 ## Type Assertions
@@ -181,9 +184,9 @@ Calcit supports optional type annotations for nullable values:
 
 ```cirru
 defn find-user (id)
-  hint-fn $ return-type (:optional :record)
+  hint-fn $ return-type $ :: :optional :record
   ; May return nil if user not found
-  get-from-db id
+  println "|demo code"
 ```
 
 ## Variadic Types
@@ -192,18 +195,19 @@ Functions with rest parameters use variadic type annotations:
 
 ```cirru
 defn sum (& numbers)
-  hint-fn $ numbers (:variadic :number)
-  reduce &+ 0 numbers
+  hint-fn $ return-type :number
+  assert-type numbers $ :: :& :number
+  reduce numbers 0 +
 ```
 
 ## Function Types
 
-Functions can be typed with parameter and return type information:
+Functions can be typed as `:fn`. You can also assert input types:
 
 ```cirru
 defn apply-twice (f x)
-  hint-fn $ f (:fn ((:number) :number))
-  hint-fn $ x :number
+  assert-type f :fn
+  assert-type x :number
   f (f x)
 ```
 
@@ -212,6 +216,7 @@ defn apply-twice (f x)
 ### Per-Function
 
 Skip checks for specific functions by naming them with special markers:
+
 - Functions with `%` in the name (macro-generated)
 - Functions with `$` in the name (special markers)
 - Functions starting with `__` (internal functions)
@@ -219,6 +224,7 @@ Skip checks for specific functions by naming them with special markers:
 ### Per-Namespace
 
 Checks are automatically skipped for:
+
 - `calcit.core` namespace (external library)
 - Functions with variadic or optional parameters (complex arity rules)
 
@@ -228,8 +234,8 @@ Checks are automatically skipped for:
 
 ```cirru
 defn public-api-function (input)
-  hint-fn $ input :map
   hint-fn $ return-type :string
+  assert-type input :map
   process-input input
 ```
 
@@ -257,9 +263,9 @@ defn critical-operation (data)
 ```cirru
 ; Function that takes a map with specific keys
 defn process-user (user-map)
-  hint-fn $ user-map :map
+  assert-type user-map :map
   ; Expected keys: :name :email :age
-  ...
+  println "|demo code"
 ```
 
 ## Limitations
@@ -304,6 +310,7 @@ defn is-positive? (n)
 ### Performance
 
 Static type analysis:
+
 - Runs during preprocessing phase
 - Zero runtime overhead
 - Only checks functions that are actually called
