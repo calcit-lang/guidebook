@@ -99,6 +99,68 @@ JSON equivalent:
 ]
 ```
 
+## LLM Guidance & Optimization
+
+To ensure high-quality code generation for Calcit, follow these rules:
+
+### 1. Mandatory `|` Prefix for Strings
+
+LLMs often forget the `|` prefix. **Always** use `|` for string literals, even short ones.
+
+- ❌ `println "hello"`
+- ✅ `println |hello`
+- ✅ `println "|hello with spaces"`
+
+### 2. Functional `let` Binding
+
+`let` bindings must be a list of pairs `((name value))`. Single brackets `(name value)` are invalid.
+
+- ❌ `let (x 1) x`
+- ✅ `let ((x 1)) x`
+- ✅ **Preferred**: Use multi-line for clarity:
+  ```cirru
+  let
+      x 1
+      y 2
+    + x y
+  ```
+
+### 3. Arity Awareness
+
+Calcit uses strict arity checking. Many core functions like `+`, `-`, `*`, `/` have native counterparts `&+`, `&-`, `&*`, `&/` which are binaries (2 arguments). The standard versions are often variadic macros.
+
+- Use `&+`, `&-`, etc. in tight loops or when 2 args are guaranteed.
+
+### 4. No Inline Types in Parameters
+
+Calcit **does not** support Clojure-style `(defn name [^Type arg] ...)`.
+
+- ❌ `defn add (a :number) ...`
+- ✅ Use `assert-type` inside the body for parameters.
+- ✅ Return types can be specified with `hint-fn` or a **trailing label** after parameters:
+
+```cirru
+; Parameter check inside body
+defn square (n)
+  assert-type n :number
+  &* n n
+
+; Return type as trailing label
+defn get-pi () :number
+  3.14159
+
+; Mixed style
+defn add (a b) :number
+  assert-type a :number
+  assert-type b :number
+  + a b
+```
+
+### 5. `$` and `,` Usage
+
+- Use `$` to avoid parentheses on the same line.
+- Use `,` to separate multiline pairs in `cond` or `case` if indentation alone feels ambiguous.
+
 ### 6. Common Patterns
 
 #### Function Definition

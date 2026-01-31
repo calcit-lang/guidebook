@@ -15,7 +15,7 @@ The static analysis system provides:
 
 ### Function Parameter Types
 
-Annotate function parameters using `assert-type`:
+Annotate function parameters using `assert-type` within the function body:
 
 ```cirru
 defn calculate-total (items)
@@ -26,24 +26,92 @@ defn calculate-total (items)
 
 ### Return Type Annotations
 
-Specify return types with `hint-fn`:
+There are two ways to specify return types:
+
+#### 1. Formal Hint (`hint-fn`)
+
+Use `hint-fn` with `return-type` at the start of the function body:
 
 ```cirru
 defn get-name (user)
   hint-fn $ return-type :string
-  println "|demo code"
+  |demo
+```
+
+#### 2. Compact Hint (Trailing Label)
+
+For `defn` and `fn`, you can place a type label immediately after the parameters:
+
+```cirru
+defn add (a b) :number
+  + a b
+
+let
+    f $ fn (x y) :number $ + x y
+  f 10 20
 ```
 
 ### Multiple Annotations
 
-Combine parameter and return type annotations:
-
 ```cirru
-defn add (a b)
-  hint-fn $ return-type :number
+defn add (a b) :number
   assert-type a :number
   assert-type b :number
   + a b
+```
+
+## Supported Types
+
+The following type tags are supported:
+
+| Tag                 | Calcit Type         |
+| ------------------- | ------------------- |
+| `:nil`              | Nil                 |
+| `:bool`             | Boolean             |
+| `:number`           | Number              |
+| `:string`           | String              |
+| `:symbol`           | Symbol              |
+| `:tag`              | Tag (Keyword)       |
+| `:list`             | List                |
+| `:map`              | Hash Map            |
+| `:set`              | Set                 |
+| `:tuple`            | Tuple (general)     |
+| `:fn`               | Function            |
+| `:ref`              | Atom / Ref          |
+| `:any` / `:dynamic` | Any type (wildcard) |
+
+### Complex Types
+
+#### Optional Types
+
+Represent values that can be `nil`. Use the `:: :optional <type>` syntax:
+
+```cirru
+defn greet (name)
+  assert-type name $ :: :optional :string
+  str "|Hello " (or name "|Guest")
+```
+
+#### Variadic Types
+
+Represent variable arguments in `&` parameters:
+
+```cirru
+defn sum (& xs)
+  assert-type xs $ :: :& :number
+  reduce xs 0 &+
+```
+
+#### Record and Enum Types
+
+Use the name defined by `defrecord` or `defenum`:
+
+```cirru
+defrecord User :name
+
+defn get-name (u)
+  assert-type u User
+  .-name u
 ```
 
 ## Built-in Type Checks
