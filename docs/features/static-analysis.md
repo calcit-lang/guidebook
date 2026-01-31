@@ -15,13 +15,17 @@ The static analysis system provides:
 
 ### Function Parameter Types
 
-Annotate function parameters using `assert-type` within the function body:
+Annotate function parameters using `assert-type` within the function body.
+
+Runnable Example:
 
 ```cirru
-defn calculate-total (items)
-  assert-type items :list
-  reduce items 0
-    fn (acc item) (+ acc item)
+let
+    calculate-total $ fn (items)
+      assert-type items :list
+      reduce items 0
+        fn (acc item) (+ acc item)
+  calculate-total $ [] 1 2 3
 ```
 
 ### Return Type Annotations
@@ -33,9 +37,11 @@ There are two ways to specify return types:
 Use `hint-fn` with `return-type` at the start of the function body:
 
 ```cirru
-defn get-name (user)
-  hint-fn $ return-type :string
-  |demo
+let
+    get-name $ fn (user)
+      hint-fn $ return-type :string
+      |demo
+  get-name nil
 ```
 
 #### 2. Compact Hint (Trailing Label)
@@ -43,21 +49,21 @@ defn get-name (user)
 For `defn` and `fn`, you can place a type label immediately after the parameters:
 
 ```cirru
-defn add (a b) :number
-  + a b
-
 let
-    f $ fn (x y) :number $ + x y
-  f 10 20
+    add $ fn (a b) :number
+      + a b
+  add 10 20
 ```
 
 ### Multiple Annotations
 
 ```cirru
-defn add (a b) :number
-  assert-type a :number
-  assert-type b :number
-  + a b
+let
+    add $ fn (a b) :number
+      assert-type a :number
+      assert-type b :number
+      + a b
+  add 1 2
 ```
 
 ## Supported Types
@@ -87,9 +93,11 @@ The following type tags are supported:
 Represent values that can be `nil`. Use the `:: :optional <type>` syntax:
 
 ```cirru
-defn greet (name)
-  assert-type name $ :: :optional :string
-  str "|Hello " (or name "|Guest")
+let
+    greet $ fn (name)
+      assert-type name $ :: :optional :string
+      str "|Hello " (or name "|Guest")
+  greet nil
 ```
 
 #### Variadic Types
@@ -97,9 +105,11 @@ defn greet (name)
 Represent variable arguments in `&` parameters:
 
 ```cirru
-defn sum (& xs)
-  assert-type xs $ :: :& :number
-  reduce xs 0 &+
+let
+    sum $ fn (& xs)
+      assert-type xs $ :: :& :number
+      reduce xs 0 &+
+  sum 1 2 3
 ```
 
 #### Record and Enum Types
@@ -107,11 +117,12 @@ defn sum (& xs)
 Use the name defined by `defrecord` or `defenum`:
 
 ```cirru
-defrecord User :name
-
-defn get-name (u)
-  assert-type u User
-  .-name u
+let
+    User $ new-record :User :name
+    get-name $ fn (u)
+      assert-type u User
+      :name u
+  get-name $ %{} User (:name |Alice)
 ```
 
 ## Built-in Type Checks
