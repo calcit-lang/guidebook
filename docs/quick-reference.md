@@ -50,7 +50,7 @@ cr eval "echo |done"
 ## Basic Syntax
 
 ```cirru
-; Function definition
+; "Function definition (in file context)"
 defn add (a b)
   + a b
 
@@ -64,9 +64,9 @@ let
   + a b
 
 ; Thread macro
--> data
-  filter some-fn
-  map transform-fn
+-> (range 10)
+  filter $ fn (x) (> x 5)
+  map inc
 ```
 
 ## Type Annotations

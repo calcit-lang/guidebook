@@ -86,8 +86,8 @@ cr eval 'type-of range'
 # Output: :fn
 
 # Test with sample data
-cr eval '-> (range 5) (map inc) (filter odd?)'
-# Output: ([] 1 3 5)
+cr eval '-> (range 5) (map inc) (filter (fn (x) (> x 2)))'
+# Output: ([] 3 4 5)
 ```
 
 ## Important Notes
