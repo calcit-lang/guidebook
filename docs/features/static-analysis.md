@@ -246,6 +246,27 @@ defn process-data (data)
 
 **Note**: `assert-type` is evaluated during preprocessing and removed at runtime, so there's no performance penalty.
 
+## Type Inspection Tool
+
+Use `&inspect-type` to debug type inference. Pass a symbol name and the inferred type is printed to stderr during preprocessing:
+
+```cirru
+defn demo ()
+  let
+      x 10
+      nums $ [] 1 2 3
+    assert-type nums :list
+    &inspect-type x      ; Prints: [&inspect-type] x => number type
+    &inspect-type nums   ; Prints: [&inspect-type] nums => list type
+    let
+        first $ &list:nth nums 0
+      &inspect-type first ; Prints: [&inspect-type] first => dynamic type
+      assert-type first :number
+      &inspect-type first ; Prints: [&inspect-type] first => number type
+```
+
+**Note**: This is a development tool - remove it in production code. Returns `nil` at runtime.
+
 ## Optional Types
 
 Calcit supports optional type annotations for nullable values:
