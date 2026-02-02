@@ -45,7 +45,12 @@ cr eval "echo |done"
 - **Lists**: `[] 1 2 3`
 - **HashMaps**: `{} (:a 1) (:b 2)`
 - **HashSets**: `#{} :a :b :c`
-- **Record**: `%{} :Name (:key1 val1) (:key2 val2)`, similar to structs
+- **Tuples**: `:: :tag 1 2` - tagged unions with class support
+- **Records**: `%{} RecordName (:key1 val1) (:key2 val2)`, similar to structs
+- **Structs**: `defstruct Point (:x :number) (:y :number)` - record type definitions
+- **Enums**: `defenum Result (:ok ..) (:err :string)` - sum types
+- **Refs/Atoms**: `atom 0` - mutable references
+- **Buffers**: `&buffer 0x01 0x02` - binary data
 
 ## Basic Syntax
 
@@ -120,5 +125,182 @@ assert-type x :number
 - `compact.cirru` - Runtime format (compiled, `cr` command actually uses this)
 - `deps.cirru` - Dependencies
 - `.compact-inc.cirru` - Hot reload trigger, including incremental changes
+
+## Common Functions
+
+### Math
+
+- `+`, `-`, `*`, `/` - arithmetic (variadic)
+- `&+`, `&-`, `&*`, `&/` - binary arithmetic
+- `inc`, `dec` - increment/decrement
+- `pow`, `sqrt`, `round`, `floor`, `ceil`
+- `sin`, `cos` - trigonometric functions
+- `&max`, `&min` - binary min/max
+- `&number:fract` - fractional part
+- `&number:rem` - remainder
+- `&number:format` - format number
+- `bit-shl`, `bit-shr`, `bit-and`, `bit-or`, `bit-xor`, `bit-not`
+
+### List Operations
+
+- `[]` - create list
+- `append`, `prepend` - add elements
+- `concat` - concatenate lists
+- `nth`, `first`, `rest`, `last` - access elements
+- `count`, `empty?` - list properties
+- `slice` - extract sublist
+- `reverse` - reverse list
+- `sort`, `sort-by` - sorting
+- `map`, `filter`, `reduce` - functional operations
+- `foldl`, `foldl-shortcut`, `foldr-shortcut` - folding
+- `range` - generate number range
+- `take`, `drop` - slice operations
+- `distinct` - remove duplicates
+- `&list:contains?`, `&list:includes?` - membership tests
+
+### Map Operations
+
+- `{}` or `&{}` - create map
+- `&map:get` - get value by key
+- `&map:assoc`, `&map:dissoc` - add/remove entries
+- `&map:merge` - merge maps
+- `&map:contains?`, `&map:includes?` - key membership
+- `keys`, `vals` - extract keys/values
+- `to-pairs`, `pairs-map` - convert to/from pairs
+- `&map:filter`, `&map:filter-kv` - filter entries
+- `&map:common-keys`, `&map:diff-keys` - key operations
+
+### Set Operations
+
+- `#{}` - create set
+- `include`, `exclude` - add/remove elements
+- `union`, `difference`, `intersection` - set operations
+- `&set:includes?` - membership test
+- `&set:to-list` - convert to list
+
+### String Operations
+
+- `str` - concatenate to string
+- `str-spaced` - join with spaces
+- `&str:concat` - binary concatenation
+- `trim`, `split`, `split-lines` - string manipulation
+- `starts-with?`, `ends-with?` - prefix/suffix tests
+- `&str:slice` - extract substring
+- `&str:replace` - replace substring
+- `&str:find-index` - find position
+- `&str:contains?`, `&str:includes?` - substring tests
+- `&str:pad-left`, `&str:pad-right` - padding
+- `parse-float` - parse number from string
+- `get-char-code`, `char-from-code` - character operations
+- `&str:escape` - escape string
+
+### Tuple Operations
+
+- `::` - create tuple (shorthand)
+- `%::` - create tuple with class
+- `&tuple:nth` - access element by index
+- `&tuple:assoc` - update element
+- `&tuple:count` - get element count
+- `&tuple:class` - get class
+- `&tuple:params` - get parameters
+- `&tuple:enum` - get enum tag
+- `&tuple:with-class` - change class
+
+### Record Operations
+
+- `new-record` - create record instance
+- `defrecord!` - define record type with methods
+- `&%{}` - low-level record constructor
+- `&record:get` - get field value
+- `&record:assoc` - set field value
+- `&record:with` - update fields
+- `&record:class` - get record class
+- `&record:matches?` - type check
+- `&record:from-map` - convert from map
+- `&record:to-map` - convert to map
+- `record?` - predicate
+
+### Struct & Enum Operations
+
+- `defstruct` - define struct type
+- `defenum` - define enum type
+- `&struct::new`, `&enum::new` - create instances
+- `struct?`, `enum?` - predicates
+- `&tuple:enum-has-variant?` - check variant
+- `&tuple:enum-variant-arity` - get variant arity
+- `tag-match` - pattern matching on enums
+
+### Ref/Atom Operations
+
+- `atom` - create atom
+- `&atom:deref` or `deref` - read value
+- `reset!` - set value
+- `swap!` - update with function
+- `add-watch`, `remove-watch` - observe changes
+- `ref?` - predicate
+
+### Type Predicates
+
+- `nil?`, `some?` - nil checks
+- `number?`, `string?`, `tag?`, `symbol?`
+- `list?`, `map?`, `set?`, `tuple?`
+- `record?`, `struct?`, `enum?`, `ref?`
+- `fn?`, `macro?`
+
+### Control Flow
+
+- `if` - conditional
+- `when`, `when-not` - single-branch conditionals
+- `cond` - multi-way conditional
+- `case` - pattern matching on values
+- `&case` - internal case macro
+- `tag-match` - enum/tuple pattern matching
+- `record-match` - record pattern matching
+- `list-match` - list destructuring match
+- `field-match` - map field matching
+
+### Threading Macros
+
+- `->` - thread first
+- `->>` - thread last
+- `->%` - thread with `%` placeholder
+- `%<-` - reverse thread
+
+### Other Macros
+
+- `let` - local bindings
+- `defn` - define function
+- `defmacro` - define macro
+- `fn` - anonymous function
+- `quote`, `quasiquote` - code as data
+- `macroexpand`, `macroexpand-all` - debug macros
+- `assert`, `assert=` - assertions
+- `&doseq` - side-effect iteration
+- `for` - list comprehension
+
+### Meta Operations
+
+- `type-of` - get type tag
+- `turn-string`, `turn-symbol`, `turn-tag` - type conversion
+- `identical?` - reference equality
+- `recur` - tail recursion
+- `generate-id!` - unique ID generation
+- `cpu-time` - timing
+- `&get-os`, `&get-calcit-backend` - environment info
+
+### EDN/Data Operations
+
+- `parse-cirru-edn`, `format-cirru-edn` - EDN serialization
+- `parse-cirru`, `format-cirru` - Cirru syntax
+- `&data-to-code` - convert data to code
+- `pr-str` - print to string
+
+### Effects/IO
+
+- `echo`, `println` - output
+- `read-file`, `write-file` - file operations
+- `get-env` - environment variables
+- `raise` - throw error
+- `quit!` - exit program
 
 For detailed information, see the specific documentation files in the table of contents.

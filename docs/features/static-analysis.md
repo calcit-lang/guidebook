@@ -157,8 +157,8 @@ Validates enum construction and pattern matching:
 
 ```cirru
 defenum Result
-  (:Ok :any)
-  (:Error :string)
+  :Ok :any
+  :Error :string
 
 ; Warning: variant 'Failure' not found in enum Result
 %:: Result :Failure "|something went wrong"
