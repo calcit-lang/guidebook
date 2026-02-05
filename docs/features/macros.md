@@ -28,9 +28,36 @@ defmacro case (item default & patterns)
 
 Calcit was not designed to be identical to Clojure, so there are many details here and there.
 
+### Macros and Static Analysis
+
+Macros expand before type checking, so generated code is validated:
+
+```cirru
+defmacro assert-positive (x)
+  quasiquote
+    if (< ~x 0)
+      raise "|Value must be positive"
+      ~x
+
+; After expansion, type checking applies to generated code
+defn process (n)
+  assert-type n :number
+  assert-positive n  ; Macro expands, then type-checked
+```
+
+**Important**: Macro-generated functions (like loop's `f%`) are automatically excluded from certain static checks (e.g., recur arity) to avoid false positives. Functions with `%`, `$`, or `__` prefix are treated as compiler-generated.
+
+### Best Practices
+
+- **Use gensym for local variables**: Prevents name collision
+- **Keep macros simple**: Complex logic belongs in functions
+- **Document macro behavior**: Include usage examples
+- **Test macro expansion**: Use `macroexpand-all` to verify output
+- **Avoid side effects**: Macros should only transform syntax
+
 ### Debug Macros
 
-use `macroexpand-all` for debugging:
+Use `macroexpand-all` for debugging:
 
 ```
 $ cr eval 'println $ format-to-cirru $ macroexpand-all $ quote $ let ((a 1) (b 2)) (+ a b)'

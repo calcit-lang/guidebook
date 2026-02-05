@@ -95,11 +95,18 @@ also can be nested:
     :d 3
 ```
 
-Also a record:
+Also a record (in Calcit code, not EDN data):
 
 ```cirru
-%{} :A
+; "Then create an instance in EDN"
+%{} A
   :a 1
+```
+
+Also define a record type with defrecord in Calcit code and use it in deserialization:
+
+```cirru
+defrecord! A :a
 ```
 
 ### Quotes
@@ -137,13 +144,7 @@ This is not a generic solution, but tuple is a special data structure in Calcit 
 
 ### Buffers
 
-there's a special syntax for representing buffers in EDN using pairs of Hex digits as `u8`:
-
-```cirru
-buf 03 55 77 ff 00
-```
-
-which corresponds to:
+Buffers can be created using the `&buffer` function with hex values:
 
 ```cirru
 &buffer 0x03 0x55 0x77 0xff 0x00

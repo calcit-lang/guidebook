@@ -1,5 +1,7 @@
 # Structural Editor
 
+> **Deprecated:** As Calcit shifts toward LLM-generated code workflows, command-line operations and type annotations have become more important. The structural editor approach is no longer recommended. Agent interfaces are preferred over direct user interaction.
+
 As demonstrated in [Cirru Project](http://cirru.org/), it's for higher goals of auto-layout code editor. [Calcit Editor](https://github.com/calcit-lang/editor) was incubated in Cirru.
 
 Structural editing makes Calcit a lot different from existing languages, even unique among Lisps.
