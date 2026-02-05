@@ -1,132 +1,73 @@
 # Polymorphism
 
-Calcit uses tuples to simulate objects. Inherence not supported.
+Calcit now models polymorphism with traits. The previous class-based tuple prototype system has been removed.
 
-Core idea is inspired by JavaScript and also [borrowed from a trick of Haskell](https://www.well-typed.com/blog/2018/03/oop-in-haskell/) since Haskell is simulating OOP with immutable data structures.
+Traits define method capabilities and can be attached to values with `impl-traits`. Method dispatch looks up trait implementations attached to the value first, then falls back to built-in implementations for core types.
 
-### Terms
+## Key terms
 
-- "Tuple", the data structure of 2 or more items, written like `(:: a b)`. It's more "tagged union" in the case of Calcit.
-- "class", it's a concept between "JavaScript class" and "JavaScript prototype", it's using a record containing functions to represent the prototype of objects.
-- "object", Calcit has no "OOP Objects", it's only tuples that simulating objects to support polymorphism. It's based on immutable data.
+- **Trait**: A named capability with method signatures (defined by `deftrait`).
+- **Trait impl**: A record providing method implementations for a trait.
+- **impl-traits**: Attaches one or more trait impl records to a value.
+- **assert-traits**: Adds a compile-time hint and performs a runtime check that a value satisfies a trait.
 
-which makes "tuple" a really special data type Calcit.
-
-Tuple has a structure of three parts:
-
-```cirru
-%:: %class :tag p1 p2 p3
-```
-
-- `%class` defines the class, which is a hidden property, not counted in index
-- `:tag` is a tag to identify the tuple by convention, index is `0`.
-- parameters, can be 0 or many arguments, index starts with `1`. for example `(:: :none)` is an example of a tuple with 0 arguments, index `0` gets `:none`.
-
-There was another shorthand for defining tuples, which internall uses an empty class:
+## Define a trait
 
 ```cirru
-:: :tag p1 p2 p3
+deftrait Show
+  :show (:: :fn ('T) ('T) :string)
+
+deftrait Eq
+  :eq? (:: :fn ('T) ('T 'T) :bool)
 ```
 
-### Usage
+Traits are values and can be referenced like normal symbols.
 
-Define a class:
+## Implement a trait for a value
 
 ```cirru
-defrecord! MyNum
-  (:inc $ fn (self)
-    update self 1 inc)
-  (:show $ fn (self)
-    str $ &tuple:nth self 1)
+deftrait MyFoo
+  :foo (:: :fn ('T) ('T) :string)
+
+defrecord! MyFooImpl
+  :foo $ fn (p) (str "|foo " (:name p))
+
+let
+    Person0 $ defstruct Person (:name :string)
+    Person $ impl-traits Person0 MyFooImpl
+    p $ %{} Person (:name |Alice)
+  println $ .foo p
 ```
 
-Notice that `self` in this context is `(%:: MyNum :my-num 1)` rather than a bare literal.
-
-Get an object and call method:
+`impl-traits` returns a new value with trait implementations attached. You can also attach multiple traits at once:
 
 ```cirru
 let
-    a $ %:: MyNum :my-num 1
-  println $ .show a
+    Person0 $ defstruct Person (:name :string)
+    p $ impl-traits Person0 ShowImpl EqImpl MyFooImpl
+  println $ .show p
+  println $ .foo p
 ```
 
-### Type Annotations for Methods
+## Trait checks and type hints
 
-You can add type annotations to method definitions:
-
-```cirru
-defrecord! Counter
-  (:value $ fn (self)
-    hint-fn $ return-type :number
-    &tuple:nth self 1)
-  (:inc $ fn (self)
-    hint-fn $ return-type $ :: :tuple Counter
-    update self 1 inc)
-  (:add $ fn (self n)
-    hint-fn $ return-type $ :: :tuple Counter
-    assert-type n :number
-    update self 1 $ fn (x) (+ x n))
-```
-
-Method calls are validated at compile-time:
+`assert-traits` marks a local as having a trait and validates it at runtime:
 
 ```cirru
-; Valid method call
 let
-    c $ %:: Counter :counter 10
-  .inc c  ; OK
-
-; Invalid method name caught at compile-time
-; .increment c  ; Error: method 'increment' not found in Counter
+    p $ %{} Person (:name |Alice)
+  assert-traits p MyFoo
+  .foo p
 ```
 
-### Type Checking with Tuples
+If the trait is missing or required methods are not implemented, `assert-traits` raises an error.
 
-Tuples can be type-annotated with `(:tuple ClassName)`:
+## Built-in traits
 
-```cirru
-defn process-counter (c)
-  hint-fn $ return-type :number
-  assert-type c $ :: :tuple Counter
-  .value c
+Core types provide built-in trait implementations (e.g. `Show`, `Eq`, `Compare`, `Add`, `Len`, `Mappable`). These are registered by the runtime, so values like numbers, strings, lists, maps, and records already satisfy common traits.
 
-; Type mismatch detected
-; process-counter (:: :not-counter)  ; Error: expected (:tuple Counter)
-```
+## Notes
 
-> Not to be confused with JavaScript native method function which uses `.!method`.
-
-Use it with chaining:
-
-```cirru
--> (%:: MyNum :my-num 1)
-  .update
-  .show
-  println
-```
-
-In the runtime, a method call will try to check first element in the passed tuple and use it as the prototype, looking up the method name, and then really call it. It's roughly same behavoirs running in JavaScript except that JavaScript need to polyfill this with partial functions.
-
-### Built-in classes
-
-Many of core data types inside Calcit are treated like "tagged unions" inside the runtime, with some class being initialized at program start:
-
-```cirru
-&core-number-class
-&core-string-class
-&core-set-class
-&core-list-class
-&core-map-class
-&core-record-class
-&core-nil-class
-&core-fn-class
-```
-
-that's why you can call `(.fract 1.1)` to run `(&number:fract 1.1)` since `1` is treated like `(:: &core-number-class 1)` when passing to method syntax.
-
-The cost of this syntax is the code related are always initialized when Calcit run, even all of the method syntaxes not actually called.
-
-### Some old materials
-
-- Dev log(中文) https://github.com/calcit-lang/calcit/discussions/44
-- Dev log in video(中文) https://www.bilibili.com/video/BV1Ky4y137cv
+- There is no inheritance. Behavior sharing is done via traits and `impl-traits`.
+- Method calls resolve through attached trait impls first, then built-in implementations.
+- Use `assert-traits` when a function relies on trait methods and you want early, clear failures.
