@@ -31,6 +31,7 @@
   - [js Interop](features/js-interop.md)
   - [Imports](features/imports.md)
   - [Polymorphism](features/polymorphism.md)
+  - [Traits](features/traits.md)
   - [Static Analysis](features/static-analysis.md)
   - [Common Patterns](features/common-patterns.md)
 - [Structural Editor](structural-editor.md)

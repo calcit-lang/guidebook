@@ -21,6 +21,7 @@ Calcit inherits most features from Clojure/ClojureScript while adding its own in
 - **Incremental compilation** - Fast hot reload with `.compact-inc.cirru` format
 - **Pattern matching** - Tagged unions with compile-time validation
 - **Record types** - Lightweight structs with field access validation
+- **Traits & method dispatch** - Attach capability-based methods to values, with explicit disambiguation when needed
 
 ## Language Features
 
@@ -32,6 +33,7 @@ For detailed information about specific features:
 - [JavaScript Interop](features/js-interop.md) - Calling JS from Calcit and vice versa
 - [Imports](features/imports.md) - Module system and dependency management
 - [Polymorphism](features/polymorphism.md) - Object-oriented programming patterns
+- [Traits](features/traits.md) - Capability-based method dispatch and explicit trait calls
 - [Static Analysis](features/static-analysis.md) - Type checking and compile-time validation
 
 ## Development Features

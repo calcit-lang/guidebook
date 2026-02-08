@@ -1,13 +1,15 @@
 # Polymorphism
 
-Calcit now models polymorphism with traits. The previous class-based tuple prototype system has been removed.
+Calcit models polymorphism with traits. Traits define method capabilities and can be attached to values with `impl-traits`.
 
-Traits define method capabilities and can be attached to values with `impl-traits`. Method dispatch looks up trait implementations attached to the value first, then falls back to built-in implementations for core types.
+For capability-based dispatch that can be attached to values (including records/tuples), see [Traits](traits.md).
+
+Historically, the idea was inspired by JavaScript, and also [borrowed from a trick of Haskell](https://www.well-typed.com/blog/2018/03/oop-in-haskell/) (simulating OOP with immutable data structures). The current model is trait-based.
 
 ## Key terms
 
 - **Trait**: A named capability with method signatures (defined by `deftrait`).
-- **Trait impl**: A record providing method implementations for a trait.
+- **Trait impl**: An impl record providing method implementations for a trait.
 - **impl-traits**: Attaches one or more trait impl records to a value.
 - **assert-traits**: Adds a compile-time hint and performs a runtime check that a value satisfies a trait.
 
@@ -29,7 +31,7 @@ Traits are values and can be referenced like normal symbols.
 deftrait MyFoo
   :foo (:: :fn ('T) ('T) :string)
 
-defrecord! MyFooImpl
+defimpl MyFoo MyFooImpl
   :foo $ fn (p) (str "|foo " (:name p))
 
 let
@@ -71,3 +73,8 @@ Core types provide built-in trait implementations (e.g. `Show`, `Eq`, `Compare`,
 - There is no inheritance. Behavior sharing is done via traits and `impl-traits`.
 - Method calls resolve through attached trait impls first, then built-in implementations.
 - Use `assert-traits` when a function relies on trait methods and you want early, clear failures.
+
+## Further reading
+
+- Dev log(中文) https://github.com/calcit-lang/calcit/discussions/44
+- Dev log in video(中文) https://www.bilibili.com/video/BV1Ky4y137cv

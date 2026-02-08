@@ -108,7 +108,15 @@ assert-type x :number
 - `:number`, `:string`, `:bool`, `:nil`, `:any`
 - `:list`, `:map`, `:set`, `:record`, `:fn`, `:tuple`
 - `:dynamic` - wildcard type (default when no annotation)
-- Generic types: `(:list :number)`, `(:map :string)`, `(:fn (:number) :string)`
+- Generic types (Cirru style):
+
+```cirru
+:: :list :number
+:: :map :string
+:: :fn
+  [] :number
+  :string
+```
 
 ### Static Checks (Compile-time)
 
@@ -229,6 +237,17 @@ assert-type x :number
 - `&tuple:enum-has-variant?` - check variant
 - `&tuple:enum-variant-arity` - get variant arity
 - `tag-match` - pattern matching on enums
+
+## Traits & Methods
+
+- `deftrait` - define a trait (method set + type signatures)
+- `defimpl` - define an impl record for a trait
+- `impl-traits` - attach impl records to a value (user impls: later impls override earlier ones for same method name)
+- `.method` - normal method dispatch
+- `&trait-call` - explicit trait method call: `&trait-call Trait :method receiver & args`
+- `&methods-of` - list runtime-available methods (strings including leading dot)
+- `&inspect-methods` - print impl/method resolution to stderr, returns the value unchanged
+- `assert-traits` - runtime check that a value implements a trait, returns the value unchanged
 
 ### Ref/Atom Operations
 
