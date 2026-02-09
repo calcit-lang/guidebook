@@ -28,8 +28,8 @@ defimpl MyFoo MyFooImpl
 
 Implementation notes:
 
-- `defimpl` creates an “impl record” whose identity is tagged by the trait.
-- This is important for explicit disambiguation via `&trait-call` (see below).
+- `defimpl` creates an “impl record” that stores the trait as its origin.
+- This origin is used by `&trait-call` to match the correct implementation when method names overlap.
 
 ## Attach impls to a value
 
@@ -89,12 +89,22 @@ Two helpers are useful when debugging trait + method dispatch:
 
 - `&methods-of` returns a list of available method names (strings, including the leading dot).
 - `&inspect-methods` prints impl records and methods to stderr, and returns the value unchanged.
+- `&impl:origin` returns the trait origin stored on an impl record (or nil).
 
 ```cirru
 let
     xs $ [] 1 2
   &methods-of xs
   &inspect-methods xs "|list"
+```
+
+You can also inspect impl origins directly when validating trait dispatch:
+
+```cirru
+let
+    impls $ &tuple:impls some-tuple
+  any? impls $ fn (impl)
+    = (&impl:origin impl) MyFoo
 ```
 
 ## Checking trait requirements
