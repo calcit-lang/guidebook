@@ -31,7 +31,7 @@ Traits are values and can be referenced like normal symbols.
 deftrait MyFoo
   :foo (:: :fn ('T) ('T) :string)
 
-defimpl MyFoo MyFooImpl
+defimpl MyFooImpl MyFoo
   :foo $ fn (p) (str "|foo " (:name p))
 
 let

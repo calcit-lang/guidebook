@@ -21,10 +21,65 @@ deftrait MyFoo
 Use `defimpl` to create an impl record for a trait.
 
 ```cirru
-defimpl MyFoo MyFooImpl
+defimpl MyFooImpl MyFoo
   :foo $ fn (p)
     str-spaced |foo (:name p)
 ```
+
+### Impl-related syntax (cheatsheet)
+
+**1) `defimpl` argument order (breaking change)**
+
+```
+defimpl ImplName Trait ...
+```
+
+- First argument is the **impl record name**.
+- Second argument is the **trait value** (symbol) or a **tag**.
+
+Examples:
+
+```cirru
+defimpl MyFooImpl MyFoo
+  :foo $ fn (p) (str-spaced |foo (:name p))
+
+defimpl :MyFooImpl :MyFoo
+  :foo $ fn (p) (str-spaced |foo (:name p))
+```
+
+**2) Method pair forms**
+
+All of the following are accepted and equivalent:
+
+```cirru
+defimpl MyFooImpl MyFoo
+  :foo (fn (p) ...)
+  :bar (fn (p) ...)
+```
+
+```cirru
+defimpl MyFooImpl MyFoo
+  (:foo (fn (p) ...))
+  (:bar (fn (p) ...))
+```
+
+```cirru
+defimpl MyFooImpl MyFoo
+  (:: :foo (fn (p) ...))
+  (:: :bar (fn (p) ...))
+```
+
+**3) Tag-based impl (no concrete trait value)**
+
+If you need a pure marker and don’t want to bind to a real trait value, use tags:
+
+```cirru
+defimpl :MyMarkerImpl :MyMarker
+  :dummy nil
+```
+
+This is also a safe replacement for the old self-referential pattern
+`defimpl X X`, which can cause recursion in new builds.
 
 Implementation notes:
 
@@ -34,6 +89,12 @@ Implementation notes:
 ## Attach impls to a value
 
 `impl-traits` attaches impl records to a value. For user values, later impls override earlier impls for the same method name ("last-wins").
+
+Syntax:
+
+```cirru
+impl-traits value ImplA ImplB
+```
 
 ```cirru
 let
@@ -66,10 +127,10 @@ deftrait MyZapA
 deftrait MyZapB
   :zap (:: :fn ('T) ('T) :string)
 
-defimpl MyZapA MyZapAImpl
+defimpl MyZapAImpl MyZapA
   :zap $ fn (_x) |zapA
 
-defimpl MyZapB MyZapBImpl
+defimpl MyZapBImpl MyZapB
   :zap $ fn (_x) |zapB
 
 let

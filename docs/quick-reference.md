@@ -241,7 +241,7 @@ assert-type x :number
 ## Traits & Methods
 
 - `deftrait` - define a trait (method set + type signatures)
-- `defimpl` - define an impl record for a trait
+- `defimpl` - define an impl record for a trait: `defimpl ImplName Trait ...`
 - `impl-traits` - attach impl records to a value (user impls: later impls override earlier ones for same method name)
 - `.method` - normal method dispatch
 - `&trait-call` - explicit trait method call: `&trait-call Trait :method receiver & args`
