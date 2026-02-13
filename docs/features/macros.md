@@ -26,6 +26,17 @@ defmacro case (item default & patterns)
         &case ~v ~default ~@patterns
 ```
 
+For macros that need multiple fresh symbols, use `with-gensyms` from `calcit.core`:
+
+```cirru
+defmacro swap! (a b)
+  with-gensyms (tmp)
+    quasiquote
+      let ((~tmp ~a))
+        reset! ~a ~b
+        reset! ~b ~tmp
+```
+
 Calcit was not designed to be identical to Clojure, so there are many details here and there.
 
 ### Macros and Static Analysis
@@ -75,6 +86,8 @@ $ cr eval 'println $ format-to-lisp $ macroexpand-all $ quote $ let ((a 1) (b 2)
 
 (&let (a 1) (&let (b 2) (+ a b)))
 ```
+
+`macroexpand`, `macroexpand-1`, and `macroexpand-all` also print the expansion chain on stderr when nested macros are involved (for example `m1 -> m2 -> m3`). This is useful when a call site expands through helper macros before reaching final syntax.
 
 The syntax `macroexpand` only expand syntax tree once:
 

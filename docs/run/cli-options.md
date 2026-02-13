@@ -1,7 +1,7 @@
 # CLI Options
 
 ```bash
-Usage: cr [<input>] [-1] [--disable-stack] [--skip-arity-check] [--emit-path <emit-path>] [--init-fn <init-fn>] [--reload-fn <reload-fn>] [--entry <entry>] [--reload-libs] [--watch-dir <watch-dir>] [<command>] [<args>]
+Usage: cr [<input>] [-1] [--disable-stack] [--skip-arity-check] [--warn-dyn-method] [--emit-path <emit-path>] [--init-fn <init-fn>] [--reload-fn <reload-fn>] [--entry <entry>] [--reload-libs] [--watch-dir <watch-dir>] [<command>] [<args>]
 
 Top-level command.
 
@@ -13,6 +13,8 @@ Options:
   --disable-stack   disable stack trace for errors
   --skip-arity-check
                     skip arity check in js codegen
+  --warn-dyn-method
+                    warn on dynamic method dispatch and trait-attachment diagnostics
   --emit-path       entry file path, defaults to "js-out/"
   --init-fn         specify `init_fn` which is main function
   --reload-fn       specify `reload_fn` which is called after hot reload
@@ -68,6 +70,14 @@ cr js --skip-arity-check
 
 ```bash
 cr js --emit-path dist/
+```
+
+### Dynamic Method Warnings (--warn-dyn-method)
+
+Warn when dynamic method dispatch cannot be specialized at preprocess time, and surface related trait-attachment diagnostics:
+
+```bash
+cr --warn-dyn-method
 ```
 
 ### Hot Reloading Configuration
