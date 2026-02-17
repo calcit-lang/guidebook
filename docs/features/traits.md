@@ -1,6 +1,6 @@
 # Traits
 
-Calcit provides a lightweight trait system for attaching method implementations to values (struct/enum instances and some built-in types).
+Calcit provides a lightweight trait system for attaching method implementations to struct/enum definitions (and using them from constructed instances and built-in types).
 
 It complements the “class-like” polymorphism described in [Polymorphism](polymorphism.md):
 
@@ -80,7 +80,7 @@ Implementation notes:
 - `defimpl` creates an “impl record” that stores the trait as its origin.
 - This origin is used by `&trait-call` to match the correct implementation when method names overlap.
 
-## Attach impls to a value
+## Attach impls to struct/enum definitions
 
 `impl-traits` attaches impl records to a **struct/enum type**. For user values, later impls override earlier impls for the same method name ("last-wins").
 
@@ -92,8 +92,13 @@ Constraints:
 Syntax:
 
 ```cirru
-impl-traits value ImplA ImplB
+impl-traits StructOrEnumDef ImplA ImplB
 ```
+
+### Public vs internal API boundary
+
+- Prefer public API in app/library code: `deftrait`, `defimpl`, `impl-traits`, `.method`, `&trait-call`.
+- Treat internal `&...` helpers as runtime-level details; they may change more frequently and are not the stable user contract.
 
 ```cirru
 defstruct Person0
@@ -133,6 +138,14 @@ When running `warn-dyn-method`, preprocess emits extra diagnostics for:
 
 - `.method` call sites that have multiple trait candidates with the same method name.
 - `impl-traits` used inside function/macro bodies (non-top-level attachment).
+
+## Docs as tests
+
+Key trait docs examples are mirrored by executable smoke cases in `calcit/test-doc-smoke.cirru`, including:
+
+- `defimpl` argument order (`ImplName` then `Trait`)
+- `assert-traits` local-first requirement
+- `impl-traits` only accepting struct/enum definitions
 
 ## Method call vs explicit trait call
 

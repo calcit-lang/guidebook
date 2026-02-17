@@ -1,8 +1,8 @@
 # Polymorphism
 
-Calcit models polymorphism with traits. Traits define method capabilities and can be attached to values with `impl-traits`.
+Calcit models polymorphism with traits. Traits define method capabilities and can be attached to struct/enum definitions with `impl-traits`.
 
-For capability-based dispatch that can be attached to values (including records/tuples), see [Traits](traits.md).
+For capability-based dispatch via struct/enum-attached impls (used by records/tuples created from them), see [Traits](traits.md).
 
 Historically, the idea was inspired by JavaScript, and also [borrowed from a trick of Haskell](https://www.well-typed.com/blog/2018/03/oop-in-haskell/) (simulating OOP with immutable data structures). The current model is trait-based.
 
@@ -10,7 +10,7 @@ Historically, the idea was inspired by JavaScript, and also [borrowed from a tri
 
 - **Trait**: A named capability with method signatures (defined by `deftrait`).
 - **Trait impl**: An impl record providing method implementations for a trait.
-- **impl-traits**: Attaches one or more trait impl records to a value.
+- **impl-traits**: Attaches one or more trait impl records to a struct/enum definition.
 - **assert-traits**: Adds a compile-time hint and performs a runtime check that a value satisfies a trait.
 
 ## Define a trait
@@ -25,7 +25,7 @@ deftrait Eq
 
 Traits are values and can be referenced like normal symbols.
 
-## Implement a trait for a value
+## Implement a trait for a struct/enum definition
 
 ```cirru
 deftrait MyFoo
@@ -41,12 +41,13 @@ let
   println $ .foo p
 ```
 
-`impl-traits` returns a new value with trait implementations attached. You can also attach multiple traits at once:
+`impl-traits` returns a new struct/enum definition with trait implementations attached. You can also attach multiple traits at once:
 
 ```cirru
 let
     Person0 $ defstruct Person (:name :string)
-    p $ impl-traits Person0 ShowImpl EqImpl MyFooImpl
+    Person $ impl-traits Person0 ShowImpl EqImpl MyFooImpl
+    p $ %{} Person (:name |Alice)
   println $ .show p
   println $ .foo p
 ```
