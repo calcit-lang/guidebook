@@ -140,6 +140,70 @@ let
 ; => :Point
 ```
 
+### Getting Source Struct (Optional)
+
+Use `&record:struct` to inspect the struct prototype behind a record value.
+
+```cirru
+let
+    Person $ defstruct Person
+      :name :string
+    p $ %{} Person
+      :name |Alice
+  &record:struct p
+  ; => struct Person (or nil if metadata is unavailable)
+```
+
+Recommended guard:
+
+```cirru
+let
+    Person $ defstruct Person
+      :name :string
+    p $ %{} Person (:name |Alice)
+    s $ &record:struct p
+  if (nil? s)
+    println |No struct metadata
+    println $ str |Struct: s
+```
+
+### Accurate Origin Check (Struct Eq)
+
+When you need to verify that a record was created from a specific struct, compare structs directly:
+
+```cirru
+let
+    Cat $ defstruct Cat
+      :name :string
+      :color :tag
+    kitty $ %{} Cat
+      :name |Kitty
+      :color :red
+  assert= (&record:struct kitty) Cat
+```
+
+This is stronger than only comparing record names, because struct equality also checks field shape.
+
+### Complex Branching Example (Safe + Fallback)
+
+```cirru
+let
+    Cat $ defstruct Cat
+      :name :string
+      :color :tag
+    Dog $ defstruct Dog
+      :name :string
+    v1 $ %{} Cat (:name |Mimi) (:color :white)
+    src $ &record:struct v1
+  if (nil? src)
+    println |Unknown record origin
+    if (= src Cat)
+      println |Handle Cat branch
+      if (= src Dog)
+        println |Handle Dog branch
+        println |Known record, but different struct
+```
+
 ### Extending Records
 
 ```cirru

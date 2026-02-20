@@ -74,7 +74,55 @@ let
 
 ; Get enum tag
 &tuple:enum t
-; => :point
+; => enum value or nil
+```
+
+`&tuple:enum` is the source-prototype API for tuples:
+
+- If tuple is created from enum (`%::`), it returns that enum value.
+- If tuple is created as plain tuple (`::`), it returns `nil`.
+
+```cirru
+let
+    plain $ :: :point 10 20
+  nil? $ &tuple:enum plain
+  ; => true
+
+let
+    ApiResult $ defenum ApiResult (:ok :number) (:err :string)
+    ok $ %:: ApiResult :ok 1
+  type-of $ &tuple:enum ok
+  ; => :enum
+
+assert= ApiResult $ &tuple:enum ok
+```
+
+### Accurate Origin Check (Enum Eq)
+
+```cirru
+let
+    ApiResult $ defenum ApiResult (:ok :number) (:err :string)
+    x $ %:: ApiResult :ok 1
+  assert= (&tuple:enum x) ApiResult
+```
+
+### Complex Branching Example (Safe + Validation)
+
+```cirru
+do
+  defenum Result
+    :ok :number
+    :err :string
+  let
+      xs $ []
+        %:: Result :ok 1
+        %:: Result :err |bad
+        :: :plain 42
+    if (nil? (&tuple:enum (&list:nth xs 2)))
+      if (= (&tuple:enum (&list:nth xs 0)) Result)
+        , |result-and-plain
+        , |result-missing
+      , |unexpected
 ```
 
 ## Updating Tuples
@@ -138,11 +186,11 @@ defenum Option
 %:: Option :none
 
 ; Check variant
-&tuple:enum-has-variant? option :some
+&tuple:enum-has-variant? Option :some
 ; => true
 
 ; Get variant arity
-&tuple:enum-variant-arity option :some
+&tuple:enum-variant-arity Option :some
 ; => 1
 ```
 
