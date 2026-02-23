@@ -18,12 +18,12 @@ Use `::` to create a tuple with a tag:
 
 ### With Class Syntax
 
-Use `%::` to create a tuple with a class:
+Use `%::` to create a typed tuple from an enum:
 
 ```cirru
-defrecord! Point :x :y
+defenum Shape (:point :number :number) (:circle :number)
 
-%:: Point :point 10 20
+%:: Shape :point 10 20
 ```
 
 ## Tuple Structure
@@ -255,7 +255,7 @@ defn process-result (r)
 | --------- | ------------- | ------------------ |
 | Access    | By index      | By field name      |
 | Structure | Tag + params  | Named fields       |
-| Methods   | Via class     | Via defrecord!     |
+| Methods   | Via class     | Via traits         |
 | Use case  | Tagged unions | Structured objects |
 
 ## Performance Notes

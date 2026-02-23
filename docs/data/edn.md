@@ -103,10 +103,10 @@ Also a record (in Calcit code, not EDN data):
   :a 1
 ```
 
-Also define a record type with defrecord in Calcit code and use it in deserialization:
+Define a struct type in Calcit code for use in deserialization:
 
 ```cirru
-defrecord! A :a
+defstruct A (:a :dynamic)
 ```
 
 ### Quotes

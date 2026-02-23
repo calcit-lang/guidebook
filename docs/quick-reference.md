@@ -96,8 +96,8 @@ defn sum (& xs)
   assert-type xs $ :: :& :number
   apply + xs
 
-; Record definition
-defrecord User :name :age :email
+; Struct definition
+defstruct User (:name :string) (:age :number) (:email :string)
 
 ; Type assertion (compile-time check)
 assert-type x :number
@@ -216,17 +216,19 @@ assert-type x :number
 
 ### Record Operations
 
-- `new-record` - create record instance
-- `defrecord!` - define record type with methods
-- `&%{}` - low-level record constructor
+- `defstruct` - define a struct type with typed fields
+- `%{}` - create a record instance from a struct
+- `%{}?` - create a partial record (unset fields default to nil)
+- `&%{}` - low-level record constructor (flat key-value pairs, no type check)
+- `record-with` - update multiple fields, returns new record
 - `&record:get` - get field value
-- `&record:assoc` - set field value
-- `&record:with` - update fields
-- `&record:class` - get record class
+- `&record:assoc` - set field value (low-level)
+- `&record:struct` - get the struct definition the record was created from
 - `&record:matches?` - type check
 - `&record:from-map` - convert from map
 - `&record:to-map` - convert to map
-- `record?` - predicate
+- `&record:get-name` - get tag name of the record's struct
+- `record?`, `struct?` - predicates
 
 ### Struct & Enum Operations
 

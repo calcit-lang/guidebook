@@ -114,14 +114,15 @@ let
 
 #### Record and Enum Types
 
-Use the name defined by `defrecord` or `defenum`:
+Use the name defined by `defstruct` or `defenum`:
 
 ```cirru
+defstruct User (:name :string)
+
 let
-    User $ new-record :User :name
     get-name $ fn (u)
       assert-type u User
-      :name u
+      get u :name
   get-name $ %{} User (:name |Alice)
 ```
 
@@ -144,7 +145,7 @@ defn greet (name age)
 Validates that record fields exist:
 
 ```cirru
-defrecord User :name :age
+defstruct User (:name :string) (:age :number)
 
 defn get-user-email (user)
   .-email user
