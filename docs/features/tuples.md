@@ -9,11 +9,13 @@ Tuples in Calcit are tagged unions that can hold multiple values with a tag. The
 Use `::` to create a tuple with a tag:
 
 ```cirru
-:: :point 10 20
-
-:: :ok result
-
-:: :err message
+let
+    result 42
+    message |error-occurred
+  do
+    :: :point 10 20
+    :: :ok result
+    :: :err message
 ```
 
 ### With Class Syntax
@@ -21,9 +23,9 @@ Use `::` to create a tuple with a tag:
 Use `%::` to create a typed tuple from an enum:
 
 ```cirru
-defenum Shape (:point :number :number) (:circle :number)
-
-%:: Shape :point 10 20
+let
+    Shape $ defenum Shape (:point :number :number) (:circle :number)
+  %:: Shape :point 10 20
 ```
 
 ## Tuple Structure
@@ -35,11 +37,10 @@ A tuple consists of:
 - **Parameters**: Zero or more values (indices 1+)
 
 ```cirru
-; Simple tuple
-(:: :point 10 20)
-; Index 0: :point
-; Index 1: 10
-; Index 2: 20
+let
+    t $ :: :point 10 20
+  ; Index 0: :point, Index 1: 10, Index 2: 20
+  [] (&tuple:nth t 0) (&tuple:nth t 1) (&tuple:nth t 2)
 ```
 
 ## Accessing Tuple Elements
@@ -60,21 +61,16 @@ let
 ## Tuple Properties
 
 ```cirru
-; Get element count
-&tuple:count (:: :a 1 2 3)
-; => 4  (includes tag)
-
-; Get class
-&tuple:class t
-; => returns class if set
-
-; Get parameters (without tag)
-&tuple:params t
-; => ([] 10 20)
-
-; Get enum tag
-&tuple:enum t
-; => enum value or nil
+let
+    t $ :: :point 10 20
+  do
+    ; count includes the tag
+    &tuple:count (:: :a 1 2 3)
+    ; => 4
+    &tuple:params t
+    ; => ([] 10 20)
+    &tuple:enum t
+    ; => nil (plain tuple, not from enum)
 ```
 
 `&tuple:enum` is the source-prototype API for tuples:
@@ -83,18 +79,15 @@ let
 - If tuple is created as plain tuple (`::`), it returns `nil`.
 
 ```cirru
-let
-    plain $ :: :point 10 20
-  nil? $ &tuple:enum plain
-  ; => true
-
-let
-    ApiResult $ defenum ApiResult (:ok :number) (:err :string)
-    ok $ %:: ApiResult :ok 1
-  type-of $ &tuple:enum ok
-  ; => :enum
-
-assert= ApiResult $ &tuple:enum ok
+do
+  let
+      plain $ :: :point 10 20
+    nil? $ &tuple:enum plain
+    ; => true
+  let
+      ApiResult $ defenum ApiResult (:ok :number) (:err :string)
+      ok $ %:: ApiResult :ok 1
+    assert= ApiResult $ &tuple:enum ok
 ```
 
 ### Accurate Origin Check (Enum Eq)
@@ -133,15 +126,6 @@ do
 ; => (:: :point 100 20)
 ```
 
-## Changing Class
-
-```cirru
-let
-    t $ :: :point 10 20
-    t2 $ &tuple:with-class t PointClass
-  ; t2 now has PointClass as its class
-```
-
 ## Pattern Matching with Tuples
 
 ### tag-match
@@ -149,16 +133,13 @@ let
 Pattern match on enum/tuple tags:
 
 ```cirru
-defenum Result
-  :ok
-  :err :string
-
 let
-    result $ %:: Result :ok 42
+    MyResult $ defenum MyResult (:ok :number) (:err :string)
+    result $ %:: MyResult :ok 42
   tag-match result
-    (:ok v) (println $ str |Success: v)
-    (:err msg) (println $ str |Error: msg)
-    _ (println |Unknown)
+    (:ok v) (str |Success: v)
+    (:err msg) (str |Error: msg)
+    _ |Unknown
 ```
 
 ### list-match
@@ -166,9 +147,10 @@ let
 For simple list-like destructuring:
 
 ```cirru
-list-match (:: :point 10 20)
-  () (println |Empty)
-  (tag x y) (println tag x y)
+; list-match takes (head rest) branches — rest captures remaining elements as a list
+list-match ([] :point 10 20)
+  () |Empty
+  (h tl) ([] h tl)
 ```
 
 ## Enums as Tuples
@@ -199,34 +181,31 @@ defenum Option
 ### Result Types
 
 ```cirru
-defenum Result
-  :ok
-  :err :string
-
-defn divide (a b)
-  if (= b 0)
-    %:: Result :err |Division by zero
-    %:: Result :ok (/ a b)
-
 let
+    MyResult $ defenum MyResult (:ok :number) (:err :string)
+    divide $ defn divide (a b)
+      if (= b 0)
+        %:: MyResult :err |Division-by-zero
+        %:: MyResult :ok (/ a b)
     result $ divide 10 2
   tag-match result
-    (:ok value) (println value)
-    (:err msg) (println msg)
+    (:ok value) (str |ok: value)
+    (:err msg) (str |err: msg)
 ```
 
 ### Optional Values
 
 ```cirru
-defenum Option
-  :some :dynamic
-  :none
-
-defn find-item (items target)
-  ...
-  if found
-    %:: Option :some item
-    %:: Option :none
+let
+    MaybeInt $ defenum MaybeInt (:some :number) (:none)
+    find-item $ fn (items target)
+      reduce items (%:: MaybeInt :none)
+        fn (acc x)
+          if (= x target) (%:: MaybeInt :some x) acc
+    result $ find-item ([] 1 2 3) 2
+  tag-match result
+    (:some v) v
+    _ |not-found
 ```
 
 ### Tagged Data
@@ -241,12 +220,14 @@ defn find-item (items target)
 ## Type Annotations
 
 ```cirru
-defn process-result (r)
-  hint-fn $ return-type :string
-  assert-type r $ :: :tuple Result
-  tag-match r
-    (:ok v) (str v)
-    (:err msg) msg
+let
+    ApiResult $ defenum ApiResult (:ok :string) (:err :string)
+    process-result $ defn process-result (r)
+      hint-fn $ return-type :string
+      tag-match r
+        (:ok v) (str v)
+        (:err msg) msg
+  process-result (%:: ApiResult :ok |done)
 ```
 
 ## Tuple vs Record
