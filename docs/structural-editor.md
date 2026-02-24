@@ -9,7 +9,7 @@ Structural editing makes Calcit a lot different from existing languages, even un
 Calcit Editor uses a `calcit.cirru` as snapshot file, which contains much informations. And it is compiled into `compact.cirru` for evaluating.
 Example of a `compact.cirru` file is more readable:
 
-```cirru
+```cirru.no-run
 {} (:package |app)
   :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!)
     :modules $ []

@@ -55,19 +55,26 @@ cr eval "echo |done"
 ## Basic Syntax
 
 ```cirru
-; "Function definition (in file context)"
+; Function definition
 defn add (a b)
   + a b
+```
 
+```cirru
 ; Conditional
-if (> x 0) |positive |negative
+let ((x 1))
+  if (> x 0) |positive |negative
+```
 
+```cirru
 ; Let binding
 let
     a 1
     b 2
   + a b
+```
 
+```cirru
 ; Thread macro
 -> (range 10)
   filter $ fn (x) (> x 5)
@@ -77,30 +84,24 @@ let
 ## Type Annotations
 
 ```cirru
-; Function with type annotations
-defn add (a b)
-  hint-fn $ return-type :number
-  assert-type a :number
-  assert-type b :number
-  + a b
-
-; Optional type (nilable)
-defn maybe-get (m k)
-  hint-fn $ return-type $ :: :optional :any
-  assert-type m :map
-  &map:get m k
-
-; Variadic type
-defn sum (& xs)
-  hint-fn $ return-type :number
-  assert-type xs $ :: :& :number
-  apply + xs
-
-; Struct definition
-defstruct User (:name :string) (:age :number) (:email :string)
-
-; Type assertion (compile-time check)
-assert-type x :number
+let
+    ; Function with type annotations
+    add $ defn add (a b)
+      hint-fn $ return-type :number
+      assert-type a :number
+      assert-type b :number
+      + a b
+    ; Variadic type
+    sum $ defn sum (& xs)
+      hint-fn $ return-type :number
+      assert-type xs $ :: :& :number
+      apply + xs
+    ; Struct definition
+    User $ defstruct User (:name :string) (:age :number) (:email :string)
+    x 42
+  ; Type assertion (compile-time check)
+  assert-type x :number
+  [] (add 3 4) (sum 1 2 3) x
 ```
 
 ### Built-in Types
@@ -111,11 +112,11 @@ assert-type x :number
 - Generic types (Cirru style):
 
 ```cirru
-:: :list :number
-:: :map :string
-:: :fn
-  [] :number
-  :string
+let
+    t1 $ :: :list :number
+    t2 $ :: :map :string
+    t3 $ :: :fn ([] :number) :string
+  [] t1 t2 t3
 ```
 
 ### Static Checks (Compile-time)

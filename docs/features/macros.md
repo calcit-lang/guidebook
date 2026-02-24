@@ -43,7 +43,7 @@ Calcit was not designed to be identical to Clojure, so there are many details he
 
 Macros expand before type checking, so generated code is validated:
 
-```cirru
+```cirru.no-check
 defmacro assert-positive (x)
   quasiquote
     if (< ~x 0)

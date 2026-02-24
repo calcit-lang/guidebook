@@ -24,16 +24,8 @@ let
     xs4 $ prepend xs 0
     xs5 $ slice xs 1 2
     xs6 $ take xs 3
-
-  println $ count xs
-
-  println $ nth xs 0
-
-  println $ get xs 0
-
-  println $ map xs $ fn (x) $ + x 1
-
-  &doseq (x xs) (println a)
+  ; count xs => 4, nth xs 0 => 1
+  [] (count xs) (nth xs 0) (get xs 0) (map xs (fn (x) (+ x 1)))
 ```
 
 thread macros are often used in transforming lists:

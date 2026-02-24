@@ -98,15 +98,11 @@ also can be nested:
 Also a record (in Calcit code, not EDN data):
 
 ```cirru
-; "Then create an instance in EDN"
-%{} A
-  :a 1
-```
-
-Define a struct type in Calcit code for use in deserialization:
-
-```cirru
-defstruct A (:a :dynamic)
+let
+    A $ defstruct A (:a :dynamic)
+  ; Then create an instance in Calcit
+  %{} A
+    :a 1
 ```
 
 ### Quotes

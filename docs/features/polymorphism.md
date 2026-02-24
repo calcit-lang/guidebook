@@ -28,28 +28,37 @@ Traits are values and can be referenced like normal symbols.
 ## Implement a trait for a struct/enum definition
 
 ```cirru
-deftrait MyFoo
-  :foo (:: :fn ('T) ('T) :string)
-
-defimpl MyFooImpl MyFoo
-  :foo $ fn (p) (str "|foo " (:name p))
-
 let
+    MyFoo $ deftrait MyFoo
+      :foo $ :: :fn ('T) ('T) :string
+    MyFooImpl $ defimpl MyFooImpl MyFoo
+      :foo $ fn (p) (str "|foo " (:name p))
     Person0 $ defstruct Person (:name :string)
     Person $ impl-traits Person0 MyFooImpl
     p $ %{} Person (:name |Alice)
-  println $ .foo p
+  .foo p
 ```
 
 `impl-traits` returns a new struct/enum definition with trait implementations attached. You can also attach multiple traits at once:
 
 ```cirru
 let
+    MyFoo $ deftrait MyFoo
+      :foo $ :: :fn ('T) ('T) :string
+    ShowTrait $ deftrait ShowTrait
+      :show :fn
+    EqTrait $ deftrait EqTrait
+      :eq :fn
     Person0 $ defstruct Person (:name :string)
+    ShowImpl $ defimpl ShowImpl ShowTrait
+      :show $ fn (p) (str |Person: (:name p))
+    EqImpl $ defimpl EqImpl EqTrait
+      :eq $ fn (p) (str |eq: (:name p))
+    MyFooImpl $ defimpl MyFooImpl MyFoo
+      :foo $ fn (p) (str |foo: (:name p))
     Person $ impl-traits Person0 ShowImpl EqImpl MyFooImpl
     p $ %{} Person (:name |Alice)
-  println $ .show p
-  println $ .foo p
+  [] (.show p) (.foo p)
 ```
 
 ## Trait checks and type hints
@@ -58,6 +67,12 @@ let
 
 ```cirru
 let
+    MyFoo $ deftrait MyFoo
+      :foo $ :: :fn ('T) ('T) :string
+    Person0 $ defstruct Person (:name :string)
+    MyFooImpl $ defimpl MyFooImpl MyFoo
+      :foo $ fn (p) (str-spaced |foo (:name p))
+    Person $ impl-traits Person0 MyFooImpl
     p $ %{} Person (:name |Alice)
   assert-traits p MyFoo
   .foo p

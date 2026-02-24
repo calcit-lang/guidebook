@@ -12,7 +12,7 @@ Calcit keeps JS interop syntax intentionally small. This page covers the existin
 
 Use `js/...` to read JavaScript globals and nested members:
 
-```cirru
+```cirru.no-run
 do js/window.innerWidth
 ```
 
@@ -20,7 +20,7 @@ do js/window.innerWidth
 
 Use `.-name` for property access:
 
-```cirru
+```cirru.no-check
 .-name obj
 ```
 
@@ -32,7 +32,7 @@ Optional access is also supported with `.?-name`, which maps to optional chainin
 
 Use `.!name` for native JS method calls (object first, then args):
 
-```cirru
+```cirru.no-run
 .!setItem js/localStorage |key |value
 ```
 
@@ -44,7 +44,7 @@ Optional method call is supported with `.?!name`.
 
 Use `js-array` for JavaScript arrays:
 
-```cirru
+```cirru.no-run
 let
     a $ js-array 1 2
   .!push a 3 4
@@ -55,7 +55,7 @@ let
 
 Use `js-object` with key/value pairs:
 
-```cirru
+```cirru.no-run
 js-object
   :a 1
   :b 2
@@ -65,7 +65,7 @@ js-object
 
 Equivalent single-line form:
 
-```cirru
+```cirru.no-run
 js-object (:a 1) (:b 2)
 ```
 
@@ -73,13 +73,13 @@ js-object (:a 1) (:b 2)
 
 Use `new` with a constructor symbol:
 
-```cirru
+```cirru.no-run
 new js/Date
 ```
 
 With arguments:
 
-```cirru
+```cirru.no-run
 new js/Array 3
 ```
 
@@ -93,7 +93,7 @@ Use `hint-fn async` in function body when using `js-await`:
 
 `js-await` should stay inside async-marked function bodies.
 
-```cirru
+```cirru.no-check
 fn ()
   hint-fn async
   js-await $ fetch-data
@@ -127,7 +127,7 @@ defn timeout (ms)
 
 Then consume it inside async function:
 
-```cirru
+```cirru.no-check
 fn ()
   hint-fn async
   js-await $ timeout 200
@@ -137,7 +137,7 @@ fn ()
 
 Use `js-for-await` with `js-await` for async iterables:
 
-```cirru
+```cirru.no-check
 fn ()
   hint-fn async
   js-await $ js-for-await (gen)

@@ -37,7 +37,7 @@ if (import.meta.hot) {
 
 There's also a `js-out/calcit.build-errors.mjs` file for hot swapping when compilation errors are detected. With this file, you can hook up you own HUD error alert with some extra code, `hud!` is the function for showing the alert:
 
-```cirru
+```cirru.no-check
 ns app.main
   :require
     "\"./calcit.build-errors" :default build-errors
