@@ -53,35 +53,36 @@ let
 
 ```cirru
 let
-    Result $ defenum Result
-      :ok
+    MyResult $ defenum MyResult
+      :ok :dynamic
       :err :string
     safe-divide $ fn (a b)
       if (= b 0)
-        %:: Result :err |Division by zero
-        %:: Result :ok (/ a b)
+        %:: MyResult :err "|Division by zero"
+        %:: MyResult :ok (/ a b)
     handle-result $ fn (result)
       tag-match result
-        (:ok v) (println $ str |Result: v)
-        (:err msg) (println $ str |Error: msg)
+        (:ok v) (println $ str "|Result: " v)
+        (:err msg) (println $ str "|Error: " msg)
   handle-result $ safe-divide 10 2
+  handle-result $ safe-divide 10 0
 ```
 
 ### Using Option Type
 
 ```cirru
 let
-    Option $ defenum Option
+    MyOption $ defenum MyOption
       :some :dynamic
       :none
     find-user $ fn (users id)
       let
           user $ find users $ fn (u)
-            = (&record:get u :id) id
+            = (get u :id) id
         if (nil? user)
-          %:: Option :none
-          %:: Option :some user
-  find-user
+          %:: MyOption :none
+          %:: MyOption :some user
+  println $ find-user
     [] ({} (:id |001) (:name |Alice))
     , |001
 ```
@@ -94,8 +95,8 @@ let
 let
     data $ {} (:a $ {} (:b $ {} (:c 1)))
     result1 $ get-in data $ [] :a :b :c
-    result2 $ assoc-in data $ [] :a :b :c 100
-    result3 $ update-in data $ [] :a :b :c inc
+    result2 $ assoc-in data ([] :a :b :c) 100
+    result3 $ update-in data ([] :a :b :c) inc
   println result1
   ; => 1
   println result2
@@ -183,15 +184,10 @@ let
     result1 $ starts-with? |hello-world |hello
     result2 $ ends-with? |hello-world |world
     result3 $ &str:find-index |hello-world |world
-    result4 $ &str:contains? |hello-world |llo
-  println result1
-  ; => true
-  println result2
-  ; => true
-  println result3
-  ; => 6
-  println result4
-  ; => true
+  ; result1 => true
+  ; result2 => true
+  ; result3 => 6 (index of |world in |hello-world)
+  [] result1 result2 result3
 ```
 
 ## State Management
@@ -213,23 +209,19 @@ let
 
 ```cirru
 let
-    todos $ atom ([])
+    todos $ atom $ []
     add-todo! $ fn (text)
-      swap! todos $ fn (todos)
-        append todos $ {} (:id $ generate-id!) (:text text) (:done false)
+      swap! todos $ fn (items)
+        append items $ {} (:id $ generate-id!) (:text text) (:done false)
     toggle-todo! $ fn (id)
-      swap! todos $ fn (todos)
-        map todos $ fn (todo)
-          if (= (&record:get todo :id) id)
-            &record:with todo (:done $ not (&record:get todo :done))
+      swap! todos $ fn (items)
+        map items $ fn (todo)
+          if (= (get todo :id) id)
+            assoc todo :done $ not (get todo :done)
             , todo
-    remove-todo! $ fn (id)
-      swap! todos $ fn (todos)
-        filter todos $ fn (todo)
-          not= (&record:get todo :id) id
-  add-todo! |Buy milk
-  add-todo! |Write documentation
-  deref todos
+  add-todo! |buy-milk
+  add-todo! |write-docs
+  println $ deref todos
 ```
 
 ## Control Flow Patterns
@@ -237,28 +229,39 @@ let
 ### Early Return Pattern
 
 ```cirru
-defn process-data (data)
-  if (empty? data)
-    :: :err |Empty data
-    let
-        validated $ validate-data data
-      if (nil? validated)
-        :: :err |Invalid data
+let
+    ; stub implementations for demonstration
+    validate-data $ fn (data) (if (= (count data) 0) nil data)
+    transform-data $ fn (validated) (map validated (fn (x) (* x 2)))
+    process-data $ defn process-data (data)
+      if (empty? data)
+        :: :err |Empty-data
         let
-            result $ transform-data validated
-          :: :ok result
+            validated $ validate-data data
+          if (nil? validated)
+            :: :err |Invalid-data
+            let
+                result $ transform-data validated
+              :: :ok result
+  process-data ([] 1 2 3)
 ```
 
 ### Pipeline Pattern
 
 ```cirru
-defn process-user-input (input)
-  -> input
-    trim
-    &str:slice 0 100 (; Truncate)
-    validate-input
-    parse-input
-    transform-to-command
+let
+    ; stub implementations for demonstration
+    validate-input $ fn (s) s
+    parse-input $ fn (s) s
+    transform-to-command $ fn (s) (str |cmd/ s)
+    process-user-input $ defn process-user-input (input)
+      -> input
+        trim
+        &str:slice 0 100
+        validate-input
+        parse-input
+        transform-to-command
+  process-user-input "|hello world"
 ```
 
 ### Loop with Recur
@@ -285,13 +288,13 @@ defn fibonacci (n)
 
 ### Reading and Writing
 
-```cirru
+```cirru.no-run
 let
     content $ read-file |data.txt
     lines $ split-lines content
   println content
   &doseq (line lines)
-    process-line line
+    println line
 ```
 
 ## Math Operations
@@ -324,17 +327,15 @@ let
 
 ```cirru
 let
+    ; stub implementations for demonstration
+    transform-1 $ fn (x) (assoc x :step1 true)
+    transform-2 $ fn (x) (assoc x :step2 true)
     data $ {} (:x 1) (:y 2)
-    result $ -> data
-      tap $ fn (x) (println |Step 1: x)
-      transform-1
-      tap $ fn (x) (println |Step 2: x)
-      transform-2
+    result $ -> data transform-1 transform-2
     x 5
-  assert "|Should be positive" $ > x 0
+  assert |Should-be-positive $ > x 0
   assert= 4 (+ 2 2)
-  &display-stack
-  println result
+  , result
 ```
 
 ## Performance Tips
@@ -359,10 +360,10 @@ let
 let
     items $ [] ({} (:value 1)) ({} (:value 2)) ({} (:value 3))
     result1 $ reduce items 0 $ fn (acc item)
-      + acc (&record:get item :value)
+      + acc (get item :value)
     result2 $ apply +
       map items $ fn (item)
-        &record:get item :value
+        get item :value
   println result1
   ; => 6
   println result2
@@ -382,7 +383,7 @@ let
     test-with-setup $ fn ()
       let
           input $ {} (:name |test) (:value 42)
-        true
+        , true
   test-addition
 ```
 
