@@ -21,9 +21,16 @@ deftrait MyFoo
 Use `defimpl` to create an impl record for a trait.
 
 ```cirru
-defimpl MyFooImpl MyFoo
-  :foo $ fn (p)
-    str-spaced |foo (:name p)
+let
+    MyFoo $ deftrait MyFoo
+      :foo $ :: :fn ('T) ('T) :string
+    Person0 $ defstruct Person (:name :string)
+    MyFooImpl $ defimpl MyFooImpl MyFoo
+      :foo $ fn (p)
+        str-spaced |foo (:name p)
+    Person $ impl-traits Person0 MyFooImpl
+    p $ %{} Person (:name |Alice)
+  .foo p
 ```
 
 ### Impl-related syntax (cheatsheet)
@@ -40,11 +47,25 @@ defimpl ImplName Trait ...
 Examples:
 
 ```cirru
-defimpl MyFooImpl MyFoo
-  :foo $ fn (p) (str-spaced |foo (:name p))
-
-defimpl :MyFooImpl :MyFoo
-  :foo $ fn (p) (str-spaced |foo (:name p))
+do
+  ; Form 1: symbol names for impl and trait
+  let
+      PersonA0 $ defstruct PersonA (:name :string)
+      MyFooA $ deftrait MyFooA
+        :foo $ :: :fn ('T) ('T) :string
+      MyFooImplA $ defimpl MyFooImplA MyFooA
+        :foo $ fn (p) (str-spaced |foo (:name p))
+      PersonA $ impl-traits PersonA0 MyFooImplA
+      p $ %{} PersonA (:name |Alice)
+    .foo p
+  ; Form 2: tag keywords for impl and trait (no deftrait needed)
+  let
+      PersonB0 $ defstruct PersonB (:name :string)
+      MyFooImplB $ defimpl :MyFooImplB :MyFooB
+        :foo $ fn (p) (str-spaced |bar (:name p))
+      PersonB $ impl-traits PersonB0 MyFooImplB
+      p $ %{} PersonB (:name |Bob)
+    .foo p
 ```
 
 **2) Method pair forms**
@@ -52,15 +73,28 @@ defimpl :MyFooImpl :MyFoo
 All of the following are accepted and equivalent:
 
 ```cirru
-defimpl MyFooImpl MyFoo
-  :foo (fn (p) ...)
-  :bar (fn (p) ...)
-```
-
-```cirru
-defimpl MyFooImpl MyFoo
-  :: :foo (fn (p) ...)
-  :: :bar (fn (p) ...)
+; Both forms are accepted and equivalent:
+do
+  let
+      MyFoo $ deftrait MyFoo
+        :foo $ :: :fn ('T) ('T) :string
+      Person0 $ defstruct Person (:name :string)
+      ; Form 1: :keyword fn pairs
+      ImplA $ defimpl ImplA MyFoo
+        :foo (fn (p) (str |A: (:name p)))
+      PersonA $ impl-traits Person0 ImplA
+      pa $ %{} PersonA (:name |Alice)
+    .foo pa
+  let
+      MyFoo $ deftrait MyFoo
+        :foo $ :: :fn ('T) ('T) :string
+      Person0 $ defstruct Person (:name :string)
+      ; Form 2: :: :keyword fn pairs (equivalent)
+      ImplB $ defimpl ImplB MyFoo
+        :: :foo (fn (p) (str |B: (:name p)))
+      PersonB $ impl-traits Person0 ImplB
+      pb $ %{} PersonB (:name |Bob)
+    .foo pb
 ```
 
 **3) Tag-based impl (no concrete trait value)**
@@ -92,7 +126,17 @@ Constraints:
 Syntax:
 
 ```cirru
-impl-traits StructOrEnumDef ImplA ImplB
+let
+    MyFoo $ deftrait MyFoo
+      :foo $ :: :fn ('T) ('T) :string
+    ImplA $ defimpl ImplA MyFoo
+      :foo $ fn (p) (str |A: (:name p))
+    ImplB $ defimpl :ImplB :ImplB-trait
+      :bar $ fn (p) (str |B: (:name p))
+    StructDef0 $ defstruct StructDef (:name :string)
+    StructDef $ impl-traits StructDef0 ImplA ImplB
+    x $ %{} StructDef (:name |test)
+  .foo x
 ```
 
 ### Public vs internal API boundary
@@ -101,33 +145,30 @@ impl-traits StructOrEnumDef ImplA ImplB
 - Treat internal `&...` helpers as runtime-level details; they may change more frequently and are not the stable user contract.
 
 ```cirru
-defstruct Person0
-  :name :string
-
-def Person $ impl-traits Person0 MyFooImpl
-
-let
-    p $ %{} Person (:name |Alice)
-  .foo p
-
-deftrait ResultTrait
-  :describe :fn
-
-defimpl ResultImpl ResultTrait
-  :describe $ fn (x)
-    tag-match x
-      (:ok v) (str |ok: v)
-      (:err v) (str |err: v)
-
-defenum Result0
-  :ok :string
-  :err :string
-
-def Result $ impl-traits Result0 ResultImpl
-
-let
-    r $ %:: Result :ok |done
-  .describe r
+do
+  ; struct example
+  let
+      MyFoo $ deftrait MyFoo
+        :foo $ :: :fn ('T) ('T) :string
+      MyFooImpl $ defimpl MyFooImpl MyFoo
+        :foo $ fn (p) (str-spaced |foo (:name p))
+      Person0 $ defstruct Person (:name :string)
+      Person $ impl-traits Person0 MyFooImpl
+      p $ %{} Person (:name |Alice)
+    .foo p
+  ; enum example
+  let
+      ResultTrait $ deftrait ResultTrait
+        :describe :fn
+      ResultImpl $ defimpl ResultImpl ResultTrait
+        :describe $ fn (x)
+          tag-match x
+            (:ok v) (str |ok: v)
+            (:err v) (str |err: v)
+      Result0 $ defenum Result0 (:ok :string) (:err :string)
+      MyResult $ impl-traits Result0 ResultImpl
+      r $ %:: MyResult :ok |done
+    .describe r
 ```
 
 ### Static analysis boundary
@@ -155,37 +196,26 @@ When you want to **disambiguate** (or bypass `.method` resolution), use `&trait-
 
 ### `&trait-call`
 
-Usage:
-
-```cirru
-&trait-call Trait :method receiver & args
-```
+Usage: `&trait-call Trait :method receiver & args`
 
 `&trait-call` matches by the impl record's trait origin, not just by trait name text. This avoids accidental dispatch when two different trait values share the same printed name.
 
 Example with two traits sharing the same method name:
 
 ```cirru
-deftrait MyZapA
-  :zap (:: :fn ('T) ('T) :string)
-
-deftrait MyZapB
-  :zap (:: :fn ('T) ('T) :string)
-
-defimpl MyZapAImpl MyZapA
-  :zap $ fn (_x) |zapA
-
-defimpl MyZapBImpl MyZapB
-  :zap $ fn (_x) |zapB
-
-defstruct Person0
-  :name :string
-
-def Person $ impl-traits Person0 MyZapAImpl MyZapBImpl
-
 let
+    MyZapA $ deftrait MyZapA
+      :zap $ :: :fn ('T) ('T) :string
+    MyZapB $ deftrait MyZapB
+      :zap $ :: :fn ('T) ('T) :string
+    MyZapAImpl $ defimpl MyZapAImpl MyZapA
+      :zap $ fn (_x) |zapA
+    MyZapBImpl $ defimpl MyZapBImpl MyZapB
+      :zap $ fn (_x) |zapB
+    Person0 $ defstruct Person (:name :string)
+    Person $ impl-traits Person0 MyZapAImpl MyZapBImpl
     p $ %{} Person (:name |Alice)
-  ; `.zap` follows normal dispatch (last-wins for user impls)
+  ; .zap follows normal dispatch (last-wins for user impls)
   .zap p
   ; explicitly pick a trait’s implementation
   &trait-call MyZapA :zap p
@@ -211,6 +241,13 @@ You can also inspect impl origins directly when validating trait dispatch:
 
 ```cirru
 let
+    MyFoo $ deftrait MyFoo
+      :foo $ :: :fn ('T) ('T) :string
+    Shape0 $ defenum Shape (:point :number :number)
+    MyFooImpl $ defimpl MyFooImpl MyFoo
+      :foo $ fn (t) (str |shape: (&tuple:nth t 0))
+    Shape $ impl-traits Shape0 MyFooImpl
+    some-tuple $ %:: Shape :point 10 20
     impls $ &tuple:impls some-tuple
   any? impls $ fn (impl)
     = (&impl:origin impl) MyFoo
@@ -227,7 +264,16 @@ Notes:
 - Static analysis and runtime checks may diverge for built-ins due to limited compile-time information; this mismatch is currently allowed.
 
 ```cirru
-assert-traits p MyFoo
+let
+    MyFoo $ deftrait MyFoo
+      :foo $ :: :fn ('T) ('T) :string
+    Person0 $ defstruct Person (:name :string)
+    MyFooImpl $ defimpl MyFooImpl MyFoo
+      :foo $ fn (p) (str-spaced |foo (:name p))
+    Person $ impl-traits Person0 MyFooImpl
+    p $ %{} Person (:name |Alice)
+  assert-traits p MyFoo
+  .foo p
 ```
 
 ### Examples (verified with `cr eval`)
