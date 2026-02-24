@@ -40,7 +40,7 @@ Use `hint-fn` with `return-type` at the start of the function body:
 let
     get-name $ fn (user)
       hint-fn $ return-type :string
-      |demo
+      , |demo
   get-name nil
 ```
 
@@ -117,9 +117,8 @@ let
 Use the name defined by `defstruct` or `defenum`:
 
 ```cirru
-defstruct User (:name :string)
-
 let
+    User $ defstruct User (:name :string)
     get-name $ fn (u)
       assert-type u User
       get u :name
@@ -157,7 +156,7 @@ defn get-user-email (user)
 
 Checks tuple index access at compile time:
 
-```cirru
+```cirru.no-check
 let
     point (%:: :Point 10 20 30)
   &tuple:nth point 5  ; Warning: index 5 out of bounds, tuple has 4 elements
@@ -167,7 +166,7 @@ let
 
 Validates enum construction and pattern matching:
 
-```cirru
+```cirru.no-check
 defenum Result
   :Ok :any
   :Error :string
@@ -219,31 +218,37 @@ The system infers types from various sources:
 
 ```cirru
 let
-    x 42          ; inferred as :number
-    y |hello      ; inferred as :string
-    z true        ; inferred as :bool
-    w nil         ; inferred as :nil
-  println "|demo code"
+    ; inferred as :number
+    x 42
+    ; inferred as :string
+    y |hello
+    ; inferred as :bool
+    z true
+    ; inferred as :nil
+    w nil
+  [] x y z w
 ```
 
 ### Function Return Types
 
 ```cirru
 let
-    numbers (range 10)  ; inferred as :list
-    first-num (&list:first numbers)  ; inferred as :number
-  println "|demo code"
+    ; inferred as :list
+    numbers $ range 10
+    ; inferred as :number
+    n $ &list:first numbers
+  [] n numbers
 ```
 
 ### Record and Struct Types
 
 ```cirru
-defstruct Point :x :y
-
 let
-    p (%:: Point :x 10 :y 20)  ; inferred as Point record
-    x-val (.:x p)              ; inferred from field type
-  println "|demo code"
+    Point $ defstruct Point (:x :number) (:y :number)
+    p $ %{} Point (:x 10) (:y 20)
+    x-val (:x p)
+  ; x-val inferred as :number from field type
+  assert= x-val 10
 ```
 
 ## Type Assertions
@@ -251,9 +256,12 @@ let
 Use `assert-type` to explicitly check types during preprocessing:
 
 ```cirru
-defn process-data (data)
-  assert-type data :list
-  &list:map data transform-fn
+let
+    transform-fn $ fn (x) (* x 2)
+    process-data $ defn process-data (data)
+      assert-type data :list
+      &list:map data transform-fn
+  process-data ([] 1 2 3)
 ```
 
 **Note**: `assert-type` is evaluated during preprocessing and removed at runtime, so there's no performance penalty.
@@ -263,18 +271,21 @@ defn process-data (data)
 Use `&inspect-type` to debug type inference. Pass a symbol name and the inferred type is printed to stderr during preprocessing:
 
 ```cirru
-defn demo ()
+let
+    x 10
+    nums $ [] 1 2 3
+  assert-type nums :list
+  ; Prints: [&inspect-type] x => number type
+  &inspect-type x
+  ; Prints: [&inspect-type] nums => list type
+  &inspect-type nums
   let
-      x 10
-      nums $ [] 1 2 3
-    assert-type nums :list
-    &inspect-type x      ; Prints: [&inspect-type] x => number type
-    &inspect-type nums   ; Prints: [&inspect-type] nums => list type
-    let
-        first $ &list:nth nums 0
-      &inspect-type first ; Prints: [&inspect-type] first => dynamic type
-      assert-type first :number
-      &inspect-type first ; Prints: [&inspect-type] first => number type
+      item $ &list:nth nums 0
+    ; Prints: [&inspect-type] item => dynamic type
+    &inspect-type item
+    assert-type item :number
+    ; Prints: [&inspect-type] item => number type
+    &inspect-type item
 ```
 
 **Note**: This is a development tool - remove it in production code. Returns `nil` at runtime.
@@ -334,10 +345,13 @@ Checks are automatically skipped for:
 ### 1. Use Type Annotations for Public APIs
 
 ```cirru
-defn public-api-function (input)
-  hint-fn $ return-type :string
-  assert-type input :map
-  process-input input
+let
+    process-input $ fn (input) (assoc input :processed true)
+    public-api-function $ defn public-api-function (input)
+      hint-fn $ return-type :string
+      assert-type input :map
+      str $ process-input input
+  public-api-function ({} (:data |hello))
 ```
 
 ### 2. Leverage Type Inference
@@ -353,10 +367,13 @@ defn calculate-area (width height)
 ### 3. Add Assertions for Critical Code
 
 ```cirru
-defn critical-operation (data)
-  assert-type data :list
-  ; Ensure data is a list before processing
-  dangerous-operation data
+let
+    dangerous-operation $ fn (data) (map data (fn (x) (* x 2)))
+    critical-operation $ defn critical-operation (data)
+      assert-type data :list
+      ; Ensure data is a list before processing
+      dangerous-operation data
+  critical-operation ([] 1 2 3)
 ```
 
 ### 4. Document Complex Types
