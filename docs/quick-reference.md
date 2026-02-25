@@ -27,7 +27,8 @@ cr eval "echo |done"
 
 ### CLI Options
 
-- `--once` / `-1` - Run once without watching
+- `--watch` / `-w` - Watch files and rerun/rebuild on changes
+- `--once` / `-1` - Run once (compatibility flag; default is already once)
 - `--disable-stack` - Disable stack trace for errors
 - `--skip-arity-check` - Skip arity check in JS codegen
 - `--emit-path <path>` - Specify output path for JS (default: `js-out/`)
@@ -36,6 +37,10 @@ cr eval "echo |done"
 - `--entry <entry>` - Use config entry
 - `--reload-libs` - Force reload libs data during hot reload
 - `--watch-dir <path>` - Watch assets changes
+
+### Markdown Checking
+
+- See [CLI Options](./run/cli-options.md#markdown-code-checking) for `check-md` usage and mode guidance.
 
 ## Data Types
 

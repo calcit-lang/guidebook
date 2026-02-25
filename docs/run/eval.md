@@ -42,6 +42,14 @@ cr demos/compact.cirru eval 'let ((x 1)) (+ x 2)'
 # Output: 3
 ```
 
+You can load external modules with repeatable `--dep` options:
+
+```bash
+cr demos/compact.cirru eval --dep ~/.config/calcit/modules/respo.calcit/ -- 'ns app.demo $ :require respo.util.detect :refer $ element?\n\nelement? nil'
+```
+
+If the first expression in a snippet is `ns`, its `:require` rules are merged into runtime `ns app.main`, so imported symbols can be used in the same snippet.
+
 ## Type Checking in Eval
 
 Type annotations and static checks work in eval mode:
@@ -116,3 +124,5 @@ Use `cr query examples` to see usage examples:
 cr demos/compact.cirru query examples calcit.core/let
 cr demos/compact.cirru query examples calcit.core/defn
 ```
+
+For markdown snippet validation (`docs check-md`), see [CLI Options](./cli-options.md#markdown-code-checking).

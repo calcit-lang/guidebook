@@ -1,7 +1,7 @@
 # CLI Options
 
 ```bash
-Usage: cr [<input>] [-1] [--disable-stack] [--skip-arity-check] [--warn-dyn-method] [--emit-path <emit-path>] [--init-fn <init-fn>] [--reload-fn <reload-fn>] [--entry <entry>] [--reload-libs] [--watch-dir <watch-dir>] [<command>] [<args>]
+Usage: cr [<input>] [-1] [-w] [--disable-stack] [--skip-arity-check] [--warn-dyn-method] [--emit-path <emit-path>] [--init-fn <init-fn>] [--reload-fn <reload-fn>] [--entry <entry>] [--reload-libs] [--watch-dir <watch-dir>] [<command>] [<args>]
 
 Top-level command.
 
@@ -9,7 +9,8 @@ Positional Arguments:
   input             input source file, defaults to "compact.cirru"
 
 Options:
-  -1, --once        skip watching mode, just run once
+  -1, --once        run once and quit (compatibility option)
+  -w, --watch       watch files and rerun/rebuild on changes
   --disable-stack   disable stack trace for errors
   --skip-arity-check
                     skip arity check in js codegen
@@ -43,7 +44,14 @@ cr demos/compact.cirru
 
 ### Run Once (--once / -1)
 
-By default, `cr` watches for file changes and hot-reloads. Use `--once` to run once and exit:
+By default, `cr` runs once and exits. Use `--watch` (`-w`) to enable watch mode:
+
+```bash
+cr --watch
+cr -w demos/compact.cirru
+```
+
+`--once` is still available for compatibility:
 
 ```bash
 cr --once
@@ -121,13 +129,19 @@ cr --watch-dir styles/ --watch-dir images/
 ## Common Usage Patterns
 
 ```bash
-# Development with hot reload
-cr --reload-fn app.main/reload!
+# Development with watch mode
+cr -w --reload-fn app.main/reload!
 
 # Production build
-cr js --once --emit-path dist/
+cr js --emit-path dist/
 
-# Testing without file watching
+# JS watch mode
+cr js -w --emit-path dist/
+
+# IR watch mode
+cr ir -w
+
+# Testing single run
 cr --once --init-fn app.test/run-tests!
 
 # Debug mode with full stack traces
@@ -136,3 +150,23 @@ cr --reload-libs
 # CI/CD environment
 cr --once --disable-stack
 ```
+
+## Markdown code checking
+
+Use `docs check-md` to validate fenced code blocks in markdown files:
+
+```bash
+cr docs check-md README.md
+```
+
+Load module dependencies with repeatable `--dep` options:
+
+```bash
+cr docs check-md README.md --dep ./ --dep ~/.config/calcit/modules/memof/
+```
+
+Recommended block modes:
+
+- `cirru`: run + preprocess + parse (preferred)
+- `cirru.no-run`: preprocess + parse when runtime setup is unavailable
+- `cirru.no-check`: parse only for illustrative snippets
