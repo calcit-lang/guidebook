@@ -9,3 +9,6 @@ dist/
 book/
 
 .DS_Store
+
+.yarn/*.gz
+
