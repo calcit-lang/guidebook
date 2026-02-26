@@ -2,6 +2,14 @@
 
 Calcit includes a built-in static type analysis system that performs compile-time checks to catch common errors before runtime. This system operates during the preprocessing phase and provides warnings for type mismatches and other potential issues.
 
+## Quick Recipes
+
+- **Assert Type**: `assert-type x :number`
+- **Return Type**: `hint-fn $ return-type :string`
+- **Compact Hint**: `defn my-fn (x) :string ...`
+- **Check Traits**: `assert-traits x MyTrait`
+- **Ignore Warning**: `&core:ignore-type-warning`
+
 ## Overview
 
 The static analysis system provides:

@@ -2,6 +2,13 @@
 
 Calcit uses `try` / `raise` for exception-based error handling. Errors are string values (or tags) propagated up the call stack.
 
+## Quick Recipes
+
+- **Catch Errors**: `try (risky-op) (fn (e) ...)`
+- **Throw String**: `raise |something-went-wrong`
+- **Throw Tag**: `raise :invalid-input`
+- **Match Error**: `if (= e :invalid-input) ...`
+
 ## Basic `try` / `raise`
 
 `try` takes an expression body and a handler function. If the body raises an error, the handler receives the error message as a string:

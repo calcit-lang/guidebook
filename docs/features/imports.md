@@ -2,6 +2,13 @@
 
 Calcit loads namespaces from `compact.cirru` (the compiled representation of source files). Dependencies are tracked via `~/.config/calcit/modules/`.
 
+## Quick Recipes
+
+- **Alias**: `:require (app.lib :as lib)`
+- **Refer**: `:require (app.lib :refer $ f1 f2)`
+- **Core**: `calcit.core` is auto-imported
+- **CLI Add**: `cr edit add-import app.main -e 'app.lib :refer $ f1'`
+
 ## The `ns` Form
 
 Every source file declares its namespace at the top with `ns`:
@@ -16,10 +23,10 @@ ns app.demo
 
 The `:require` block accepts two kinds of rules:
 
-| Form | Effect |
-|------|--------|
-| `mod.ns :as alias` | Imports namespace as `alias`; access via `alias/fn` |
-| `mod.ns :refer $ sym1 sym2` | Imports symbols directly into scope |
+| Form                        | Effect                                              |
+| --------------------------- | --------------------------------------------------- |
+| `mod.ns :as alias`          | Imports namespace as `alias`; access via `alias/fn` |
+| `mod.ns :refer $ sym1 sym2` | Imports symbols directly into scope                 |
 
 ## Aliased Import
 
@@ -81,6 +88,7 @@ Note the `|` prefix on npm package names — this indicates a string literal (th
 ## Avoiding Circular Imports
 
 Circular dependencies (A imports B, B imports A) will cause a compilation error. Structure your code with:
+
 - Core data types and pure functions in low-level namespaces
 - Side-effectful and orchestration code at higher levels
 
@@ -111,4 +119,3 @@ or query the examples for a specific definition:
 ```bash
 cr app.cirru query examples calcit.core/map
 ```
-

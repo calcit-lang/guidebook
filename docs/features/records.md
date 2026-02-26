@@ -2,6 +2,14 @@
 
 Calcit provides Records as a way to define structured data types with named fields, similar to structs in other languages. Records are defined with `defstruct` and instantiated with the `%{}` macro.
 
+## Quick Recipes
+
+- **Define**: `defstruct Point (:x :number) (:y :number)`
+- **Create**: `%{} Point (:x 1) (:y 2)`
+- **Access**: `get p :x` or `(:x p)`
+- **Update**: `assoc p :x 10` or `update p :x inc`
+- **Type Check**: `assert-type p :record`
+
 ## Defining a Struct Type
 
 Use `defstruct` to declare a named type with typed fields:

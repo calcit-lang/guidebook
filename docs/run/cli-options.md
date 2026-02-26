@@ -28,6 +28,13 @@ Commands:
   js                emit JavaScript rather than interpreting
   ir                emit Cirru EDN representation of program to program-ir.cirru
   eval              run program
+  analyze           analyze code structure (call-graph, count-calls, check-examples)
+  query             query project information (namespaces, definitions, configs)
+  docs              documentation tools (guidebook)
+  cirru             Cirru syntax tools (parse, format, edn)
+  libs              fetch available Calcit libraries from registry
+  edit              edit project code (definitions, namespaces, modules, configs)
+  tree              fine-grained code tree operations (view and modify AST nodes)
 ```
 
 ## Detailed Option Descriptions

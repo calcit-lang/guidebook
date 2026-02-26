@@ -20,8 +20,10 @@ do js/window.innerWidth
 
 Use `.-name` for property access:
 
-```cirru.no-check
-.-name obj
+```cirru.no-run
+let
+    obj $ js-object (:name |Alice)
+  .-name obj
 ```
 
 This compiles to direct JS member access. For non-identifier keys, Calcit uses bracket access automatically.
@@ -93,17 +95,19 @@ Use `hint-fn async` in function body when using `js-await`:
 
 `js-await` should stay inside async-marked function bodies.
 
-```cirru.no-check
-fn ()
-  hint-fn async
-  js-await $ fetch-data
+```cirru.no-run
+let
+    fetch-data $ fn () nil
+  fn ()
+    hint-fn async
+    js-await $ fetch-data
 ```
 
 ### Await promises
 
 Use `js-await` for Promise-like values:
 
-```cirru
+```cirru.no-run
 fn ()
   hint-fn async
   let
@@ -119,7 +123,7 @@ fn ()
 
 A common pattern is wrapping callback APIs with `new js/Promise`:
 
-```cirru
+```cirru.no-run
 defn timeout (ms)
   new js/Promise $ fn (resolve _reject)
     js/setTimeout resolve ms
@@ -127,22 +131,27 @@ defn timeout (ms)
 
 Then consume it inside async function:
 
-```cirru.no-check
-fn ()
-  hint-fn async
-  js-await $ timeout 200
+```cirru.no-run
+let
+    timeout $ fn (ms) $ new js/Promise $ fn (resolve _reject)
+      js/setTimeout resolve ms
+  fn ()
+    hint-fn async
+    js-await $ timeout 200
 ```
 
 ### Async iteration
 
 Use `js-for-await` with `js-await` for async iterables:
 
-```cirru.no-check
-fn ()
-  hint-fn async
-  js-await $ js-for-await (gen)
-    fn (item)
-      new js/Promise $ fn (resolve _reject)
-        js/setTimeout $ fn ()
-          resolve item
+```cirru.no-run
+let
+    gen $ fn () nil
+  fn ()
+    hint-fn async
+    js-await $ js-for-await (gen)
+      fn (item)
+        new js/Promise $ fn (resolve _reject)
+          js/setTimeout $ fn ()
+            resolve item
 ```

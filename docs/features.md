@@ -36,6 +36,25 @@ For detailed information about specific features:
 - [Traits](features/traits.md) - Capability-based method dispatch and explicit trait calls
 - [Static Analysis](features/static-analysis.md) - Type checking and compile-time validation
 
+## Quick Find by Task
+
+Use this section as a keyword index for `cr docs read`:
+
+- **Collections**: list, map, set, tuple, record
+- **Pattern Matching**: enum, tag-match, tuple-match, result
+- **Types**: static-analysis, assert-type, optional, variadic
+- **Methods**: trait, impl-traits, method dispatch, trait-call
+- **Interop**: js interop, async, promise, js-await
+- **Architecture**: imports, namespace, module, dependency
+
+Task-oriented jump map:
+
+- Data transforms → [List](features/list.md), [HashMap](features/hashmap.md), [Sets](features/sets.md)
+- Domain modeling → [Records](features/records.md), [Enums](features/enums.md), [Tuples](features/tuples.md)
+- Type safety → [Static Analysis](features/static-analysis.md), [Error Handling](features/error-handling.md)
+- Extensibility → [Macros](features/macros.md), [Traits](features/traits.md), [Polymorphism](features/polymorphism.md)
+- Runtime integration → [JavaScript Interop](features/js-interop.md), [Imports](features/imports.md)
+
 ## Development Features
 
 - **Type inference** - Automatic type inference from literals and expressions

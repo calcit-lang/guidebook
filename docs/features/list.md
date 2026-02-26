@@ -4,6 +4,14 @@ Calcit List is a persistent, immutable vector. In Rust it uses [ternary-tree](ht
 
 All list operations return new lists — the original is never mutated.
 
+## Quick Recipes
+
+- **Create**: `[] 1 2 3` or `range 5`
+- **Access**: `nth xs 0`, `first xs`, `last xs`
+- **Modify**: `append xs 4`, `prepend xs 0`, `assoc xs 1 99`
+- **Transform**: `map xs f`, `filter xs f`, `reduce xs 0 f`
+- **Combine**: `concat xs ys`, `slice xs 1 3`
+
 ## Creating Lists
 
 ```cirru

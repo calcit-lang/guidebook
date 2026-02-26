@@ -21,8 +21,9 @@ cr eval "echo |done"
 - `cr eval "code"` - Evaluate code snippet
 - `cr js` - Generate JavaScript
 - `cr ir` - Generate IR representation
-- `bundle_calcit` - Bundle indentation syntax to `compact.cirru`
-- `caps` - Download dependencies
+- `cr query ...` - Query definitions/usages/search
+- `cr docs ...` - Read/search guidebook docs
+- `cr libs ...` - Search/read library docs
 - `cr-mcp` - Start MCP server for tool integration
 
 ### CLI Options
@@ -41,6 +42,14 @@ cr eval "echo |done"
 ### Markdown Checking
 
 - See [CLI Options](./run/cli-options.md#markdown-code-checking) for `check-md` usage and mode guidance.
+
+### Docs Navigation (Fast)
+
+- `cr docs list` - list available chapters
+- `cr docs read <file>` - list headings in one chapter
+- `cr docs read <file> <keyword...>` - fuzzy jump by heading keywords
+- `cr docs read-lines <file> -s <start> -n <lines>` - precise line-range reading
+- `cr docs search <keyword>` - global keyword search
 
 ## Data Types
 
@@ -111,7 +120,7 @@ let
 
 ### Built-in Types
 
-- `:number`, `:string`, `:bool`, `:nil`, `:any`
+- `:number`, `:string`, `:bool`, `:nil`, `:dynamic`
 - `:list`, `:map`, `:set`, `:record`, `:fn`, `:tuple`
 - `:dynamic` - wildcard type (default when no annotation)
 - Generic types (Cirru style):

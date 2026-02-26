@@ -4,6 +4,14 @@ Calcit HashMap is a persistent, immutable hash map. In Rust it uses [rpds::HashT
 
 All map operations return new maps — the original is never mutated.
 
+## Quick Recipes
+
+- **Create**: `{} (:a 1) (:b 2)`
+- **Access**: `get m :a`, `contains? m :a`
+- **Modify**: `assoc m :c 3`, `dissoc m :a`, `update m :a inc`
+- **Transform**: `map-kv m f`, `merge m1 m2`
+- **Keys/Values**: `keys m`, `vals m`, `to-pairs m`
+
 ## Creating Maps
 
 `{}` is a macro that takes key-value pairs:

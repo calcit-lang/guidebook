@@ -2,6 +2,13 @@
 
 Calcit enums are tagged unions — each variant has a tag (keyword) and zero or more typed payload fields. Under the hood enums are represented as tuples with a class reference.
 
+## Quick Recipes
+
+- **Define**: `defenum Shape (:circle :number) (:rect :number :number)`
+- **Create**: `%:: Shape :circle 5`
+- **Match**: `tag-match shape ((:circle r) ...) ((:rect w h) ...)`
+- **Type Check**: `assert-type shape :enum`
+
 ## Defining Enums
 
 ```cirru

@@ -2,6 +2,14 @@
 
 Tuples in Calcit are tagged unions that can hold multiple values with a tag. They are used for representing structured data and are the foundation for records and enums.
 
+## Quick Recipes
+
+- **Create**: `:: :point 10 20`
+- **Create Typed**: `%:: Shape :circle 5`
+- **Access**: `&tuple:nth t 1`
+- **Match**: `tag-match t ((:point x y) ...)`
+- **Update**: `&tuple:assoc t 1 99`
+
 ## Creating Tuples
 
 ### Shorthand Syntax

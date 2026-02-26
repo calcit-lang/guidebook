@@ -7,6 +7,14 @@ It complements the “class-like” polymorphism described in [Polymorphism](pol
 - Struct/enum **classes** are about “this concrete type has these methods”.
 - **Traits** are about “this value supports this capability (set of methods)”.
 
+## Quick Recipes
+
+- **Define Trait**: `deftrait MyTrait :method (:: :fn ('T) ('T) :string)`
+- **Implement Trait**: `defimpl MyImpl MyTrait :method (fn (x) ...)`
+- **Attach to Struct**: `impl-traits MyStruct MyImpl`
+- **Call Method**: `.method instance`
+- **Check Trait**: `assert-traits instance MyTrait`
+
 ## Define a trait
 
 Use `deftrait` to define a trait and its method signatures (including type annotations).

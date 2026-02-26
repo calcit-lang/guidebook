@@ -6,6 +6,13 @@ For capability-based dispatch via struct/enum-attached impls (used by records/tu
 
 Historically, the idea was inspired by JavaScript, and also [borrowed from a trick of Haskell](https://www.well-typed.com/blog/2018/03/oop-in-haskell/) (simulating OOP with immutable data structures). The current model is trait-based.
 
+## Quick Recipes
+
+- **Define Trait**: `deftrait Show :show (:: :fn ('T) ('T) :string)`
+- **Implement**: `defimpl ShowImpl Show :show (fn (x) ...)`
+- **Attach**: `impl-traits MyStruct ShowImpl`
+- **Call**: `.show instance`
+
 ## Key terms
 
 - **Trait**: A named capability with method signatures (defined by `deftrait`).

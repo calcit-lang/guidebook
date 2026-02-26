@@ -2,6 +2,14 @@
 
 Like Clojure, Calcit uses macros to support new syntax. And macros ared evaluated during building to expand syntax tree. A `defmacro` block returns list and symbols, as well as literals:
 
+## Quick Recipes
+
+- **Define**: `defmacro my-macro (x) ...`
+- **Template**: `quasiquote $ if ~x ~y ~z`
+- **Splice**: `~@xs` to unpack a list into the template
+- **Fresh Symbols**: `gensym |name` or `with-gensyms (a b) ...`
+- **Local Bindings**: `&let (v ~item) ...`
+
 ```cirru
 defmacro noted (x0 & xs)
   if (empty? xs) x0

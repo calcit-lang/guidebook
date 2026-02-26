@@ -2,6 +2,14 @@
 
 This document provides practical examples and patterns for common programming tasks in Calcit.
 
+## Quick Recipes
+
+- **Filter/Map**: `-> xs (filter f) (map g)`
+- **Group**: `group-by xs f`
+- **Find**: `find xs f`, `index-of xs v`
+- **Check All/Any**: `every? xs f`, `any? xs f`
+- **State**: `defatom state 0`, `reset! state 1`, `swap! state inc`
+
 ## Working with Collections
 
 ### Filtering and Transforming Lists

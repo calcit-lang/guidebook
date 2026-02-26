@@ -2,6 +2,14 @@
 
 Calcit provides HashSet data structure for storing unordered unique elements. In Rust implementation, it uses `rpds::HashTrieSet`, while in JavaScript it uses a custom implementation based on ternary-tree.
 
+## Quick Recipes
+
+- **Create**: `#{:a :b :c}`
+- **Add/Remove**: `include s :d`, `exclude s :a`
+- **Check**: `&set:includes? s :a`
+- **Operations**: `union s1 s2`, `difference s1 s2`, `intersection s1 s2`
+- **Convert**: `&set:to-list s`
+
 ## Creating Sets
 
 Use `#{}` to create a set:
