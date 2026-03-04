@@ -17,13 +17,17 @@ The static analysis system provides:
 - **Type inference** - Automatically infers types from literals and expressions
 - **Type annotations** - Optional type hints for function parameters and return values
 - **Compile-time warnings** - Catches errors before code execution
-- **Zero runtime overhead** - All checks happen during preprocessing
+- **Composable runtime assertions** - `assert-type` and `assert-traits` can validate values at runtime and return original values for chaining
 
 ## Type Annotations
 
 ### Function Parameter Types
 
 Annotate function parameters using `assert-type` within the function body.
+
+`assert-type` is composable: it returns the checked value when validation passes.
+For local symbols, preprocess also records type info for static inference. For non-local expressions,
+the runtime assertion path still works and keeps expression composition intact.
 
 Runnable Example:
 

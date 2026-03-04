@@ -113,7 +113,7 @@ let
     ; Struct definition
     User $ defstruct User (:name :string) (:age :number) (:email :string)
     x 42
-  ; Type assertion (compile-time check)
+  ; Type assertion (composable check, returns original value)
   assert-type x :number
   [] (add 3 4) (sum 1 2 3) x
 ```
