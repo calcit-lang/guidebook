@@ -8,8 +8,8 @@ Historically, the idea was inspired by JavaScript, and also [borrowed from a tri
 
 ## Quick Recipes
 
-- **Define Trait**: `deftrait Show :show (:: :fn ('T) ('T) :string)`
-- **Implement**: `defimpl ShowImpl Show :show (fn (x) ...)`
+- **Define Trait**: `deftrait Show .show (:: :fn ('T) ('T) :string)`
+- **Implement**: `defimpl ShowImpl Show .show (fn (x) ...)`
 - **Attach**: `impl-traits MyStruct ShowImpl`
 - **Call**: `.show instance`
 
@@ -24,10 +24,10 @@ Historically, the idea was inspired by JavaScript, and also [borrowed from a tri
 
 ```cirru
 deftrait Show
-  :show (:: :fn ('T) ('T) :string)
+  .show (:: :fn ('T) ('T) :string)
 
 deftrait Eq
-  :eq? (:: :fn ('T) ('T 'T) :bool)
+  .eq? (:: :fn ('T) ('T 'T) :bool)
 ```
 
 Traits are values and can be referenced like normal symbols.
@@ -37,9 +37,9 @@ Traits are values and can be referenced like normal symbols.
 ```cirru
 let
     MyFoo $ deftrait MyFoo
-      :foo $ :: :fn ('T) ('T) :string
+      .foo $ :: :fn ('T) ('T) :string
     MyFooImpl $ defimpl MyFooImpl MyFoo
-      :foo $ fn (p) (str "|foo " (:name p))
+      .foo $ fn (p) (str "|foo " (:name p))
     Person0 $ defstruct Person (:name :string)
     Person $ impl-traits Person0 MyFooImpl
     p $ %{} Person (:name |Alice)
@@ -51,18 +51,18 @@ let
 ```cirru
 let
     MyFoo $ deftrait MyFoo
-      :foo $ :: :fn ('T) ('T) :string
+      .foo $ :: :fn ('T) ('T) :string
     ShowTrait $ deftrait ShowTrait
-      :show :fn
+      .show :fn
     EqTrait $ deftrait EqTrait
-      :eq :fn
+      .eq :fn
     Person0 $ defstruct Person (:name :string)
     ShowImpl $ defimpl ShowImpl ShowTrait
-      :show $ fn (p) (str |Person: (:name p))
+      .show $ fn (p) (str |Person: (:name p))
     EqImpl $ defimpl EqImpl EqTrait
-      :eq $ fn (p) (str |eq: (:name p))
+      .eq $ fn (p) (str |eq: (:name p))
     MyFooImpl $ defimpl MyFooImpl MyFoo
-      :foo $ fn (p) (str |foo: (:name p))
+      .foo $ fn (p) (str |foo: (:name p))
     Person $ impl-traits Person0 ShowImpl EqImpl MyFooImpl
     p $ %{} Person (:name |Alice)
   [] (.show p) (.foo p)
@@ -75,10 +75,10 @@ let
 ```cirru
 let
     MyFoo $ deftrait MyFoo
-      :foo $ :: :fn ('T) ('T) :string
+      .foo $ :: :fn ('T) ('T) :string
     Person0 $ defstruct Person (:name :string)
     MyFooImpl $ defimpl MyFooImpl MyFoo
-      :foo $ fn (p) (str-spaced |foo (:name p))
+      .foo $ fn (p) (str-spaced |foo (:name p))
     Person $ impl-traits Person0 MyFooImpl
     p $ %{} Person (:name |Alice)
   assert-traits p MyFoo

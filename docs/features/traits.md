@@ -9,8 +9,8 @@ It complements the “class-like” polymorphism described in [Polymorphism](pol
 
 ## Quick Recipes
 
-- **Define Trait**: `deftrait MyTrait :method (:: :fn ('T) ('T) :string)`
-- **Implement Trait**: `defimpl MyImpl MyTrait :method (fn (x) ...)`
+- **Define Trait**: `deftrait MyTrait .method (:: :fn ('T) ('T) :string)`
+- **Implement Trait**: `defimpl MyImpl MyTrait .method (fn (x) ...)`
 - **Attach to Struct**: `impl-traits MyStruct MyImpl`
 - **Call Method**: `.method instance`
 - **Check Trait**: `assert-traits instance MyTrait`
@@ -21,7 +21,7 @@ Use `deftrait` to define a trait and its method signatures (including type annot
 
 ```cirru
 deftrait MyFoo
-  :foo (:: :fn ('T) ('T) :string)
+  .foo (:: :fn ('T) ('T) :string)
 ```
 
 ## Implement a trait
@@ -31,10 +31,10 @@ Use `defimpl` to create an impl record for a trait.
 ```cirru
 let
     MyFoo $ deftrait MyFoo
-      :foo $ :: :fn ('T) ('T) :string
+      .foo $ :: :fn ('T) ('T) :string
     Person0 $ defstruct Person (:name :string)
     MyFooImpl $ defimpl MyFooImpl MyFoo
-      :foo $ fn (p)
+      .foo $ fn (p)
         str-spaced |foo (:name p)
     Person $ impl-traits Person0 MyFooImpl
     p $ %{} Person (:name |Alice)
@@ -60,9 +60,9 @@ do
   let
       PersonA0 $ defstruct PersonA (:name :string)
       MyFooA $ deftrait MyFooA
-        :foo $ :: :fn ('T) ('T) :string
+        .foo $ :: :fn ('T) ('T) :string
       MyFooImplA $ defimpl MyFooImplA MyFooA
-        :foo $ fn (p) (str-spaced |foo (:name p))
+        .foo $ fn (p) (str-spaced |foo (:name p))
       PersonA $ impl-traits PersonA0 MyFooImplA
       p $ %{} PersonA (:name |Alice)
     .foo p
@@ -70,7 +70,7 @@ do
   let
       PersonB0 $ defstruct PersonB (:name :string)
       MyFooImplB $ defimpl :MyFooImplB :MyFooB
-        :foo $ fn (p) (str-spaced |bar (:name p))
+        .foo $ fn (p) (str-spaced |bar (:name p))
       PersonB $ impl-traits PersonB0 MyFooImplB
       p $ %{} PersonB (:name |Bob)
     .foo p
@@ -78,26 +78,26 @@ do
 
 **2) Method pair forms**
 
-All of the following are accepted and equivalent:
+Prefer dot-style keys (`.foo`). Legacy tag keys (`:foo`) are still accepted for compatibility.
 
 ```cirru
 ; Both forms are accepted and equivalent:
 do
   let
       MyFoo $ deftrait MyFoo
-        :foo $ :: :fn ('T) ('T) :string
+        .foo $ :: :fn ('T) ('T) :string
       Person0 $ defstruct Person (:name :string)
-      ; Form 1: :keyword fn pairs
+      ; Form 1: preferred .method keys
       ImplA $ defimpl ImplA MyFoo
-        :foo (fn (p) (str |A: (:name p)))
+        .foo (fn (p) (str |A: (:name p)))
       PersonA $ impl-traits Person0 ImplA
       pa $ %{} PersonA (:name |Alice)
     .foo pa
   let
       MyFoo $ deftrait MyFoo
-        :foo $ :: :fn ('T) ('T) :string
+        .foo $ :: :fn ('T) ('T) :string
       Person0 $ defstruct Person (:name :string)
-      ; Form 2: :: :keyword fn pairs (equivalent)
+      ; Form 2: legacy tag keys (compatible)
       ImplB $ defimpl ImplB MyFoo
         :: :foo (fn (p) (str |B: (:name p)))
       PersonB $ impl-traits Person0 ImplB
@@ -111,7 +111,7 @@ If you need a pure marker and don’t want to bind to a real trait value, use ta
 
 ```cirru
 defimpl :MyMarkerImpl :MyMarker
-  :dummy nil
+  .dummy nil
 ```
 
 This is also a safe replacement for the old self-referential pattern
@@ -136,11 +136,11 @@ Syntax:
 ```cirru
 let
     MyFoo $ deftrait MyFoo
-      :foo $ :: :fn ('T) ('T) :string
+      .foo $ :: :fn ('T) ('T) :string
     ImplA $ defimpl ImplA MyFoo
-      :foo $ fn (p) (str |A: (:name p))
+      .foo $ fn (p) (str |A: (:name p))
     ImplB $ defimpl :ImplB :ImplB-trait
-      :bar $ fn (p) (str |B: (:name p))
+      .bar $ fn (p) (str |B: (:name p))
     StructDef0 $ defstruct StructDef (:name :string)
     StructDef $ impl-traits StructDef0 ImplA ImplB
     x $ %{} StructDef (:name |test)
@@ -157,9 +157,9 @@ do
   ; struct example
   let
       MyFoo $ deftrait MyFoo
-        :foo $ :: :fn ('T) ('T) :string
+        .foo $ :: :fn ('T) ('T) :string
       MyFooImpl $ defimpl MyFooImpl MyFoo
-        :foo $ fn (p) (str-spaced |foo (:name p))
+        .foo $ fn (p) (str-spaced |foo (:name p))
       Person0 $ defstruct Person (:name :string)
       Person $ impl-traits Person0 MyFooImpl
       p $ %{} Person (:name |Alice)
@@ -167,9 +167,9 @@ do
   ; enum example
   let
       ResultTrait $ deftrait ResultTrait
-        :describe :fn
+        .describe :fn
       ResultImpl $ defimpl ResultImpl ResultTrait
-        :describe $ fn (x)
+        .describe $ fn (x)
           tag-match x
             (:ok v) (str |ok: v)
             (:err v) (str |err: v)
@@ -213,13 +213,13 @@ Example with two traits sharing the same method name:
 ```cirru
 let
     MyZapA $ deftrait MyZapA
-      :zap $ :: :fn ('T) ('T) :string
+      .zap $ :: :fn ('T) ('T) :string
     MyZapB $ deftrait MyZapB
-      :zap $ :: :fn ('T) ('T) :string
+      .zap $ :: :fn ('T) ('T) :string
     MyZapAImpl $ defimpl MyZapAImpl MyZapA
-      :zap $ fn (_x) |zapA
+      .zap $ fn (_x) |zapA
     MyZapBImpl $ defimpl MyZapBImpl MyZapB
-      :zap $ fn (_x) |zapB
+      .zap $ fn (_x) |zapB
     Person0 $ defstruct Person (:name :string)
     Person $ impl-traits Person0 MyZapAImpl MyZapBImpl
     p $ %{} Person (:name |Alice)
@@ -250,10 +250,10 @@ You can also inspect impl origins directly when validating trait dispatch:
 ```cirru
 let
     MyFoo $ deftrait MyFoo
-      :foo $ :: :fn ('T) ('T) :string
+      .foo $ :: :fn ('T) ('T) :string
     Shape0 $ defenum Shape (:point :number :number)
     MyFooImpl $ defimpl MyFooImpl MyFoo
-      :foo $ fn (t) (str |shape: (&tuple:nth t 0))
+      .foo $ fn (t) (str |shape: (&tuple:nth t 0))
     Shape $ impl-traits Shape0 MyFooImpl
     some-tuple $ %:: Shape :point 10 20
     impls $ &tuple:impls some-tuple

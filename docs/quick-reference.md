@@ -142,6 +142,12 @@ let
 - **Method validation**: Checks method names and class types
 - **Recur arity**: Validates recur argument count matches function params
 
+### Method & Access Syntax
+
+- Method call: `.map xs inc` (or shorthand `xs.map inc`)
+- Tag access (map key): prefer `obj.:name` over legacy `(:name obj)`
+- Trait/impl declarations prefer dot method keys like `.foo`; legacy tag keys like `:foo` remain compatible but emit a default warning in `deftrait`/`defimpl`
+
 ## File Structure
 
 - `calcit.cirru` - Editor snapshot (source for structural editing)
