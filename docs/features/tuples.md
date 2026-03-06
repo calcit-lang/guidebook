@@ -231,7 +231,7 @@ let
 let
     ApiResult $ defenum ApiResult (:ok :string) (:err :string)
     process-result $ defn process-result (r)
-      hint-fn $ return-type :string
+  hint-fn $ {} (:args ([] :dynamic)) (:return :string)
       tag-match r
         (:ok v) (str v)
         (:err msg) msg

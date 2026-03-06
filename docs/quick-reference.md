@@ -101,13 +101,13 @@ let
 let
     ; Function with type annotations
     add $ defn add (a b)
-      hint-fn $ return-type :number
+      hint-fn $ {} (:args ([] :number :number)) (:return :number)
       assert-type a :number
       assert-type b :number
       + a b
     ; Variadic type
     sum $ defn sum (& xs)
-      hint-fn $ return-type :number
+      hint-fn $ {} (:return :number)
       assert-type xs $ :: :& :number
       apply + xs
     ; Struct definition

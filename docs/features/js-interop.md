@@ -91,7 +91,7 @@ Calcit provides async interop syntax for JS codegen.
 
 ### Mark async functions
 
-Use `hint-fn async` in function body when using `js-await`:
+Use `hint-fn $ {} (:async true)` in function body when using `js-await`:
 
 `js-await` should stay inside async-marked function bodies.
 
@@ -99,7 +99,7 @@ Use `hint-fn async` in function body when using `js-await`:
 let
     fetch-data $ fn () nil
   fn ()
-    hint-fn async
+    hint-fn $ {} (:async true)
     js-await $ fetch-data
 ```
 
@@ -109,7 +109,7 @@ Use `js-await` for Promise-like values:
 
 ```cirru.no-run
 fn ()
-  hint-fn async
+  hint-fn $ {} (:async true)
   let
       p $ new js/Promise $ fn (resolve _reject)
         js/setTimeout
@@ -136,7 +136,7 @@ let
     timeout $ fn (ms) $ new js/Promise $ fn (resolve _reject)
       js/setTimeout resolve ms
   fn ()
-    hint-fn async
+    hint-fn $ {} (:async true)
     js-await $ timeout 200
 ```
 
@@ -148,7 +148,7 @@ Use `js-for-await` with `js-await` for async iterables:
 let
     gen $ fn () nil
   fn ()
-    hint-fn async
+    hint-fn $ {} (:async true)
     js-await $ js-for-await (gen)
       fn (item)
         new js/Promise $ fn (resolve _reject)

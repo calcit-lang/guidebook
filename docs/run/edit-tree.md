@@ -6,6 +6,11 @@ Calcit provides powerful CLI tools for modifying code directly without opening a
 
 The `edit` command handles high-level operations on namespaces and definitions.
 
+```bash
+# Refresh snapshot formatting without semantic changes
+cr edit format
+```
+
 ### Managing Namespaces
 
 ```bash

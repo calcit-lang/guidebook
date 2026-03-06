@@ -37,6 +37,8 @@ Commands:
   tree              fine-grained code tree operations (view and modify AST nodes)
 ```
 
+Quick note: `cr edit format` rewrites the target snapshot using canonical serialization without changing semantics.
+
 ## Detailed Option Descriptions
 
 ### Input File
