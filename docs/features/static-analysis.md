@@ -5,7 +5,7 @@ Calcit includes a built-in static type analysis system that performs compile-tim
 ## Quick Recipes
 
 - **Assert Type**: `assert-type x :number`
-- **Return Type**: `hint-fn $ return-type :string`
+- **Return Type**: `hint-fn $ {} (:return :string)`
 - **Compact Hint**: `defn my-fn (x) :string ...`
 - **Check Traits**: `assert-traits x MyTrait`
 - **Ignore Warning**: `&core:ignore-type-warning`
@@ -46,12 +46,14 @@ There are two ways to specify return types:
 
 #### 1. Formal Hint (`hint-fn`)
 
-Use `hint-fn` with `return-type` at the start of the function body:
+Use `hint-fn` with schema map at the start of the function body:
+
+Legacy clause syntax such as `(hint-fn (return-type ...))`, `(generics ...)`, and `(type-vars ...)` is no longer supported and now fails during preprocessing.
 
 ```cirru
 let
     get-name $ fn (user)
-      hint-fn $ return-type :string
+      hint-fn $ {} (:args ([] (:: 'user :dynamic))) (:return :string)
       , |demo
   get-name nil
 ```
@@ -308,7 +310,7 @@ Calcit supports optional type annotations for nullable values:
 
 ```cirru
 defn find-user (id)
-  hint-fn $ return-type $ :: :optional :record
+  hint-fn $ {} (:return (:: :optional :record))
   ; May return nil if user not found
   println "|demo code"
 ```
@@ -319,7 +321,7 @@ Functions with rest parameters use variadic type annotations:
 
 ```cirru
 defn sum (& numbers)
-  hint-fn $ return-type :number
+  hint-fn $ {} (:return :number)
   assert-type numbers $ :: :& :number
   reduce numbers 0 +
 ```
@@ -360,7 +362,7 @@ Checks are automatically skipped for:
 let
     process-input $ fn (input) (assoc input :processed true)
     public-api-function $ defn public-api-function (input)
-      hint-fn $ return-type :string
+      hint-fn $ {} (:args ([] :map)) (:return :string)
       assert-type input :map
       str $ process-input input
   public-api-function ({} (:data |hello))

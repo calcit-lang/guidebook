@@ -268,7 +268,7 @@ let
 let
     User $ defstruct User (:name :string) (:age :number) (:email :string)
     get-user-name $ fn (user)
-      hint-fn $ return-type :string
+  hint-fn $ {} (:args ([] (:: 'user (:: :record User)))) (:return :string)
       assert-type user $ :: :record User
       get user :name
   println $ get-user-name $ %{} User
