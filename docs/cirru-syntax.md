@@ -141,7 +141,7 @@ Calcit **does not** support Clojure-style `(defn name [^Type arg] ...)`.
 let
     ; Parameter check inside body
     square $ defn square (n)
-  hint-fn $ {} (:args ([] (:: 'n :number))) (:return :number)
+  hint-fn $ {} (:args ([] :number)) (:return :number)
       assert-type n :number
       &* n n
     ; Return type as trailing label

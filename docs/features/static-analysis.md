@@ -53,7 +53,7 @@ Legacy clause syntax such as `(hint-fn (return-type ...))`, `(generics ...)`, an
 ```cirru
 let
     get-name $ fn (user)
-      hint-fn $ {} (:args ([] (:: 'user :dynamic))) (:return :string)
+      hint-fn $ {} (:args ([] :dynamic)) (:return :string)
       , |demo
   get-name nil
 ```
