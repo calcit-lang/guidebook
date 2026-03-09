@@ -9,7 +9,7 @@ It complements the “class-like” polymorphism described in [Polymorphism](pol
 
 ## Quick Recipes
 
-- **Define Trait**: `deftrait MyTrait .method (:: :fn ('T) ('T) :string)`
+- **Define Trait**: `deftrait MyTrait .method (:: :fn $ {} ...)`
 - **Implement Trait**: `defimpl MyImpl MyTrait .method (fn (x) ...)`
 - **Attach to Struct**: `impl-traits MyStruct MyImpl`
 - **Call Method**: `.method instance`
@@ -21,7 +21,10 @@ Use `deftrait` to define a trait and its method signatures (including type annot
 
 ```cirru
 deftrait MyFoo
-  .foo (:: :fn ('T) ('T) :string)
+  .foo $ :: :fn $ {}
+    :generics $ [] 'T
+    :args $ [] 'T
+    :return :string
 ```
 
 ## Implement a trait
@@ -31,7 +34,10 @@ Use `defimpl` to create an impl record for a trait.
 ```cirru
 let
     MyFoo $ deftrait MyFoo
-      .foo $ :: :fn ('T) ('T) :string
+      .foo $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
     Person0 $ defstruct Person (:name :string)
     MyFooImpl $ defimpl MyFooImpl MyFoo
       .foo $ fn (p)
@@ -60,7 +66,10 @@ do
   let
       PersonA0 $ defstruct PersonA (:name :string)
       MyFooA $ deftrait MyFooA
-        .foo $ :: :fn ('T) ('T) :string
+        .foo $ :: :fn $ {}
+          :generics $ [] 'T
+          :args $ [] 'T
+          :return :string
       MyFooImplA $ defimpl MyFooImplA MyFooA
         .foo $ fn (p) (str-spaced |foo (:name p))
       PersonA $ impl-traits PersonA0 MyFooImplA
@@ -85,7 +94,10 @@ Prefer dot-style keys (`.foo`). Legacy tag keys (`:foo`) are still accepted for 
 do
   let
       MyFoo $ deftrait MyFoo
-        .foo $ :: :fn ('T) ('T) :string
+        .foo $ :: :fn $ {}
+          :generics $ [] 'T
+          :args $ [] 'T
+          :return :string
       Person0 $ defstruct Person (:name :string)
       ; Form 1: preferred .method keys
       ImplA $ defimpl ImplA MyFoo
@@ -95,7 +107,10 @@ do
     .foo pa
   let
       MyFoo $ deftrait MyFoo
-        .foo $ :: :fn ('T) ('T) :string
+        .foo $ :: :fn $ {}
+          :generics $ [] 'T
+          :args $ [] 'T
+          :return :string
       Person0 $ defstruct Person (:name :string)
       ; Form 2: legacy tag keys (compatible)
       ImplB $ defimpl ImplB MyFoo
@@ -136,7 +151,10 @@ Syntax:
 ```cirru
 let
     MyFoo $ deftrait MyFoo
-      .foo $ :: :fn ('T) ('T) :string
+      .foo $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
     ImplA $ defimpl ImplA MyFoo
       .foo $ fn (p) (str |A: (:name p))
     ImplB $ defimpl :ImplB :ImplB-trait
@@ -157,7 +175,10 @@ do
   ; struct example
   let
       MyFoo $ deftrait MyFoo
-        .foo $ :: :fn ('T) ('T) :string
+        .foo $ :: :fn $ {}
+          :generics $ [] 'T
+          :args $ [] 'T
+          :return :string
       MyFooImpl $ defimpl MyFooImpl MyFoo
         .foo $ fn (p) (str-spaced |foo (:name p))
       Person0 $ defstruct Person (:name :string)
@@ -167,7 +188,10 @@ do
   ; enum example
   let
       ResultTrait $ deftrait ResultTrait
-        .describe :fn
+        .describe $ :: :fn $ {}
+          :generics $ [] 'T
+          :args $ [] 'T
+          :return :string
       ResultImpl $ defimpl ResultImpl ResultTrait
         .describe $ fn (x)
           tag-match x
@@ -213,9 +237,15 @@ Example with two traits sharing the same method name:
 ```cirru
 let
     MyZapA $ deftrait MyZapA
-      .zap $ :: :fn ('T) ('T) :string
+      .zap $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
     MyZapB $ deftrait MyZapB
-      .zap $ :: :fn ('T) ('T) :string
+      .zap $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
     MyZapAImpl $ defimpl MyZapAImpl MyZapA
       .zap $ fn (_x) |zapA
     MyZapBImpl $ defimpl MyZapBImpl MyZapB
@@ -274,10 +304,13 @@ Notes:
 ```cirru
 let
     MyFoo $ deftrait MyFoo
-      :foo $ :: :fn ('T) ('T) :string
+      .foo $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
     Person0 $ defstruct Person (:name :string)
     MyFooImpl $ defimpl MyFooImpl MyFoo
-      :foo $ fn (p) (str-spaced |foo (:name p))
+      .foo $ fn (p) (str-spaced |foo (:name p))
     Person $ impl-traits Person0 MyFooImpl
     p $ %{} Person (:name |Alice)
   assert-traits p MyFoo

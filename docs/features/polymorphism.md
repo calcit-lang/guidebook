@@ -8,7 +8,7 @@ Historically, the idea was inspired by JavaScript, and also [borrowed from a tri
 
 ## Quick Recipes
 
-- **Define Trait**: `deftrait Show .show (:: :fn ('T) ('T) :string)`
+- **Define Trait**: `deftrait Show .show (:: :fn $ {} ...)`
 - **Implement**: `defimpl ShowImpl Show .show (fn (x) ...)`
 - **Attach**: `impl-traits MyStruct ShowImpl`
 - **Call**: `.show instance`
@@ -24,10 +24,16 @@ Historically, the idea was inspired by JavaScript, and also [borrowed from a tri
 
 ```cirru
 deftrait Show
-  .show (:: :fn ('T) ('T) :string)
+  .show $ :: :fn $ {}
+    :generics $ [] 'T
+    :args $ [] 'T
+    :return :string
 
 deftrait Eq
-  .eq? (:: :fn ('T) ('T 'T) :bool)
+  .eq? $ :: :fn $ {}
+    :generics $ [] 'T
+    :args $ [] 'T 'T
+    :return :bool
 ```
 
 Traits are values and can be referenced like normal symbols.
@@ -37,7 +43,10 @@ Traits are values and can be referenced like normal symbols.
 ```cirru
 let
     MyFoo $ deftrait MyFoo
-      .foo $ :: :fn ('T) ('T) :string
+      .foo $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
     MyFooImpl $ defimpl MyFooImpl MyFoo
       .foo $ fn (p) (str "|foo " (:name p))
     Person0 $ defstruct Person (:name :string)
@@ -51,11 +60,20 @@ let
 ```cirru
 let
     MyFoo $ deftrait MyFoo
-      .foo $ :: :fn ('T) ('T) :string
+      .foo $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
     ShowTrait $ deftrait ShowTrait
-      .show :fn
+      .show $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
     EqTrait $ deftrait EqTrait
-      .eq :fn
+      .eq $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
     Person0 $ defstruct Person (:name :string)
     ShowImpl $ defimpl ShowImpl ShowTrait
       .show $ fn (p) (str |Person: (:name p))
@@ -75,7 +93,10 @@ let
 ```cirru
 let
     MyFoo $ deftrait MyFoo
-      .foo $ :: :fn ('T) ('T) :string
+      .foo $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
     Person0 $ defstruct Person (:name :string)
     MyFooImpl $ defimpl MyFooImpl MyFoo
       .foo $ fn (p) (str-spaced |foo (:name p))

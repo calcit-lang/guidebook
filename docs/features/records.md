@@ -221,12 +221,18 @@ Define a trait with `deftrait`, implement it with `defimpl`, and attach it to a 
 
 ```cirru
 let
-    BirdTrait $ deftrait BirdTrait (:show :fn) (:rename :fn)
+    BirdTrait $ deftrait BirdTrait
+      .show $ :: :fn $ {}
+        :args $ [] 'T
+        :return :nil
+      .rename $ :: :fn $ {}
+        :args $ [] 'T :string
+        :return 'T
     BirdShape $ defstruct BirdShape (:name :string)
     BirdImpl $ defimpl BirdImpl BirdTrait
-      :show $ fn (self)
+      .show $ fn (self)
         println $ get self :name
-      :rename $ fn (self name)
+      .rename $ fn (self name)
         assoc self :name name
     Bird $ impl-traits BirdShape BirdImpl
     b $ %{} Bird (:name |Sparrow)

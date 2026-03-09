@@ -129,7 +129,9 @@ let
 let
     t1 $ :: :list :number
     t2 $ :: :map :string
-    t3 $ :: :fn ([] :number) :string
+    t3 $ :: :fn $ {}
+      :args $ [] :number
+      :return :string
   [] t1 t2 t3
 ```
 
