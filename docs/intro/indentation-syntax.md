@@ -37,7 +37,7 @@ Inside `compact.cirru`, code is like quoted data inside `(quote ...)` blocks:
 
   :files $ {}
     |app.main $ {}
-      :ns $ %{} :CodeEntry (:doc |)
+      :ns $ %{} :NsEntry (:doc |)
         :code $ quote
           ns app.main $ :require
       :defs $ {}

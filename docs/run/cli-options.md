@@ -37,7 +37,7 @@ Commands:
   tree              fine-grained code tree operations (view and modify AST nodes)
 ```
 
-Quick note: `cr edit format` rewrites the target snapshot using canonical serialization without changing semantics.
+Quick note: `cr edit format` rewrites the target snapshot using canonical serialization without changing semantics. It also normalizes legacy namespace entries that were previously serialized with `CodeEntry` into the current `NsEntry` shape.
 
 ## Detailed Option Descriptions
 

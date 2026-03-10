@@ -16,11 +16,16 @@ Example of a `compact.cirru` file is more readable:
   :files $ {}
     |app.main $ %{} :FileEntry
       :defs $ {}
-        |main! $ quote
-          defn main! () (+ 1 2)
-        |reload! $ quote
-          defn reload! ()
-      :ns $ quote
+        |main! $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            defn main! () (+ 1 2)
+          :examples $ []
+        |reload! $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            defn reload! ()
+          :examples $ []
+      :ns $ %{} :NsEntry (:doc |)
+        :code $ quote
         ns app.main $ :require
 ```
 

@@ -11,6 +11,8 @@ The `edit` command handles high-level operations on namespaces and definitions.
 cr edit format
 ```
 
+This command also rewrites older namespace records into the canonical `NsEntry` snapshot shape.
+
 ### Managing Namespaces
 
 ```bash
