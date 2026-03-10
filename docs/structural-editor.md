@@ -1,5 +1,7 @@
 # Structural Editor
 
+> **Deprecated:** As Calcit shifts toward LLM-generated code workflows, command-line operations and type annotations have become more important. The structural editor approach is no longer recommended. Agent interfaces are preferred over direct user interaction.
+
 As demonstrated in [Cirru Project](http://cirru.org/), it's for higher goals of auto-layout code editor. [Calcit Editor](https://github.com/calcit-lang/editor) was incubated in Cirru.
 
 Structural editing makes Calcit a lot different from existing languages, even unique among Lisps.
@@ -7,7 +9,7 @@ Structural editing makes Calcit a lot different from existing languages, even un
 Calcit Editor uses a `calcit.cirru` as snapshot file, which contains much informations. And it is compiled into `compact.cirru` for evaluating.
 Example of a `compact.cirru` file is more readable:
 
-```cirru
+```cirru.no-run
 {} (:package |app)
   :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!)
     :modules $ []

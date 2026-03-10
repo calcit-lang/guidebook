@@ -20,18 +20,14 @@ Equivalent JSON:
 `$` creates a **single nested expression** on the same line:
 
 ```cirru
-; Without $: explicit nesting
-let
-    x 1
-  println x
-
-; With $: inline nesting
-let (x 1)
-  println x
-
-; Multiple $ chain right-to-left
-println $ str $ &+ 1 2
-; Equivalent to: (println (str (&+ 1 2)))
+do
+  ; Without $: explicit nesting
+  let
+      x 1
+    str x
+  ; Multiple $ chain right-to-left
+  str $ &+ 1 2
+  ; Equivalent to: (str (&+ 1 2))
 ```
 
 **Rule**: `a $ b c` → `["a", ["b", "c"]]`
@@ -67,11 +63,13 @@ if true
 Useful in `cond`, `case`, `let` bindings:
 
 ```cirru
-cond
-    &< x 0
-    , |negative      ; comma separates condition from result
-  (&= x 0) |zero
-  true |positive
+let
+    x (- 0 3)
+  ; cond tests conditions in sequence, returning first matching result
+  cond
+    (&< x 0) |negative
+    (&= x 0) |zero
+    true |positive
 ```
 
 ### 5. Quasiquote, Unquote, Unquote-Splicing
@@ -82,7 +80,7 @@ For macros:
 - `~` (unquote): insert evaluated value
 - `~@` (unquote-splicing): splice list contents
 
-```cirru
+```cirru.no-check
 defmacro when-not (cond & body)
   quasiquote $ if (not ~cond)
     do ~@body
@@ -99,11 +97,74 @@ JSON equivalent:
 ]
 ```
 
+## LLM Guidance & Optimization
+
+To ensure high-quality code generation for Calcit, follow these rules:
+
+### 1. Mandatory `|` Prefix for Strings
+
+LLMs often forget the `|` prefix. **Always** use `|` for string literals, even short ones.
+
+- ❌ `println "hello"`
+- ✅ `println |hello`
+- ✅ `println "|hello with spaces"`
+
+### 2. Functional `let` Binding
+
+`let` bindings must be a list of pairs `((name value))`. Single brackets `(name value)` are invalid.
+
+- ❌ `let (x 1) x`
+- ✅ `let ((x 1)) x`
+- ✅ **Preferred**: Use multi-line for clarity:
+  ```cirru.no-run
+  let
+      x 1
+      y 2
+    + x y
+  ```
+
+### 3. Arity Awareness
+
+Calcit uses strict arity checking. Many core functions like `+`, `-`, `*`, `/` have native counterparts `&+`, `&-`, `&*`, `&/` which are binaries (2 arguments). The standard versions are often variadic macros.
+
+- Use `&+`, `&-`, etc. in tight loops or when 2 args are guaranteed.
+
+### 4. No Inline Types in Parameters
+
+Calcit **does not** support Clojure-style `(defn name [^Type arg] ...)`.
+
+- ❌ `defn add (a :number) ...`
+- ✅ Use `assert-type` inside the body for parameters.
+- ✅ Return types can be specified with `hint-fn` or a **trailing label** after parameters:
+
+```cirru
+let
+    ; Parameter check inside body
+    square $ defn square (n)
+  hint-fn $ {} (:args ([] :number)) (:return :number)
+      assert-type n :number
+      &* n n
+    ; Return type as trailing label
+    get-pi $ defn get-pi () :number
+      , 3.14159
+    ; Mixed style
+    add $ defn add (a b) :number
+      assert-type a :number
+      assert-type b :number
+      + a b
+  [] (square 5) (get-pi) (add 3 4)
+```
+
+### 5. `$` and `,` Usage
+
+- Use `$` to avoid parentheses on the same line.
+- Use `,` to separate multiline pairs in `cond` or `case` if indentation alone feels ambiguous.
+
 ### 6. Common Patterns
 
 #### Function Definition
 
-```cirru
+```cirru.no-check
 defn function-name (arg1 arg2)
   body-expression
 ```
@@ -119,7 +180,7 @@ let
 
 #### Conditional
 
-```cirru
+```cirru.no-check
 if condition
   then-branch
   else-branch
@@ -127,7 +188,7 @@ if condition
 
 #### Multi-branch Cond
 
-```cirru
+```cirru.no-check
 cond
   (test1) result1
   (test2) result2

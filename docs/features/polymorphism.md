@@ -1,88 +1,124 @@
 # Polymorphism
 
-Calcit uses tuples to simulate objects. Inherence not supported.
+Calcit models polymorphism with traits. Traits define method capabilities and can be attached to struct/enum definitions with `impl-traits`.
 
-Core idea is inspired by JavaScript and also [borrowed from a trick of Haskell](https://www.well-typed.com/blog/2018/03/oop-in-haskell/) since Haskell is simulating OOP with immutable data structures.
+For capability-based dispatch via struct/enum-attached impls (used by records/tuples created from them), see [Traits](traits.md).
 
-### Terms
+Historically, the idea was inspired by JavaScript, and also [borrowed from a trick of Haskell](https://www.well-typed.com/blog/2018/03/oop-in-haskell/) (simulating OOP with immutable data structures). The current model is trait-based.
 
-- "Tuple", the data structure of 2 or more items, written like `(:: a b)`. It's more "tagged union" in the case of Calcit.
-- "class", it's a concept between "JavaScript class" and "JavaScript prototype", it's using a record containing functions to represent the prototype of objects.
-- "object", Calcit has no "OOP Objects", it's only tuples that simulating objects to support polymorphism. It's based on immutable data.
+## Quick Recipes
 
-which makes "tuple" a really special data type Calcit.
+- **Define Trait**: `deftrait Show .show (:: :fn $ {} ...)`
+- **Implement**: `defimpl ShowImpl Show .show (fn (x) ...)`
+- **Attach**: `impl-traits MyStruct ShowImpl`
+- **Call**: `.show instance`
 
-Tuple has a structure of three parts:
+## Key terms
 
-```cirru
-%:: %class :tag p1 p2 p3
-```
+- **Trait**: A named capability with method signatures (defined by `deftrait`).
+- **Trait impl**: An impl record providing method implementations for a trait.
+- **impl-traits**: Attaches one or more trait impl records to a struct/enum definition.
+- **assert-traits**: Adds a compile-time hint and performs a runtime check that a value satisfies a trait.
 
-- `%class` defines the class, which is a hidden property, not counted in index
-- `:tag` is a tag to identify the tuple by convention, index is `0`.
-- parameters, can be 0 or many arguments, index starts with `1`. for example `(:: :none)` is an example of a tuple with 0 arguments, index `0` gets `:none`.
-
-There was another shorthand for defining tuples, which internall uses an empty class:
+## Define a trait
 
 ```cirru
-:: :tag p1 p2 p3
+deftrait Show
+  .show $ :: :fn $ {}
+    :generics $ [] 'T
+    :args $ [] 'T
+    :return :string
+
+deftrait Eq
+  .eq? $ :: :fn $ {}
+    :generics $ [] 'T
+    :args $ [] 'T 'T
+    :return :bool
 ```
 
-### Usage
+Traits are values and can be referenced like normal symbols.
 
-Define a class:
-
-```cirru
-defrecord! MyNum
-  :inc $ fn (self)
-    update self 1 inc
-  :show $ fn (self)
-    str $ &tuple:nth self 1
-```
-
-notice that `self` in this context is `(%:: MyNum :my-num 1)` rather than a bare liternal.
-
-get an obejct and call method:
+## Implement a trait for a struct/enum definition
 
 ```cirru
 let
-    a $ %:: MyNum :my-num 1
-  println $ .show a
+    MyFoo $ deftrait MyFoo
+      .foo $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
+    MyFooImpl $ defimpl MyFooImpl MyFoo
+      .foo $ fn (p) (str "|foo " (:name p))
+    Person0 $ defstruct Person (:name :string)
+    Person $ impl-traits Person0 MyFooImpl
+    p $ %{} Person (:name |Alice)
+  .foo p
 ```
 
-> Not to be confused with JavaScript native method function which uses `.!method`.
-
-Use it with chaining:
+`impl-traits` returns a new struct/enum definition with trait implementations attached. You can also attach multiple traits at once:
 
 ```cirru
--> (%:: MyNum :my-num 1)
-  .update
-  .show
-  println
+let
+    MyFoo $ deftrait MyFoo
+      .foo $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
+    ShowTrait $ deftrait ShowTrait
+      .show $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
+    EqTrait $ deftrait EqTrait
+      .eq $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
+    Person0 $ defstruct Person (:name :string)
+    ShowImpl $ defimpl ShowImpl ShowTrait
+      .show $ fn (p) (str |Person: (:name p))
+    EqImpl $ defimpl EqImpl EqTrait
+      .eq $ fn (p) (str |eq: (:name p))
+    MyFooImpl $ defimpl MyFooImpl MyFoo
+      .foo $ fn (p) (str |foo: (:name p))
+    Person $ impl-traits Person0 ShowImpl EqImpl MyFooImpl
+    p $ %{} Person (:name |Alice)
+  [] (.show p) (.foo p)
 ```
 
-In the runtime, a method call will try to check first element in the passed tuple and use it as the prototype, looking up the method name, and then really call it. It's roughly same behavoirs running in JavaScript except that JavaScript need to polyfill this with partial functions.
+## Trait checks and type hints
 
-### Built-in classes
-
-Many of core data types inside Calcit are treated like "tagged unions" inside the runtime, with some class being initialized at program start:
+`assert-traits` marks a local as having a trait and validates it at runtime:
 
 ```cirru
-&core-number-class
-&core-string-class
-&core-set-class
-&core-list-class
-&core-map-class
-&core-record-class
-&core-nil-class
-&core-fn-class
+let
+    MyFoo $ deftrait MyFoo
+      .foo $ :: :fn $ {}
+        :generics $ [] 'T
+        :args $ [] 'T
+        :return :string
+    Person0 $ defstruct Person (:name :string)
+    MyFooImpl $ defimpl MyFooImpl MyFoo
+      .foo $ fn (p) (str-spaced |foo (:name p))
+    Person $ impl-traits Person0 MyFooImpl
+    p $ %{} Person (:name |Alice)
+  assert-traits p MyFoo
+  .foo p
 ```
 
-that's why you can call `(.fract 1.1)` to run `(&number:fract 1.1)` since `1` is treated like `(:: &core-number-class 1)` when passing to method syntax.
+If the trait is missing or required methods are not implemented, `assert-traits` raises an error.
 
-The cost of this syntax is the code related are always initialized when Calcit run, even all of the method syntaxes not actually called.
+## Built-in traits
 
-### Some old materials
+Core types provide built-in trait implementations (e.g. `Show`, `Eq`, `Compare`, `Add`, `Len`, `Mappable`). These are registered by the runtime, so values like numbers, strings, lists, maps, and records already satisfy common traits.
+
+## Notes
+
+- There is no inheritance. Behavior sharing is done via traits and `impl-traits`.
+- Method calls resolve through attached trait impls first, then built-in implementations.
+- Use `assert-traits` when a function relies on trait methods and you want early, clear failures.
+
+## Further reading
 
 - Dev log(中文) https://github.com/calcit-lang/calcit/discussions/44
 - Dev log in video(中文) https://www.bilibili.com/video/BV1Ky4y137cv

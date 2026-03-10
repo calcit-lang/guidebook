@@ -1,53 +1,67 @@
-# Running Calcit
+# Run Calcit
 
-Calcit can be run in several different modes.
+This page is a quick navigation hub. Detailed topics are split into dedicated chapters under `run/`.
 
-### Running a Program
+## Quick start
 
-To run a local `compact.cirru` file, simply use:
+Run local project once (default behavior):
 
 ```bash
 cr
 ```
 
-This is equivalent to:
+Enable watch mode explicitly:
 
 ```bash
-cr compact.cirru
+cr -w
 ```
 
-By default, Calcit launches a watcher. If you want to run without the watcher, use:
-
-```bash
-cr -1
-```
-
-### Eval Mode
-
-To quickly evaluate a snippet of code:
+Evaluate a snippet:
 
 ```bash
 cr eval 'println "|Hello world"'
 ```
 
-### Generating JavaScript
-
-To generate JavaScript code:
+Emit JavaScript / IR once:
 
 ```bash
 cr js
-```
-
-To generate JavaScript only once (without the watcher):
-
-```bash
-cr js -1
-```
-
-### Generating IR
-
-To generate IR (Intermediate Representation):
-
-```bash
 cr ir
 ```
+
+## Run guide map
+
+- [Run in Eval mode](./run/eval.md)
+- [CLI Options](./run/cli-options.md)
+- [Querying definitions](./run/query.md)
+- [Documentation & Libraries](./run/docs-libs.md)
+- [CLI Code Editing](./run/edit-tree.md)
+- [Load Deps](./run/load-deps.md)
+- [Hot Swapping](./run/hot-swapping.md)
+- [Bundle Mode](./run/bundle-mode.md)
+- [Entries](./run/entries.md)
+
+## Quick find by keyword
+
+Use these keywords directly with `cr docs read` for faster section hits:
+
+- `eval`, `snippet`, `dep`, `type-check` → [Run in Eval mode](./run/eval.md)
+- `watch`, `once`, `entry`, `reload-fn` → [CLI Options](./run/cli-options.md)
+- `query`, `find`, `usages`, `search-expr` → [Querying definitions](./run/query.md)
+- `docs`, `read-lines`, `libs`, `readme` → [Documentation & Libraries](./run/docs-libs.md)
+- `edit`, `tree`, `target-replace`, `imports` → [CLI Code Editing](./run/edit-tree.md)
+
+Typical navigation flow:
+
+```bash
+# 1) List headings in a chapter
+cr docs read run.md
+
+# 2) Jump by keyword(s)
+cr docs read run.md quick find
+
+# 3) Open the target chapter and narrow again
+cr docs read query.md usages
+```
+
+Use this page for orientation, then jump to the specific chapter for complete examples and edge cases.
