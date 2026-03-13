@@ -34,14 +34,23 @@ Process need to keep running when there are tasks running.
 
 Asynchronous tasks are based on threads, which is currently decoupled from core features of Calcit. We may need techniques like `tokio` for better performance in the future, but current solution is quite naive yet.
 
-Also to declare the ABI version, we need another function with specific name so that Calcit could check before actually calling it,
+Also to declare runtime compatibility, FFI dylibs need two extra functions with specific names so that Calcit could check before actually calling them:
 
 ```rust
 #[no_mangle]
 pub fn abi_version() -> String {
   String::from("0.0.9")
 }
+
+#[no_mangle]
+pub fn edn_version() -> String {
+  cirru_edn::version().to_owned()
+}
 ```
+
+`abi_version()` must match Calcit's FFI ABI version exactly.
+
+`edn_version()` must match the exact `cirru_edn` crate version used by the running Calcit binary. If either version differs, Calcit aborts the FFI call before invoking the target symbol.
 
 ### Call in Calcit
 
