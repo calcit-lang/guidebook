@@ -4,7 +4,9 @@ Calcit includes a built-in static type analysis system that performs compile-tim
 
 ## Quick Recipes
 
-- **Assert Type**: `assert-type x :number`
+- **Assert Type**: `assert-type total :number`
+- **Local `fn` Hint**: `hint-fn $ {} (:args ([] :number)) (:return :number)`
+- **Top-level `defn` Schema**: `cr edit schema app.main/add -e ':: :fn $ {} (:args $ [] :number :number) (:return :number)'`
 - **Return Type**: `hint-fn $ {} (:return :string)`
 - **Compact Hint**: `defn my-fn (x) :string ...`
 - **Check Traits**: `assert-traits x MyTrait`
@@ -23,20 +25,25 @@ The static analysis system provides:
 
 ### Function Parameter Types
 
-Annotate function parameters using `assert-type` within the function body.
+Function parameters should be annotated with function schema:
 
-`assert-type` is composable: it returns the checked value when validation passes.
-For local symbols, preprocess also records type info for static inference. For non-local expressions,
-the runtime assertion path still works and keeps expression composition intact.
+- top-level `defn` / `defmacro`: prefer `:schema`
+- local `fn`: use `hint-fn` with `:args` / `:rest`
+
+For namespace-level definitions, `:schema` is stored on the definition entry and is typically edited with `cr edit schema`, rather than written inline in the function body.
+
+`assert-type` is still useful, but mainly for local variables, intermediate values, and explicit checks inside the function body.
 
 Runnable Example:
 
 ```cirru
 let
     calculate-total $ fn (items)
-      assert-type items :list
+      hint-fn $ {} (:args ([] :list)) (:return :number)
       reduce items 0
-        fn (acc item) (+ acc item)
+        fn (acc item)
+          hint-fn $ {} (:args ([] :number :number)) (:return :number)
+          + acc item
   calculate-total $ [] 1 2 3
 ```
 
@@ -44,9 +51,9 @@ let
 
 There are two ways to specify return types:
 
-#### 1. Formal Hint (`hint-fn`)
+#### 1. Local `fn` Hint (`hint-fn`)
 
-Use `hint-fn` with schema map at the start of the function body:
+Use `hint-fn` with schema map at the start of a local function body:
 
 Legacy clause syntax such as `(hint-fn (return-type ...))`, `(generics ...)`, and `(type-vars ...)` is no longer supported and now fails during preprocessing.
 
@@ -69,14 +76,18 @@ let
   add 10 20
 ```
 
+For namespace-level `defn` / `defmacro`, parameter and return metadata should still live in `:schema`.
+
 ### Multiple Annotations
 
 ```cirru
 let
     add $ fn (a b) :number
-      assert-type a :number
-      assert-type b :number
-      + a b
+      hint-fn $ {} (:args ([] :number :number))
+      let
+          total $ + a b
+        assert-type total :number
+        total
   add 1 2
 ```
 
@@ -109,7 +120,7 @@ Represent values that can be `nil`. Use the `:: :optional <type>` syntax:
 ```cirru
 let
     greet $ fn (name)
-      assert-type name $ :: :optional :string
+      hint-fn $ {} (:args ([] (:: :optional :string))) (:return :string)
       str "|Hello " (or name "|Guest")
   greet nil
 ```
@@ -121,7 +132,7 @@ Represent variable arguments in `&` parameters:
 ```cirru
 let
     sum $ fn (& xs)
-      assert-type xs $ :: :& :number
+      hint-fn $ {} (:rest :number) (:return :number)
       reduce xs 0 &+
   sum 1 2 3
 ```
@@ -134,7 +145,7 @@ Use the name defined by `defstruct` or `defenum`:
 let
     User $ defstruct User (:name :string)
     get-name $ fn (u)
-      assert-type u User
+      hint-fn $ {} (:args ([] (:: :record User))) (:return :string)
       get u :name
   get-name $ %{} User (:name |Alice)
 ```
@@ -267,14 +278,17 @@ let
 
 ## Type Assertions
 
-Use `assert-type` to explicitly check types during preprocessing:
+Use `assert-type` to explicitly check local values during preprocessing:
 
 ```cirru
 let
     transform-fn $ fn (x) (* x 2)
-    process-data $ defn process-data (data)
-      assert-type data :list
-      &list:map data transform-fn
+    process-data $ fn (data)
+      hint-fn $ {} (:args ([] :list)) (:return :list)
+      let
+          xs data
+        assert-type xs :list
+        &list:map xs transform-fn
   process-data ([] 1 2 3)
 ```
 
@@ -308,33 +322,52 @@ let
 
 Calcit supports optional type annotations for nullable values:
 
+Definition:
+
 ```cirru
 defn find-user (id)
-  hint-fn $ {} (:return (:: :optional :record))
   ; May return nil if user not found
   println "|demo code"
+```
+
+Schema on the namespace definition:
+
+```cirru
+:: :fn $ {} (:args $ [] :dynamic) (:return (:: :optional :record))
 ```
 
 ## Variadic Types
 
 Functions with rest parameters use variadic type annotations:
 
+Definition:
+
 ```cirru
 defn sum (& numbers)
-  hint-fn $ {} (:return :number)
-  assert-type numbers $ :: :& :number
   reduce numbers 0 +
+```
+
+Schema on the namespace definition:
+
+```cirru
+:: :fn $ {} (:rest :number) (:return :number)
 ```
 
 ## Function Types
 
-Functions can be typed as `:fn`. You can also assert input types:
+Functions can be typed as `:fn` in schema:
+
+Definition:
 
 ```cirru
 defn apply-twice (f x)
-  assert-type f :fn
-  assert-type x :number
   f (f x)
+```
+
+Schema on the namespace definition:
+
+```cirru
+:: :fn $ {} (:args $ [] :fn :number) (:return :number)
 ```
 
 ## Disabling Checks
@@ -361,10 +394,12 @@ Checks are automatically skipped for:
 ```cirru
 let
     process-input $ fn (input) (assoc input :processed true)
-    public-api-function $ defn public-api-function (input)
+    public-api-function $ fn (input)
       hint-fn $ {} (:args ([] :map)) (:return :string)
-      assert-type input :map
-      str $ process-input input
+      let
+          processed $ process-input input
+        assert-type processed :map
+        str processed
   public-api-function ({} (:data |hello))
 ```
 
@@ -383,21 +418,31 @@ defn calculate-area (width height)
 ```cirru
 let
     dangerous-operation $ fn (data) (map data (fn (x) (* x 2)))
-    critical-operation $ defn critical-operation (data)
-      assert-type data :list
-      ; Ensure data is a list before processing
-      dangerous-operation data
+    critical-operation $ fn (data)
+      hint-fn $ {} (:args ([] :list)) (:return :list)
+      let
+          checked data
+        assert-type checked :list
+        ; Ensure the local value is still what we expect before processing
+        dangerous-operation checked
   critical-operation ([] 1 2 3)
 ```
 
 ### 4. Document Complex Types
 
+Definition:
+
 ```cirru
 ; Function that takes a map with specific keys
 defn process-user (user-map)
-  assert-type user-map :map
   ; Expected keys: :name :email :age
   println "|demo code"
+```
+
+Schema on the namespace definition:
+
+```cirru
+:: :fn $ {} (:args $ [] :map)
 ```
 
 ## Limitations
