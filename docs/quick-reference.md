@@ -99,16 +99,13 @@ let
 
 ```cirru
 let
-    ; Function with type annotations
-    add $ defn add (a b)
+    ; Local function with type annotations
+    add $ fn (a b)
       hint-fn $ {} (:args ([] :number :number)) (:return :number)
-      assert-type a :number
-      assert-type b :number
       + a b
-    ; Variadic type
-    sum $ defn sum (& xs)
-      hint-fn $ {} (:return :number)
-      assert-type xs $ :: :& :number
+    ; Local variadic function
+    sum $ fn (& xs)
+      hint-fn $ {} (:rest :number) (:return :number)
       apply + xs
     ; Struct definition
     User $ defstruct User (:name :string) (:age :number) (:email :string)
@@ -116,6 +113,19 @@ let
   ; Type assertion (composable check, returns original value)
   assert-type x :number
   [] (add 3 4) (sum 1 2 3) x
+```
+
+Namespace-level definitions use `:schema`, for example:
+
+```cirru
+defn add (a b)
+  + a b
+```
+
+`:schema` can be attached separately:
+
+```cirru
+:: :fn $ {} (:args $ [] :number :number) (:return :number)
 ```
 
 ### Built-in Types
