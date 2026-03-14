@@ -122,7 +122,7 @@ defn add (a b)
   + a b
 ```
 
-`schema` can be attached separately:
+`:schema` can be attached separately:
 
 ```cirru
 :: :fn $ {} (:args $ [] :number :number) (:return :number)
