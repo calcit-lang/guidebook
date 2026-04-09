@@ -60,7 +60,7 @@ defmacro assert-positive (x)
 
 ; After expansion, type checking applies to generated code
 defn process (n)
-  assert-type n :number
+  hint-fn $ {} (:args ([] :number))
   assert-positive n  ; Macro expands, then type-checked
 ```
 

@@ -140,8 +140,7 @@ let
 
 ```cirru
 defn process-tags (tags)
-  hint-fn $ return-type :set
-  assert-type tags :set
+  hint-fn $ {} (:args ([] :set)) (:return :set)
   &set:filter tags $ fn (t) (not= t :draft)
 ```
 

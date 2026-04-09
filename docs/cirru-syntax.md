@@ -134,25 +134,32 @@ Calcit uses strict arity checking. Many core functions like `+`, `-`, `*`, `/` h
 Calcit **does not** support Clojure-style `(defn name [^Type arg] ...)`.
 
 - ❌ `defn add (a :number) ...`
-- ✅ Use `assert-type` inside the body for parameters.
+- ✅ Use function schema for parameter types (`:schema` on top-level defs, `hint-fn` for local `fn`).
 - ✅ Return types can be specified with `hint-fn` or a **trailing label** after parameters:
 
 ```cirru
 let
-    ; Parameter check inside body
+  ; Local helper function
     square $ defn square (n)
-  hint-fn $ {} (:args ([] :number)) (:return :number)
-      assert-type n :number
+      hint-fn $ {} (:args ([] :number)) (:return :number)
       &* n n
     ; Return type as trailing label
     get-pi $ defn get-pi () :number
       , 3.14159
     ; Mixed style
     add $ defn add (a b) :number
-      assert-type a :number
-      assert-type b :number
+      hint-fn $ {} (:args ([] :number :number))
       + a b
   [] (square 5) (get-pi) (add 3 4)
+```
+
+For namespace-level definitions, attach schema separately, for example:
+
+```cirru
+defn square (n)
+  &* n n
+
+:: :fn $ {} (:args $ [] :number) (:return :number)
 ```
 
 ### 5. `$` and `,` Usage
