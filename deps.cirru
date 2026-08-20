@@ -4,8 +4,9 @@
     |Respo/reel.calcit |main
     |Respo/respo-markdown.calcit |0.4.22
     |Respo/respo-router.calcit |main
-    |Respo/respo-ui.calcit |0.7.8
-    |Respo/respo.calcit |0.16.78
+    |Respo/respo-ui.calcit |main
+    |Respo/respo.calcit |main
     |calcit-lang/docs-workflow |main
+    |calcit-lang/js-ffi |0.1.9
     |calcit-lang/lilac |0.5.2
     |calcit-lang/memof |0.0.26
