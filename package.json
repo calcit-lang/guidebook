@@ -1,7 +1,8 @@
 {
+  "packageManager": "yarn@4.12.0",
   "dependencies": {
     "@calcit/docs-workflow": "^0.0.7",
-    "@calcit/procs": "^0.12.14",
+    "@calcit/procs": "^0.13.27",
     "@memkits/azure-speech-util": "^0.0.5"
   },
   "devDependencies": {
@@ -11,6 +12,9 @@
     "highlight.js": "^11.11.1",
     "remarkable": "^2.0.1",
     "vite": "^6.3.5"
+  },
+  "resolutions": {
+    "@cirru/parser.ts": "0.0.9"
   },
   "version": "0.0.1"
 }
