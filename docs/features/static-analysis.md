@@ -6,7 +6,7 @@ Calcit includes a built-in static type analysis system that performs compile-tim
 
 - **Assert Type**: `assert-type total :number`
 - **Local `fn` Hint**: `hint-fn $ {} (:args ([] :number)) (:return :number)`
-- **Top-level `defn` Schema**: `cr edit schema app.main/add -e ':: :fn $ {} (:args $ [] :number :number) (:return :number)'`
+- **Top-level `defn` Schema**: `calcit edit schema app.main/add -e ':: :fn $ {} (:args $ [] :number :number) (:return :number)'`
 - **Return Type**: `hint-fn $ {} (:return :string)`
 - **Compact Hint**: `defn my-fn (x) :string ...`
 - **Check Traits**: `assert-traits x MyTrait`
@@ -30,7 +30,7 @@ Function parameters should be annotated with function schema:
 - top-level `defn` / `defmacro`: prefer `:schema`
 - local `fn`: use `hint-fn` with `:args` / `:rest`
 
-For namespace-level definitions, `:schema` is stored on the definition entry and is typically edited with `cr edit schema`, rather than written inline in the function body.
+For namespace-level definitions, `:schema` is stored on the definition entry and is typically edited with `calcit edit schema`, rather than written inline in the function body.
 
 `assert-type` is still useful, but mainly for local variables, intermediate values, and explicit checks inside the function body.
 

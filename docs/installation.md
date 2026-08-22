@@ -20,7 +20,7 @@ Once installed, Calcit is available as a command-line tool. You can test it with
 calcit calcit.cirru eval 'echo |done'
 ```
 
-### Binaries
+### Commands
 
 Several binaries are included:
 
@@ -28,4 +28,4 @@ Several binaries are included:
 - `caps`: downloads Calcit packages
 - `calcit docs read`: reads the current built-in Calcit documentation
 
-Another important command is `ct`, which is the "Calcit Editor" and is available in a separate repository. For migration and command details, use `calcit docs read upgrade`.
+Another important command is `ct`, which is the "Calcit Editor" and is available in a separate repository. For migration and command details, use `calcit docs read upgrade --full`.

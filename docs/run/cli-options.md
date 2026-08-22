@@ -1,15 +1,14 @@
 # CLI Options
 
 ```bash
-Usage: cr [<input>] [-1] [-w] [--disable-stack] [--skip-arity-check] [--warn-dyn-method] [--emit-path <emit-path>] [--init-fn <init-fn>] [--reload-fn <reload-fn>] [--entry <entry>] [--reload-libs] [--watch-dir <watch-dir>] [<command>] [<args>]
+Usage: calcit [<input>] [-w] [--disable-stack] [--skip-arity-check] [--warn-dyn-method] [--emit-path <emit-path>] [--init-fn <init-fn>] [--reload-fn <reload-fn>] [--entry <entry>] [--reload-libs] [--watch-dir <watch-dir>] [<command>] [<args>]
 
 Top-level command.
 
 Positional Arguments:
-  input             input source file, defaults to "compact.cirru"
+  input             input source file, defaults to "calcit.cirru"
 
 Options:
-  -1, --once        run once and quit (compatibility option)
   -w, --watch       watch files and rerun/rebuild on changes
   --disable-stack   disable stack trace for errors
   --skip-arity-check
@@ -37,42 +36,37 @@ Commands:
   tree              fine-grained code tree operations (view and modify AST nodes)
 ```
 
-Quick note: `cr edit format` rewrites the target snapshot using canonical serialization without changing semantics. It also normalizes legacy namespace entries that were previously serialized with `CodeEntry` into the current `NsEntry` shape.
+Quick note: `calcit edit format` rewrites the target snapshot using canonical serialization without changing semantics. It also normalizes legacy namespace entries that were previously serialized with `CodeEntry` into the current `NsEntry` shape.
 
 ## Detailed Option Descriptions
 
 ### Input File
 
 ```bash
-# Run default compact.cirru
-cr
+# Run default calcit.cirru
+calcit
 
 # Run specific file
-cr demos/compact.cirru
+calcit demos/calcit.cirru
 ```
 
-### Run Once (--once / -1)
+### Run Once (default)
 
-By default, `cr` runs once and exits. Use `--watch` (`-w`) to enable watch mode:
+By default, `calcit` runs once and exits. Use `--watch` (`-w`) to enable watch mode:
 
 ```bash
-cr --watch
-cr -w demos/compact.cirru
+calcit --watch
+calcit -w demos/calcit.cirru
 ```
 
-`--once` is still available for compatibility:
-
-```bash
-cr --once
-cr -1  # shorthand
-```
+Direct execution runs once by default. Use `-w` or `--watch` when a watcher is needed.
 
 ### Error Stack Trace (--disable-stack)
 
 Disables detailed stack traces in error messages, useful for cleaner output:
 
 ```bash
-cr --disable-stack
+calcit --disable-stack
 ```
 
 ### JS Codegen Options
@@ -80,13 +74,13 @@ cr --disable-stack
 **--skip-arity-check**: When generating JavaScript, skip arity checking (use cautiously):
 
 ```bash
-cr js --skip-arity-check
+calcit js --skip-arity-check
 ```
 
 **--emit-path**: Specify output directory for generated JavaScript:
 
 ```bash
-cr js --emit-path dist/
+calcit js --emit-path dist/
 ```
 
 ### Dynamic Method Warnings (--warn-dyn-method)
@@ -94,7 +88,7 @@ cr js --emit-path dist/
 Warn when dynamic method dispatch cannot be specialized at preprocess time, and surface related trait-attachment diagnostics:
 
 ```bash
-cr --warn-dyn-method
+calcit --warn-dyn-method
 ```
 
 ### Hot Reloading Configuration
@@ -102,28 +96,28 @@ cr --warn-dyn-method
 **--init-fn**: Override the main entry function:
 
 ```bash
-cr --init-fn app.main/start!
+calcit --init-fn app.main/start!
 ```
 
 **--reload-fn**: Specify function called after code reload:
 
 ```bash
-cr --reload-fn app.main/on-reload!
+calcit --reload-fn app.main/on-reload!
 ```
 
 **--reload-libs**: Force reload library data during hot reload (normally cached):
 
 ```bash
-cr --reload-libs
+calcit --reload-libs
 ```
 
 ### Config Entry (--entry)
 
-Use specific config entry from `compact.cirru`:
+Use specific config entry from `calcit.cirru`:
 
 ```bash
-cr --entry test
-cr --entry production
+calcit --entry test
+calcit --entry production
 ```
 
 ### Asset Watching (--watch-dir)
@@ -131,33 +125,33 @@ cr --entry production
 Watch additional directories for changes (e.g., assets, styles):
 
 ```bash
-cr --watch-dir assets/
-cr --watch-dir styles/ --watch-dir images/
+calcit --watch-dir assets/
+calcit --watch-dir styles/ --watch-dir images/
 ```
 
 ## Common Usage Patterns
 
 ```bash
 # Development with watch mode
-cr -w --reload-fn app.main/reload!
+calcit -w --reload-fn app.main/reload!
 
 # Production build
-cr js --emit-path dist/
+calcit js --emit-path dist/
 
 # JS watch mode
-cr js -w --emit-path dist/
+calcit js -w --emit-path dist/
 
 # IR watch mode
-cr ir -w
+calcit ir -w
 
 # Testing single run
-cr --once --init-fn app.test/run-tests!
+calcit --init-fn app.test/run-tests!
 
 # Debug mode with full stack traces
-cr --reload-libs
+calcit --reload-libs
 
 # CI/CD environment
-cr --once --disable-stack
+calcit --disable-stack
 ```
 
 ## Markdown code checking
@@ -165,13 +159,13 @@ cr --once --disable-stack
 Use `docs check-md` to validate fenced code blocks in markdown files:
 
 ```bash
-cr docs check-md README.md
+calcit docs check-md README.md
 ```
 
 Load module dependencies with repeatable `--dep` options:
 
 ```bash
-cr docs check-md README.md --dep ./ --dep ~/.config/calcit/modules/memof/
+calcit docs check-md README.md --dep ./ --dep ~/.config/calcit/modules/memof/
 ```
 
 Recommended block modes:

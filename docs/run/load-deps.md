@@ -8,7 +8,7 @@
 {}
   :calcit-version |0.13.29
   :dependencies $ {}
-    |calcit-lang/memof |0.0.11
+    |calcit-lang/memof |0.0.26
     |calcit-lang/lilac |0.5.2
 ```
 

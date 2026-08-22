@@ -1,6 +1,6 @@
 # GitHub Actions
 
-To load the current Calcit release in a Ubuntu container:
+To load the current Calcit release in an Ubuntu container:
 
 ```yaml
 - uses: calcit-lang/setup-calcit@v1

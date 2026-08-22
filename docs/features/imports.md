@@ -94,7 +94,7 @@ Circular dependencies (A imports B, B imports A) will cause a compilation error.
 
 ## Using `calcit edit` for Import Management
 
-The `cr edit` CLI commands help manage imports safely:
+The `calcit edit` CLI commands help manage imports safely:
 
 ```bash
 # Add a new import to a namespace

@@ -107,7 +107,7 @@ let
 
 ### Quotes
 
-For quoted data, there's a special semantics for representing them, since that was neccessary for `compact.cirru` usage, where code lives inside a piece of data, marked as:
+For quoted data, there's a special semantics for representing them, since that was neccessary for `calcit.cirru` usage, where code lives inside a piece of data, marked as:
 
 ```cirru
 quote $ def a 1
@@ -122,7 +122,7 @@ at runtime, it's represented with tuples:
 which means you can eval:
 
 ```bash
-$ cr eval "println $ format-cirru-edn $ :: 'quote $ [] |def |a |1"
+$ calcit eval "println $ format-cirru-edn $ :: 'quote $ [] |def |a |1"
 
 quote $ def a 1
 
@@ -132,7 +132,7 @@ took 0.027ms: nil
 and also:
 
 ```bash
-$ cr eval 'parse-cirru-edn "|quote $ def a 1"'
+$ calcit eval 'parse-cirru-edn "|quote $ def a 1"'
 took 0.011ms: (:: 'quote ([] |def |a |1))
 ```
 
