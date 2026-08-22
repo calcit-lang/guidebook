@@ -17,17 +17,15 @@ cargo install calcit
 Once installed, Calcit is available as a command-line tool. You can test it with:
 
 ```bash
-cr eval "echo |done"
+calcit calcit.cirru eval 'echo |done'
 ```
 
-### Binaries
+### Commands
 
 Several binaries are included:
 
-- `cr`: the main command-line tool for running Calcit programs
-- `bundle_calcit`: bundles Calcit code into a `compact.cirru` file
+- `calcit`: the main command-line tool for running Calcit programs
 - `caps`: downloads Calcit packages
-- `cr-mcp`: provides a Model Context Protocol (MCP) server for Calcit compact files
-- `cr-sync`: syncs changes from `compact.cirru` back to `calcit.cirru`
+- `calcit docs read`: reads the current built-in Calcit documentation
 
-Another important command is `ct`, which is the "Calcit Editor" and is available in a separate repository.
+Another important command is `ct`, which is the "Calcit Editor" and is available in a separate repository. For migration and command details, use `calcit docs read upgrade --full`.

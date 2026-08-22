@@ -20,14 +20,13 @@ Useful libraries are maintained at <https://libs.calcit-lang.org/base.cirru>.
 - [Calcit IR viewer](https://github.com/calcit-lang/calcit-ir-viewer) - Visualize IR representation
 - [Calcit Error viewer](https://github.com/calcit-lang/calcit-error-viewer) - Enhanced error display
 - [Calcit Paint](https://github.com/calcit-lang/calcit-paint) - Experimental 2D shape editor
-- [cr-mcp](https://github.com/calcit-lang/calcit) - MCP server for tool integration
-- [calcit-bundler](https://www.npmjs.com/package/@calcit/bundler) - Bundle indentation syntax to compact format
+- Calcit tooling and editor integrations are documented in `calcit docs read upgrade --full`.
 - [caps-cli](https://www.npmjs.com/package/@calcit/caps) - Dependency management tool
 
 ### VS Code Integration:
 
 - [Calcit VS Code Extension](https://marketplace.visualstudio.com/items?itemName=calcit-lang.calcit) - Syntax highlighting and snippets
-- GitHub Copilot integration via cr-mcp server
+- GitHub Copilot integration via the current Calcit tooling
 
 ### Package Registry:
 

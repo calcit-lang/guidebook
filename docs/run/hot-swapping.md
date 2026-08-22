@@ -4,7 +4,7 @@ Since there are two platforms for running Calcit, soutions for hot swapping are 
 
 ### Rust runtime
 
-Hot swapping is built inside Rust runtime. When you specity `:reload-fn` in `compact.cirru`:
+Hot swapping is built inside Rust runtime. When you specity `:reload-fn` in `calcit.cirru`:
 
 ```cirru
 {}
@@ -15,7 +15,7 @@ Hot swapping is built inside Rust runtime. When you specity `:reload-fn` in `com
 
 the interpreter learns that the function `reload!` is to be re-run after hot swapping.
 
-It relies on change event on `.compact-inc.cirru` for detecting code changes. `.compact-inc.cirru` contains informations about which namespace / which definition has changed, and interpreter will patch into internal state of the program. Program caches of current namespace will be replaced, in case that dependants also need changes. Data inside atoms are retained. Calcit encourages usages of mostly pure functions with a few atoms, programs can be safely replaced in many cases.
+Use `calcit -w` or `calcit --watch` to enable the current watch workflow. The source of truth remains `calcit.cirru`; see `calcit docs read upgrade --full` for current reload behavior.
 
 But also notice that if you have effects like events listening, you have to dispose and re-attach listeners in `reload!`.
 

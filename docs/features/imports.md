@@ -1,13 +1,13 @@
 # Imports
 
-Calcit loads namespaces from `compact.cirru` (the compiled representation of source files). Dependencies are tracked via `~/.config/calcit/modules/`.
+Calcit loads namespaces from `calcit.cirru`. Dependencies are tracked via `~/.config/calcit/modules/` and downloaded with `caps`.
 
 ## Quick Recipes
 
 - **Alias**: `:require (app.lib :as lib)`
 - **Refer**: `:require (app.lib :refer $ f1 f2)`
 - **Core**: `calcit.core` is auto-imported
-- **CLI Add**: `cr edit add-import app.main -e 'app.lib :refer $ f1'`
+- **CLI Add**: `calcit calcit.cirru edit add-import app.main --code 'app.lib :refer $ f1'`
 
 ## The `ns` Form
 
@@ -92,30 +92,30 @@ Circular dependencies (A imports B, B imports A) will cause a compilation error.
 - Core data types and pure functions in low-level namespaces
 - Side-effectful and orchestration code at higher levels
 
-## Using `cr edit` for Import Management
+## Using `calcit edit` for Import Management
 
-The `cr edit` CLI commands help manage imports safely:
+The `calcit edit` CLI commands help manage imports safely:
 
 ```bash
 # Add a new import to a namespace
-cr app.cirru edit add-import app.demo -e 'app.util :refer $ helper'
+calcit calcit.cirru edit add-import app.demo --code 'app.util :refer $ helper'
 
 # Override an existing import (same source namespace)
-cr app.cirru edit add-import app.demo -e 'app.util :refer $ helper new-fn' -o
+calcit calcit.cirru edit add-import app.demo --code 'app.util :refer $ helper new-fn' --overwrite
 ```
 
-See `cr edit --help` for all available operations.
+See `calcit edit --help` for all available operations.
 
 ## Checking Imports
 
-Use `cr docs search` to look up what's available in a namespace before importing:
+Use `calcit query search` to look up what's available in a namespace before importing:
 
 ```bash
-cr app.cirru docs search my-function
+calcit calcit.cirru query search my-function
 ```
 
 or query the examples for a specific definition:
 
 ```bash
-cr app.cirru query examples calcit.core/map
+calcit calcit.cirru query examples calcit.core/map
 ```

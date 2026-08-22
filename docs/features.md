@@ -13,12 +13,12 @@ Calcit inherits most features from Clojure/ClojureScript while adding its own in
 
 ## Unique to Calcit
 
-- **Indentation-based syntax** - Alternative to parentheses using `bundle_calcit`, similar to Python/Haskell
+- **Source-first syntax** - Keep source in `calcit.cirru` and use the current CLI workflow
 - **Structural editing** - Visual tree-based code editing with Calcit Editor (Electron app)
 - **ES Modules output** - Modern JavaScript module format, tree-shakeable
 - **MCP integration** - Model Context Protocol server for AI assistant tool integration
 - **Ternary tree collections** - Custom persistent data structures optimized for Rust
-- **Incremental compilation** - Fast hot reload with `.compact-inc.cirru` format
+- **Watch mode** - Fast hot reload with `calcit -w` or `calcit --watch`
 - **Pattern matching** - Tagged unions with compile-time validation
 - **Record types** - Lightweight structs with field access validation
 - **Traits & method dispatch** - Attach capability-based methods to values, with explicit disambiguation when needed
@@ -38,7 +38,7 @@ For detailed information about specific features:
 
 ## Quick Find by Task
 
-Use this section as a keyword index for `cr docs read`:
+Use this section as a keyword index for `calcit docs read`:
 
 - **Collections**: list, map, set, tuple, record
 - **Pattern Matching**: enum, tag-match, tuple-match, result
@@ -62,8 +62,8 @@ Task-oriented jump map:
 - **Error handling** - Rich stack traces and error messages with source locations
 - **Package management** - Git-based dependency system with `caps` CLI tool
 - **Hot module replacement** - Fast iteration with live code updates
-- **REPL integration** - Interactive development with `cr eval` mode
-- **Bundle mode** - Single-file deployment with `cr bundle`
+- **REPL integration** - Interactive development with `calcit eval` mode
+- **JavaScript output** - Emit ES modules with `calcit calcit.cirru js`
 
 ## Type System
 

@@ -2,15 +2,15 @@
 
 Packages are managed with `caps` command, which wraps `git clone` and `git pull` to manage modules.
 
-Configurations inside `calcit.cirru` and `compact.cirru`:
+Configuration inside `calcit.cirru`:
 
 ```cirru
 :configs $ {}
-  :modules $ [] |memof/compact.cirru |lilac/
+  :modules $ [] |memof/calcit.cirru |lilac/
 ```
 
-Paths defined in `:modules` field are just loaded as files from `~/.config/calcit/modules/`, i.e. `~/.config/calcit/modules/memof/compact.cirru`.
+Paths defined in `:modules` field are loaded from `~/.config/calcit/modules/`, for example `~/.config/calcit/modules/memof/calcit.cirru`.
 
-Modules that ends with `/`s are automatically suffixed compact.cirru since it's the default filename.
+Modules that end with `/` are automatically resolved to their `calcit.cirru` entry file.
 
 To load modules in CI environments, make use of `caps --ci`.

@@ -25,7 +25,7 @@ Install Calcit via Cargo:
 
 ```bash
 cargo install calcit
-cargo install calcit-bundler  # For indentation syntax
+Install the current Calcit CLI with `cargo install calcit`.
 cargo install caps-cli        # For package management
 ```
 
@@ -36,7 +36,7 @@ Calcit experiments with several interesting ideas:
 - **Code as data** - Code is stored in EDN snapshot files (`.cirru`), enabling structural editing and powerful metaprogramming
 - **Pattern matching** - Tagged unions and enum types with compile-time validation
 - **Type inference** - Static analysis without requiring extensive type annotations
-- **Incremental compilation** - Hot reload with `.compact-inc.cirru` for fast iteration
+- **Watch mode** - Use `calcit -w` or `calcit --watch` for fast iteration
 - **Ternary tree collections** - Custom persistent data structures optimized for performance
 - **File-as-key/value model** - MCP server integration uses Markdown docs as knowledge base
 

@@ -12,24 +12,24 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 cargo install calcit
 
 # Test installation
-cr eval "echo |done"
+calcit eval "echo |done"
 ```
 
 ## Core Commands
 
-- `cr` - Run Calcit program (default: `compact.cirru`)
-- `cr eval "code"` - Evaluate code snippet
-- `cr js` - Generate JavaScript
-- `cr ir` - Generate IR representation
-- `cr query ...` - Query definitions/usages/search
-- `cr docs ...` - Read/search guidebook docs
-- `cr libs ...` - Search/read library docs
-- `cr-mcp` - Start MCP server for tool integration
+- `calcit` - Run Calcit program (default: `calcit.cirru`)
+- `calcit eval "code"` - Evaluate code snippet
+- `calcit js` - Generate JavaScript
+- `calcit ir` - Generate IR representation
+- `calcit query ...` - Query definitions/usages/search
+- `calcit docs ...` - Read/search guidebook docs
+- `calcit libs ...` - Search/read library docs
+- MCP integration - use the current Calcit tooling and editor integrations
 
 ### CLI Options
 
 - `--watch` / `-w` - Watch files and rerun/rebuild on changes
-- `--once` / `-1` - Run once (compatibility flag; default is already once)
+- Direct execution runs once by default; use `-w` or `--watch` for watching
 - `--disable-stack` - Disable stack trace for errors
 - `--skip-arity-check` - Skip arity check in JS codegen
 - `--emit-path <path>` - Specify output path for JS (default: `js-out/`)
@@ -45,11 +45,11 @@ cr eval "echo |done"
 
 ### Docs Navigation (Fast)
 
-- `cr docs list` - list available chapters
-- `cr docs read <file>` - list headings in one chapter
-- `cr docs read <file> <keyword...>` - fuzzy jump by heading keywords
-- `cr docs read-lines <file> -s <start> -n <lines>` - precise line-range reading
-- `cr docs search <keyword>` - global keyword search
+- `calcit docs list` - list available chapters
+- `calcit docs read <file>` - list headings in one chapter
+- `calcit docs read <file> <keyword...>` - fuzzy jump by heading keywords
+- `calcit docs read-lines <file> -s <start> -n <lines>` - precise line-range reading
+- `calcit docs search <keyword>` - global keyword search
 
 ## Data Types
 
@@ -163,9 +163,9 @@ let
 ## File Structure
 
 - `calcit.cirru` - Editor snapshot (source for structural editing)
-- `compact.cirru` - Runtime format (compiled, `cr` command actually uses this)
+- `calcit.cirru` - Runtime format (compiled, `calcit` command actually uses this)
 - `deps.cirru` - Dependencies
-- `.compact-inc.cirru` - Hot reload trigger, including incremental changes
+- Hot reload is enabled explicitly with `-w` or `--watch`
 
 ## Common Functions
 

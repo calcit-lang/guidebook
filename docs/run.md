@@ -7,26 +7,26 @@ This page is a quick navigation hub. Detailed topics are split into dedicated ch
 Run local project once (default behavior):
 
 ```bash
-cr
+calcit
 ```
 
 Enable watch mode explicitly:
 
 ```bash
-cr -w
+calcit -w
 ```
 
 Evaluate a snippet:
 
 ```bash
-cr eval 'println "|Hello world"'
+calcit eval 'println "|Hello world"'
 ```
 
 Emit JavaScript / IR once:
 
 ```bash
-cr js
-cr ir
+calcit js
+calcit ir
 ```
 
 ## Run guide map
@@ -43,7 +43,7 @@ cr ir
 
 ## Quick find by keyword
 
-Use these keywords directly with `cr docs read` for faster section hits:
+Use these keywords directly with `calcit docs read` for faster section hits:
 
 - `eval`, `snippet`, `dep`, `type-check` → [Run in Eval mode](./run/eval.md)
 - `watch`, `once`, `entry`, `reload-fn` → [CLI Options](./run/cli-options.md)
@@ -55,13 +55,13 @@ Typical navigation flow:
 
 ```bash
 # 1) List headings in a chapter
-cr docs read run.md
+calcit docs read run.md
 
 # 2) Jump by keyword(s)
-cr docs read run.md quick find
+calcit docs read run.md quick find
 
 # 3) Open the target chapter and narrow again
-cr docs read query.md usages
+calcit docs read query.md usages
 ```
 
 Use this page for orientation, then jump to the specific chapter for complete examples and edge cases.
