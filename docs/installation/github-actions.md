@@ -17,7 +17,7 @@ caps --ci
 The JavaScript dependency lives in `package.json`:
 
 ```js
-"@calcit/procs": "^0.13.29"
+"@calcit/procs": "^0.13.32"
 ```
 
 Up to date example can be found on https://github.com/calcit-lang/respo-calcit-workflow/blob/main/.github/workflows/upload.yaml#L11 .
