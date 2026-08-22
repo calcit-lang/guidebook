@@ -6,10 +6,10 @@
 
 ```cirru
 {}
-  :calcit-version |0.13.29
+  :calcit-version |0.13.32
   :dependencies $ {}
-    |calcit-lang/memof |0.0.26
-    |calcit-lang/lilac |0.5.2
+    |calcit-lang/memof |0.0.28
+    |calcit-lang/lilac |0.5.5
 ```
 
 Run `caps` to download. Sources are downloaded into `~/.config/calcit/modules/`. If a module contains `build.sh`, it will be executed mostly for compiling Rust dylibs.
