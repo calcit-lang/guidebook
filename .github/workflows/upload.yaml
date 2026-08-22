@@ -22,11 +22,11 @@ jobs:
         corepack prepare yarn@4.12.0 --activate
         yarn --version
 
-    - uses: calcit-lang/setup-cr@0.0.9
+    - uses: calcit-lang/setup-calcit@v1
 
     - name: "compiles to js"
       run: >
-        caps --ci && yarn install --immutable && cr js
+        caps --ci && yarn install --immutable && calcit calcit.cirru js
         && yarn vite build --base=./
         && cp -r docs/assets/* dist/assets/
 

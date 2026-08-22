@@ -1,14 +1,12 @@
 # GitHub Actions
 
-To load Calcit `0.9.18` in a Ubuntu container:
+To load the current Calcit release in a Ubuntu container:
 
 ```yaml
-- uses: calcit-lang/setup-cr@0.0.8
-  with:
-    version: "0.9.18"
+- uses: calcit-lang/setup-calcit@v1
 ```
 
-Latest release could be found on https://github.com/calcit-lang/setup-cr/releases/ .
+The action installs the current Calcit release. See the setup-calcit repository for supported options.
 
 Then to load packages defined in `deps.cirru` with `caps`:
 
@@ -19,7 +17,7 @@ caps --ci
 The JavaScript dependency lives in `package.json`:
 
 ```js
-"@calcit/procs": "^0.9.18"
+"@calcit/procs": "^0.13.29"
 ```
 
 Up to date example can be found on https://github.com/calcit-lang/respo-calcit-workflow/blob/main/.github/workflows/upload.yaml#L11 .

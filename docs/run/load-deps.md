@@ -6,24 +6,24 @@
 
 ```cirru
 {}
-  :calcit-version |0.9.18
+  :calcit-version |0.13.29
   :dependencies $ {}
     |calcit-lang/memof |0.0.11
-    |calcit-lang/lilac |main
+    |calcit-lang/lilac |0.5.2
 ```
 
 Run `caps` to download. Sources are downloaded into `~/.config/calcit/modules/`. If a module contains `build.sh`, it will be executed mostly for compiling Rust dylibs.
 
-To load modules, use `:modules` configuration in `calcit.cirru` and `compact.cirru`:
+To load modules, use the `:modules` configuration in `calcit.cirru`:
 
 ```cirru
 :configs $ {}
-  :modules $ [] |memof/compact.cirru |lilac/
+  :modules $ [] |memof/calcit.cirru |lilac/
 ```
 
-Paths defined in `:modules` field are just loaded as files from `~/.config/calcit/modules/`, i.e. `~/.config/calcit/modules/memof/compact.cirru`.
+Paths defined in `:modules` field are loaded from `~/.config/calcit/modules/`, such as `~/.config/calcit/modules/memof/calcit.cirru`.
 
-Modules that ends with `/`s are automatically suffixed `compact.cirru` since it's the default filename.
+Modules ending with `/` resolve to their `calcit.cirru` entry file.
 
 ### Outdated
 

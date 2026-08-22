@@ -2,7 +2,7 @@
   "packageManager": "yarn@4.12.0",
   "dependencies": {
     "@calcit/docs-workflow": "^0.0.7",
-    "@calcit/procs": "^0.13.27",
+    "@calcit/procs": "^0.13.29",
     "@memkits/azure-speech-util": "^0.0.5"
   },
   "devDependencies": {
