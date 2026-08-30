@@ -55,7 +55,7 @@ calcit eval "echo |done"
 
 - **Numbers**: `1`, `3.14`
 - **Strings**: `|text`, `"|with spaces"`, `"\"escaped"`
-- **Tags**: `:keyword` (immutable strings, like Clojure keywords)
+- **Tags**: `:keyword` (interned identity values for keys and protocol labels)
 - **Lists**: `[] 1 2 3`
 - **HashMaps**: `{} (:a 1) (:b 2)`
 - **HashSets**: `#{} :a :b :c`

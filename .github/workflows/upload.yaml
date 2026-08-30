@@ -10,7 +10,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - uses: actions/setup-node@v6
       with:
@@ -24,11 +24,24 @@ jobs:
 
     - uses: calcit-lang/setup-calcit@6a2e53ae41e4f0d5856a424b9ed4470d90ea6876
 
-    - name: "compiles to js"
-      run: >
-        caps --ci && yarn install --immutable && calcit calcit.cirru js
-        && yarn vite build --base=./
-        && cp -r docs/assets/* dist/assets/
+    - name: "install modules"
+      run: caps --strict --ci
+
+    - name: "validate snapshot"
+      run: |
+        calcit calcit.cirru edit format
+        git diff --exit-code -- calcit.cirru
+        calcit calcit.cirru --check-only
+        calcit calcit.cirru analyze check-types --summary-only --format json
+        calcit calcit.cirru analyze weak-types --only schema-dynamic,code-dynamic --intent unresolved --summary-only --format json
+        calcit calcit.cirru analyze deprecated --summary-only --format json
+
+    - name: "compile to js"
+      run: |
+        yarn install --immutable
+        calcit calcit.cirru js
+        yarn vite build --base=./
+        cp -r docs/assets/* dist/assets/
 
     - name: Deploy to server
       id: deploy

@@ -6,4 +6,4 @@ This somewhat unusual design exists because the structural editor naturally wrap
 
 ### Tag
 
-The most commonly used string type in Calcit is the Tag, which starts with a `:`, such as `:demo`. Its type is `Tag` in Rust and `string` in JavaScript. Unlike regular strings, Tags are immutable, meaning their value cannot be changed once created. This allows them to be used as keys in key-value pairs and in other scenarios where immutable values are needed. In practice, Tags are generally used to represent property keys, similar to keywords in the Clojure language.
+Tags start with `:`, such as `:demo`. They are interned identity values with the Calcit type `Tag`, represented by the corresponding runtime tag implementation in native and JavaScript backends. Tags are commonly used for property keys, enum-like protocol labels, and stable dispatch identities; ordinary text remains a `String`.

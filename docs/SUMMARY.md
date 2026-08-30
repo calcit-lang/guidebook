@@ -2,7 +2,8 @@
 
 - [Introduction](intro.md)
   - [Overview](intro/overview.md)
-  - [From Clojure](intro/from-clojure.md)
+  - [Real-time Application Model](intro/realtime-applications.md)
+  - [Historical Influences and Migration Notes](intro/from-clojure.md)
   - [Indentation Syntax](intro/indentation-syntax.md)
   - [Cirru Syntax](cirru-syntax.md)
 - [Quick Reference](quick-reference.md)

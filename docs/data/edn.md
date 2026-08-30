@@ -1,6 +1,6 @@
 # Cirru Extensible Data Notation
 
-> Data notation based on Cirru. Learnt from [Clojure EDN](https://github.com/edn-format/edn).
+> Cirru EDN is Calcit's typed data interchange notation. Its historical design was inspired by [Clojure EDN](https://github.com/edn-format/edn), while its tags, tuples, records, buffers, and quoted forms follow Calcit semantics.
 
 EDN data is designed to be transferred across networks are strings. 2 functions involved:
 
