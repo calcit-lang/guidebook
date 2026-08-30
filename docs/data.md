@@ -6,7 +6,7 @@ Calcit provides several core data types, all immutable by default for functional
 
 - **Bool**: `true`, `false`
 - **Number**: `f64` in Rust, Number in JavaScript (`1`, `3.14`, `-42`)
-- **Tag**: Immutable strings starting with `:` (`:keyword`, `:demo`) - similar to Clojure keywords
+- **Tag**: Interned identity value starting with `:` (`:keyword`, `:demo`), commonly used for keys and protocol labels
 - **String**: Text data with special prefix syntax (`|text`, `"|with spaces"`)
 
 ## Collection Types

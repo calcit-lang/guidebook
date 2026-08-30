@@ -1,27 +1,29 @@
 # Features
 
-Calcit inherits most features from Clojure/ClojureScript while adding its own innovations:
+Calcit's language features form one coherent model around immutable data, nominal domain types, capability-oriented methods, explicit effects, and cross-backend execution.
 
 ## Core Features
 
 - **Immutable persistent data structures** - All data is immutable by default using ternary tree implementations
 - **Functional programming** - First-class functions, higher-order functions, closures
-- **Lisp syntax** - Code as data, powerful macro system with hygienic macros
+- **Code as data** - Cirru syntax trees and macros provide language-level abstraction without adding parser syntax for every feature
 - **Hot code swapping** - Live code updates during development without state loss
 - **JavaScript interop** - Seamless integration with JS ecosystem via ES Modules
 - **Static type analysis** - Compile-time type checking and error detection
 
-## Unique to Calcit
+## Calcit-specific design
 
-- **Source-first syntax** - Keep source in `calcit.cirru` and use the current CLI workflow
-- **Structural editing** - Visual tree-based code editing with Calcit Editor (Electron app)
+- **Indentation-based syntax** - Cirru indentation, `$`, and local parentheses describe Calcit syntax trees directly
+- **Structural source operations** - CLI queries and edits operate on canonical `calcit.cirru` syntax trees
 - **ES Modules output** - Modern JavaScript module format, tree-shakeable
 - **MCP integration** - Model Context Protocol server for AI assistant tool integration
 - **Ternary tree collections** - Custom persistent data structures optimized for Rust
-- **Watch mode** - Fast hot reload with `calcit -w` or `calcit --watch`
+- **State-preserving reload** - Watch mode recompiles and invokes explicit reload functions
 - **Pattern matching** - Tagged unions with compile-time validation
-- **Record types** - Lightweight structs with field access validation
+- **Struct types** - Fixed-field values with required field access validation
 - **Traits & method dispatch** - Attach capability-based methods to values, with explicit disambiguation when needed
+- **Typed FFI capabilities** - Native and JavaScript host APIs retain explicit typed boundaries
+- **Revisioned application protocols** - Nominal message envelopes support deterministic incremental synchronization
 
 ## Language Features
 
@@ -36,12 +38,16 @@ For detailed information about specific features:
 - [Traits](features/traits.md) - Capability-based method dispatch and explicit trait calls
 - [Static Analysis](features/static-analysis.md) - Type checking and compile-time validation
 
+## Compilation Targets
+
+- [JavaScript Codegen](run/cli-options.md#js-codegen-options) - Generate ES Modules from Calcit
+
 ## Quick Find by Task
 
 Use this section as a keyword index for `calcit docs read`:
 
-- **Collections**: list, map, set, tuple, record
-- **Pattern Matching**: enum, tag-match, tuple-match, result
+- **Collections**: list, map, set, struct, enum
+- **Pattern Matching**: enum, match, anonymous enum, result, exhaustiveness
 - **Types**: static-analysis, assert-type, optional, variadic
 - **Methods**: trait, impl-traits, method dispatch, trait-call
 - **Interop**: js interop, async, promise, js-await
@@ -54,6 +60,7 @@ Task-oriented jump map:
 - Type safety → [Static Analysis](features/static-analysis.md), [Error Handling](features/error-handling.md)
 - Extensibility → [Macros](features/macros.md), [Traits](features/traits.md), [Polymorphism](features/polymorphism.md)
 - Runtime integration → [JavaScript Interop](features/js-interop.md), [Imports](features/imports.md)
+- Real-time architecture → [Real-time Application Model](intro/realtime-applications.md)
 
 ## Development Features
 
@@ -63,15 +70,15 @@ Task-oriented jump map:
 - **Package management** - Git-based dependency system with `caps` CLI tool
 - **Hot module replacement** - Fast iteration with live code updates
 - **REPL integration** - Interactive development with `calcit eval` mode
-- **JavaScript output** - Emit ES modules with `calcit calcit.cirru js`
+- **Bundle mode** - Single-file deployment with `calcit bundle`
 
 ## Type System
 
 Calcit's static analysis provides:
 
 - **Function arity checking** - Validates argument counts at compile time
-- **Record field validation** - Checks field names exist in record types
-- **Tuple bounds checking** - Validates tuple index access
+- **Struct field validation** - Checks that required fields exist in struct definitions
+- **Enum bounds checking** - Validates positional enum payload access
 - **Enum variant validation** - Ensures correct enum construction
 - **Method existence checking** - Verifies methods exist for types
 - **Recur arity validation** - Checks recursive calls have correct arguments
@@ -83,5 +90,6 @@ Calcit's static analysis provides:
 - **Zero-cost abstractions** - Persistent data structures with minimal overhead
 - **Lazy sequences** - Efficient processing of large datasets
 - **Optimized compilation** - JavaScript output with tree-shaking support
+- **Type-directed optimizations** - Compile-time rewrites for struct field access/update when types are known (e.g., `&struct:assoc` → `&struct:assoc-at`)
 
-Calcit is designed to be familiar to Clojure developers while providing modern tooling, type safety, and excellent development experience.
+Calcit is designed as its own language: historical influences remain useful context, but current APIs and documentation follow Calcit's nominal types, traits, method-oriented capabilities, typed effects, and real-time application model.
