@@ -31,9 +31,9 @@
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn dispatch! (op)
-              when
-                and config/dev? $ not= (nth op 0) :states
-                println |Dispatch: op
+              when config/dev? $ match op
+                (:states _ _) &unit
+                _ $ println |Dispatch: op
               reset! *reel $ reel-updater updater @*reel op
           :examples $ []
           :schema $ :: 'Dynamic

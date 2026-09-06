@@ -6,13 +6,16 @@ on:
       - main
   pull_request: {}
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-    - uses: actions/setup-node@v6
+    - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.1.0
       with:
         node-version: 24
 
@@ -22,10 +25,13 @@ jobs:
         corepack prepare yarn@4.12.0 --activate
         yarn --version
 
-    - uses: calcit-lang/setup-calcit@6a2e53ae41e4f0d5856a424b9ed4470d90ea6876
+    - uses: calcit-lang/setup-calcit@704b3f5cd6f9ce3bd1e0c926dbdd1d181adb8180 # v1.0.2
 
     - name: "install modules"
-      run: caps --strict --ci
+      run: |
+        yarn install --immutable
+        caps --strict --ci
+        caps verify --toolchain
 
     - name: "validate snapshot"
       run: |
@@ -35,10 +41,11 @@ jobs:
         calcit calcit.cirru analyze check-types --summary-only --format json
         calcit calcit.cirru analyze weak-types --only schema-dynamic,code-dynamic --intent unresolved --summary-only --format json
         calcit calcit.cirru analyze deprecated --summary-only --format json
+        calcit calcit.cirru analyze dynamic-methods --max 0
+        calcit calcit.cirru analyze quality --baseline config/calcit-quality.cirru
 
     - name: "compile to js"
       run: |
-        yarn install --immutable
         calcit calcit.cirru js
         yarn vite build --base=./
         cp -r docs/assets/* dist/assets/
@@ -46,7 +53,7 @@ jobs:
     - name: Deploy to server
       id: deploy
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: Pendect/action-rsyncer@v2.0.0
+      uses: Pendect/action-rsyncer@8e05ffa5c93e5d9c9b167796b26044d2c616b2b9 # v2.0.0
       env:
         DEPLOY_KEY: ${{secrets.rsync_private_key}}
       with:
@@ -62,17 +69,17 @@ jobs:
 
     # also need to upload mddook
 
-    - uses: supplypike/setup-bin@v3
-      with:
-        uri: 'https://github.com/rust-lang/mdBook/releases/download/v0.4.14/mdbook-v0.4.14-x86_64-unknown-linux-gnu.tar.gz'
-        name: 'mdbook'
-        version: '0.4.14'
-
-    - uses: supplypike/setup-bin@v3
-      with:
-        uri: 'https://github.com/Michael-F-Bryan/mdbook-linkcheck/releases/download/v0.7.6/mdbook-linkcheck.x86_64-unknown-linux-gnu.zip'
-        name: 'mdbook-linkcheck'
-        version: '0.7.6'
+    - name: Install verified mdBook binaries
+      run: |
+        install -d "$RUNNER_TEMP/mdbook-bin"
+        curl --fail --location --silent --show-error --output "$RUNNER_TEMP/mdbook.tar.gz" https://github.com/rust-lang/mdBook/releases/download/v0.4.14/mdbook-v0.4.14-x86_64-unknown-linux-gnu.tar.gz
+        echo "0ed75f6e4115f02d806932c4b1a8d9aca276ea1bbc3979524b4a8847bd3510e4  $RUNNER_TEMP/mdbook.tar.gz" | sha256sum --check --strict
+        tar -xzf "$RUNNER_TEMP/mdbook.tar.gz" -C "$RUNNER_TEMP/mdbook-bin" mdbook
+        curl --fail --location --silent --show-error --output "$RUNNER_TEMP/mdbook-linkcheck.zip" https://github.com/Michael-F-Bryan/mdbook-linkcheck/releases/download/v0.7.6/mdbook-linkcheck.x86_64-unknown-linux-gnu.zip
+        echo "2c478d9754e38be2dbd3ee2fcac629179c6d6146f7e0f1749a5a697030e27c4a  $RUNNER_TEMP/mdbook-linkcheck.zip" | sha256sum --check --strict
+        unzip -q "$RUNNER_TEMP/mdbook-linkcheck.zip" -d "$RUNNER_TEMP/mdbook-bin"
+        chmod +x "$RUNNER_TEMP/mdbook-bin/mdbook" "$RUNNER_TEMP/mdbook-bin/mdbook-linkcheck"
+        echo "$RUNNER_TEMP/mdbook-bin" >> "$GITHUB_PATH"
 
     - name: mdbook build
       run: mdbook build && mv -v book/html/index.html book/html/mdbook.html
@@ -80,7 +87,7 @@ jobs:
     - name: Deploy to server
       id: deploy-mdbook
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: Pendect/action-rsyncer@v2.0.0
+      uses: Pendect/action-rsyncer@8e05ffa5c93e5d9c9b167796b26044d2c616b2b9 # v2.0.0
       env:
         DEPLOY_KEY: ${{secrets.rsync_private_key}}
       with:
