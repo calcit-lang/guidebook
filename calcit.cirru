@@ -57,11 +57,13 @@
             match
               browser/storage-get $ :storage-key config/site
               (:some raw)
-                match
-                  types/decode-store $ parse-cirru-edn raw
-                  (:some stored)
-                    dispatch! $ types/Op :hydrate-storage stored
-                  (:none) (hud! |error |Ignored_invalid_saved_state)
+                match (try-parse-cirru-edn raw)
+                  (:ok parsed)
+                    match (types/decode-store parsed)
+                      (:some stored)
+                        dispatch! $ types/Op :hydrate-storage stored
+                      (:none) (hud! |error |Ignored_invalid_saved_state)
+                  (:err error) (hud! |error |Ignored_invalid_saved_state)
               (:none) &unit
             println |App_started.
           :examples $ []
