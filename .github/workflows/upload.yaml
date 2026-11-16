@@ -25,24 +25,22 @@ jobs:
         corepack prepare yarn@4.12.0 --activate
         yarn --version
 
-    - uses: calcit-lang/setup-calcit@704b3f5cd6f9ce3bd1e0c926dbdd1d181adb8180 # v1.0.2
+    - uses: calcit-lang/setup-calcit@v1.5.1
+      with:
+        version: "0.42.1"
+        tools: calcit,caps
 
     - name: "install modules"
       run: |
         yarn install --immutable
-        caps --strict --ci
-        caps verify --toolchain
+        caps --ci
 
     - name: "validate snapshot"
       run: |
         calcit calcit.cirru edit format
         git diff --exit-code -- calcit.cirru
         calcit calcit.cirru --check-only
-        calcit calcit.cirru analyze check-public --ns app.config --ns app.main --ns app.schema --ns app.types --ns app.updater --summary-only --format json
-        calcit calcit.cirru analyze check-types --summary-only --format json
-        calcit calcit.cirru analyze weak-types --only schema-dynamic,unresolved-type-slot,code-dynamic --intent unresolved --summary-only --format json
-        calcit calcit.cirru analyze deprecated --summary-only --format json
-        calcit calcit.cirru analyze dynamic-methods
+        calcit calcit.cirru fix --workflow strict --verify
 
     - name: "compile to js"
       run: |

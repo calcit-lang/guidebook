@@ -14,14 +14,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@calcit/procs@npm:0.22.0-alpha.3":
-  version: 0.22.0-alpha.3
-  resolution: "@calcit/procs@npm:0.22.0-alpha.3"
+"@calcit/finger-vec@npm:0.1.1":
+  version: 0.1.1
+  resolution: "@calcit/finger-vec@npm:0.1.1"
+  checksum: 10c0/c75e7f58924a7bb226ca4a47f6b0702021796b096c04d7fb7e9a92cb49b11ca64d654ea10d78bde29a8ac2d2d05ef9e7865efd2b358af2ca989d950b04d529a8
+  languageName: node
+  linkType: hard
+
+"@calcit/procs@npm:0.42.1":
+  version: 0.42.1
+  resolution: "@calcit/procs@npm:0.42.1"
   dependencies:
+    "@calcit/finger-vec": "npm:0.1.1"
     "@calcit/ternary-tree": "npm:0.0.26"
-    "@cirru/parser.ts": "npm:^0.0.9"
+    "@cirru/parser.ts": "npm:0.0.10"
     "@cirru/writer.ts": "npm:^0.1.9"
-  checksum: 10c0/b6aa28ae40918bef2e5363adbd4f5b36ec2ee26eda1a45b5e6c628b12c0d2746554d1106c5b0c86e2ff1be0fc726bed7173df1984e1dcb9a07d846b849db2a4e
+  checksum: 10c0/58e306e7bc72b258e07c33dae4d543241cd0c7ed6830262628bf61c734453d7907ef453af0b25a770ba911e9ce6ede19f869d9a78decea4589cf4ae1f7c40629
   languageName: node
   linkType: hard
 
@@ -1111,7 +1119,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@calcit/docs-workflow": "npm:^0.0.7"
-    "@calcit/procs": "npm:0.22.0-alpha.3"
+    "@calcit/procs": "npm:0.42.1"
     "@memkits/azure-speech-util": "npm:^0.0.5"
     bottom-tip: "npm:^0.1.5"
     cirru-color: "npm:^0.2.4"
