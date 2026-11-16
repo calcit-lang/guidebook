@@ -41,6 +41,7 @@
             if config/dev? $ load-console-formatter!
             render-app!
             add-watch! *reel :changes $ fn (reel prev) (render-app!)
+            listen-devtools! |a on-control!
             browser/set-interval! persist-storage! 60000
             println "|App started."
           :examples $ []
@@ -98,6 +99,7 @@
             |bottom-tip :default hud!
             docs-workflow.config :refer $ register-languages!
             reel.typed :as typed
+            reel.util :refer $ listen-devtools!
             js-ffi.browser :as browser
             js-ffi.shared :as shared
     'app.schema $ %{} 'FileEntry
@@ -110,56 +112,76 @@
                 :children $ []
                   {} (:title |Overview) (:key :overview)
                     :content $ load-doc |intro/overview.md
+                    :children $ []
                   {} (:title "|From Clojure") (:key :from-clojure)
                     :content $ load-doc |intro/from-clojure.md
+                    :children $ []
                   {} (:title "|Indentation Syntax") (:key :indentation-syntax)
                     :content $ load-doc |intro/indentation-syntax.md
+                    :children $ []
               {} (:title |Installation) (:key :installation)
                 :content $ load-doc |installation.md
                 :children $ []
                   {} (:title "|Modules directory") (:key :modules)
                     :content $ load-doc |installation/modules.md
+                    :children $ []
                   {} (:title "|Rust bindings") (:key :ffi-bindings)
                     :content $ load-doc |installation/ffi-bindings.md
+                    :children $ []
                   {} (:title "|GitHub Actions") (:key :github-actions)
                     :content $ load-doc |installation/github-actions.md
+                    :children $ []
               {} (:title "|Run Calcit") (:key :run)
                 :content $ load-doc |run.md
                 :children $ []
                   {} (:title "|Run in Eval mode") (:key :eval)
                     :content $ load-doc |run/eval.md
+                    :children $ []
                   {} (:title "|CLI Options") (:key :cli-options)
                     :content $ load-doc |run/cli-options.md
+                    :children $ []
                   {} (:title "|Load Deps") (:key :load-deps)
                     :content $ load-doc |run/load-deps.md
+                    :children $ []
                   {} (:title "|Hot Swapping") (:key :hot-swapping)
                     :content $ load-doc |run/hot-swapping.md
+                    :children $ []
                   {} (:title "|Bundle Mode") (:key :bundle-mode)
                     :content $ load-doc |run/bundle-mode.md
+                    :children $ []
                   {} (:title |Entries) (:key :entries)
                     :content $ load-doc |run/entries.md
+                    :children $ []
               {} (:title |Data) (:key :data)
                 :content $ load-doc |data.md
                 :children $ []
                   {} (:title "|Persistent Data") (:key :persistent-data)
                     :content $ load-doc |data/persistent-data.md
+                    :children $ []
                   {} (:title |EDN) (:key :edn)
                     :content $ load-doc |data/edn.md
+                    :children $ []
               {} (:title |Features) (:key :features)
                 :content $ load-doc |features.md
                 :children $ []
                   {} (:title |List) (:key :list)
                     :content $ load-doc |features/list.md
+                    :children $ []
                   {} (:title |HashMap) (:key :hashmap)
                     :content $ load-doc |features/hashmap.md
+                    :children $ []
                   {} (:title |Macros) (:key :macros)
                     :content $ load-doc |features/macros.md
+                    :children $ []
                   {} (:title "|js interop") (:key :js-interop)
                     :content $ load-doc |features/js-interop.md
+                    :children $ []
                   {} (:title |Imports) (:key :imports)
                     :content $ load-doc |features/imports.md
+                    :children $ []
                   {} (:title |Polymorphism) (:key :polymorphism)
                     :content $ load-doc |features/polymorphism.md
+                    :children $ []
               {} (:title "|Structural Editor") (:key :structural-editor)
                 :content $ load-doc |structural-editor.md
                 :children $ []
