@@ -27,7 +27,7 @@ jobs:
 
     - uses: calcit-lang/setup-calcit@4a5130ea981278fd4f624f2c2cf64e6776742c01 # v1.5.1
       with:
-        version: "0.43.0"
+        version: "0.44.0"
         tools: calcit,caps
 
     - name: "install modules"
