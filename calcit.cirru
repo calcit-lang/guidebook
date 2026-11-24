@@ -79,9 +79,7 @@
             match (browser/query-selector |.app)
               (:some element)
                 render-with! (narrow-element element)
-                  fn () $ comp-container @*reel
-                    map schema/docs $ fn (raw) (decode-map-as raw docs-workflow.schema/DocNode)
-                    , on-control!
+                  fn () $ comp-container @*reel schema/docs on-control!
                   , dispatch!
               (:none) (raise |Missing_app_mount_element)
           :examples $ []
@@ -107,89 +105,35 @@
         'docs $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def docs
             []
-              {} (:title |Introduction) (:key :intro)
-                :content $ load-doc |intro.md
-                :children $ []
-                  {} (:title |Overview) (:key :overview)
-                    :content $ load-doc |intro/overview.md
-                    :children $ []
-                  {} (:title "|From Clojure") (:key :from-clojure)
-                    :content $ load-doc |intro/from-clojure.md
-                    :children $ []
-                  {} (:title "|Indentation Syntax") (:key :indentation-syntax)
-                    :content $ load-doc |intro/indentation-syntax.md
-                    :children $ []
-              {} (:title |Installation) (:key :installation)
-                :content $ load-doc |installation.md
-                :children $ []
-                  {} (:title "|Modules directory") (:key :modules)
-                    :content $ load-doc |installation/modules.md
-                    :children $ []
-                  {} (:title "|Rust bindings") (:key :ffi-bindings)
-                    :content $ load-doc |installation/ffi-bindings.md
-                    :children $ []
-                  {} (:title "|GitHub Actions") (:key :github-actions)
-                    :content $ load-doc |installation/github-actions.md
-                    :children $ []
-              {} (:title "|Run Calcit") (:key :run)
-                :content $ load-doc |run.md
-                :children $ []
-                  {} (:title "|Run in Eval mode") (:key :eval)
-                    :content $ load-doc |run/eval.md
-                    :children $ []
-                  {} (:title "|CLI Options") (:key :cli-options)
-                    :content $ load-doc |run/cli-options.md
-                    :children $ []
-                  {} (:title "|Load Deps") (:key :load-deps)
-                    :content $ load-doc |run/load-deps.md
-                    :children $ []
-                  {} (:title "|Hot Swapping") (:key :hot-swapping)
-                    :content $ load-doc |run/hot-swapping.md
-                    :children $ []
-                  {} (:title "|Bundle Mode") (:key :bundle-mode)
-                    :content $ load-doc |run/bundle-mode.md
-                    :children $ []
-                  {} (:title |Entries) (:key :entries)
-                    :content $ load-doc |run/entries.md
-                    :children $ []
-              {} (:title |Data) (:key :data)
-                :content $ load-doc |data.md
-                :children $ []
-                  {} (:title "|Persistent Data") (:key :persistent-data)
-                    :content $ load-doc |data/persistent-data.md
-                    :children $ []
-                  {} (:title |EDN) (:key :edn)
-                    :content $ load-doc |data/edn.md
-                    :children $ []
-              {} (:title |Features) (:key :features)
-                :content $ load-doc |features.md
-                :children $ []
-                  {} (:title |List) (:key :list)
-                    :content $ load-doc |features/list.md
-                    :children $ []
-                  {} (:title |HashMap) (:key :hashmap)
-                    :content $ load-doc |features/hashmap.md
-                    :children $ []
-                  {} (:title |Macros) (:key :macros)
-                    :content $ load-doc |features/macros.md
-                    :children $ []
-                  {} (:title "|js interop") (:key :js-interop)
-                    :content $ load-doc |features/js-interop.md
-                    :children $ []
-                  {} (:title |Imports) (:key :imports)
-                    :content $ load-doc |features/imports.md
-                    :children $ []
-                  {} (:title |Polymorphism) (:key :polymorphism)
-                    :content $ load-doc |features/polymorphism.md
-                    :children $ []
-              {} (:title "|Structural Editor") (:key :structural-editor)
-                :content $ load-doc |structural-editor.md
-                :children $ []
-              {} (:title |Ecosystem) (:key :ecosystem)
-                :content $ load-doc |ecosystem.md
-                :children $ []
+              docs-workflow.schema/DocNode :title |Introduction :key :intro :content (load-doc |intro.md) :children $ []
+                docs-workflow.schema/DocNode :title |Overview :key :overview :content (load-doc |intro/overview.md) :children $ []
+                docs-workflow.schema/DocNode :title "|From Clojure" :key :from-clojure :content (load-doc |intro/from-clojure.md) :children $ []
+                docs-workflow.schema/DocNode :title "|Indentation Syntax" :key :indentation-syntax :content (load-doc |intro/indentation-syntax.md) :children $ []
+              docs-workflow.schema/DocNode :title |Installation :key :installation :content (load-doc |installation.md) :children $ []
+                docs-workflow.schema/DocNode :title "|Modules directory" :key :modules :content (load-doc |installation/modules.md) :children $ []
+                docs-workflow.schema/DocNode :title "|Rust bindings" :key :ffi-bindings :content (load-doc |installation/ffi-bindings.md) :children $ []
+                docs-workflow.schema/DocNode :title "|GitHub Actions" :key :github-actions :content (load-doc |installation/github-actions.md) :children $ []
+              docs-workflow.schema/DocNode :title "|Run Calcit" :key :run :content (load-doc |run.md) :children $ []
+                docs-workflow.schema/DocNode :title "|Run in Eval mode" :key :eval :content (load-doc |run/eval.md) :children $ []
+                docs-workflow.schema/DocNode :title "|CLI Options" :key :cli-options :content (load-doc |run/cli-options.md) :children $ []
+                docs-workflow.schema/DocNode :title "|Load Deps" :key :load-deps :content (load-doc |run/load-deps.md) :children $ []
+                docs-workflow.schema/DocNode :title "|Hot Swapping" :key :hot-swapping :content (load-doc |run/hot-swapping.md) :children $ []
+                docs-workflow.schema/DocNode :title "|Bundle Mode" :key :bundle-mode :content (load-doc |run/bundle-mode.md) :children $ []
+                docs-workflow.schema/DocNode :title |Entries :key :entries :content (load-doc |run/entries.md) :children $ []
+              docs-workflow.schema/DocNode :title |Data :key :data :content (load-doc |data.md) :children $ []
+                docs-workflow.schema/DocNode :title "|Persistent Data" :key :persistent-data :content (load-doc |data/persistent-data.md) :children $ []
+                docs-workflow.schema/DocNode :title |EDN :key :edn :content (load-doc |data/edn.md) :children $ []
+              docs-workflow.schema/DocNode :title |Features :key :features :content (load-doc |features.md) :children $ []
+                docs-workflow.schema/DocNode :title |List :key :list :content (load-doc |features/list.md) :children $ []
+                docs-workflow.schema/DocNode :title |HashMap :key :hashmap :content (load-doc |features/hashmap.md) :children $ []
+                docs-workflow.schema/DocNode :title |Macros :key :macros :content (load-doc |features/macros.md) :children $ []
+                docs-workflow.schema/DocNode :title "|js interop" :key :js-interop :content (load-doc |features/js-interop.md) :children $ []
+                docs-workflow.schema/DocNode :title |Imports :key :imports :content (load-doc |features/imports.md) :children $ []
+                docs-workflow.schema/DocNode :title |Polymorphism :key :polymorphism :content (load-doc |features/polymorphism.md) :children $ []
+              docs-workflow.schema/DocNode :title "|Structural Editor" :key :structural-editor :content (load-doc |structural-editor.md) :children $ []
+              docs-workflow.schema/DocNode :title |Ecosystem :key :ecosystem :content (load-doc |ecosystem.md) :children $ []
           :examples $ []
-          :schema $ quote $ List Dynamic
+          :schema $ quote $ List DocNode
         'load-doc $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defmacro load-doc (filename)
             read-file $ str |docs/ filename
@@ -204,6 +148,7 @@
           :schema $ quote docs-workflow.schema/Store
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.schema
+          :require $ docs-workflow.schema :refer $ DocNode
     'app.types $ %{} 'FileEntry
       :defs $ {}
         'Op $ %{} 'CodeEntry (:doc |)
